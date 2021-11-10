@@ -23,5 +23,8 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere)
+	float _spawnDistance;
+
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<APotato> _potatoType;
 };

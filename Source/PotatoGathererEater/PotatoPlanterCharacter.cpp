@@ -11,6 +11,7 @@ void APotatoPlanterCharacter::Plant()
 	if (IsValid(world))
 	{
 		FTransform transform = GetTransform();
+		transform.SetTranslation(transform.GetLocation() + transform.GetUnitAxis(EAxis::X) * _spawnDistance);
 		APotato* newPotato = world->SpawnActor<APotato>(_potatoType, transform);
 	}
 }
