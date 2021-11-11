@@ -3,16 +3,17 @@
 void UPotatoManagerSubsystem::RegisterPotato(APotato* potato)
 {
 	_potatoes.Add(potato);
-	RefreshPotatoCount();
+	RefreshPotatoDisplay();
 }
 
 void UPotatoManagerSubsystem::UnregisterPotato(APotato* potato)
 {
 	_potatoes.Remove(potato);
-	RefreshPotatoCount();
+	RefreshPotatoDisplay();
 }
 
-void UPotatoManagerSubsystem::RefreshPotatoCount()
+void UPotatoManagerSubsystem::RefreshPotatoDisplay()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%i potatoes"), _potatoes.Num()));
+	static int32 key = 6666;
+	GEngine->AddOnScreenDebugMessage(key, 5.f, FColor::Red, FString::Printf(TEXT("%i potatoes"), _potatoes.Num()));
 }

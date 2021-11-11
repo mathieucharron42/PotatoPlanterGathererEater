@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+
 #include "PotatoManagerSubsystem.generated.h"
 
 class APotato;
@@ -12,11 +13,14 @@ UCLASS()
 class POTATOGATHEREREATER_API UPotatoManagerSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
+
 public:
 	void RegisterPotato(APotato* potato);
 	void UnregisterPotato(APotato* potato);
+
 private:
-	void RefreshPotatoCount();
+	void RefreshPotatoDisplay();
+
 	UPROPERTY()
 	TArray<APotato*> _potatoes;
 };
