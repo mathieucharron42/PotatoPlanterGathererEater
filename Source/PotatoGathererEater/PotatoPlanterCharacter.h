@@ -17,7 +17,7 @@ class POTATOGATHEREREATER_API APotatoPlanterCharacter : public APotatoGathererEa
 	GENERATED_BODY()
 
 	UFUNCTION()
-	void Plant();
+	void PlantPotato();
 	
 private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -26,5 +26,5 @@ private:
 	float _spawnDistance;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<APotato> _potatoType;
+	TArray<TSubclassOf<APotato>> _potatoTypes;
 };
