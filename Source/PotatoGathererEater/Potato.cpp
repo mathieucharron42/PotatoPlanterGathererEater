@@ -1,5 +1,5 @@
-#include "DecayComponent.h"
 #include "Potato.h"
+#include "DecayComponent.h"
 #include "PotatoManagerSubsystem.h"
 
 APotato::APotato()

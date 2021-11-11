@@ -10,6 +10,7 @@
 #include "Potato.generated.h"
 
 class UDecayComponent;
+class UFoodGroup;
 
 UCLASS()
 class POTATOGATHEREREATER_API APotato : public AActor
@@ -34,4 +35,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UDecayComponent* _decayComponent;
+
+	UPROPERTY(EditAnywhere)
+	UFoodGroup* _foodGroup;
 };
