@@ -1,18 +1,14 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PotatoGathererEaterCharacter.h"
+
+#include "PotatoBaseCharacter.h"
 #include "Potato.h"
 
 #include "PotatoPlanterCharacter.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class POTATOGATHEREREATER_API APotatoPlanterCharacter : public APotatoGathererEaterCharacter
+class POTATOGATHEREREATER_API APotatoPlanterCharacter : public APotatoBaseCharacter
 {
 	GENERATED_BODY()
 
