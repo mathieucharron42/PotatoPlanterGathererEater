@@ -5,12 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
+#include "FoodGroup.h"
 #include "NutritionalInformations.h"
 
 #include "Potato.generated.h"
 
 class UDecayComponent;
-class UFoodGroup;
 
 UCLASS()
 class POTATOGATHEREREATER_API APotato : public AActor
@@ -36,6 +36,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	UDecayComponent* _decayComponent;
 
+	UPROPERTY(Transient)
+	UObject* _foodGroup;
+
 	UPROPERTY(EditAnywhere)
-	UFoodGroup* _foodGroup;
+	TSubclassOf<UFoodGroup> _foodGroupType;
 };

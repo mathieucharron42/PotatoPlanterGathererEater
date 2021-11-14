@@ -14,6 +14,8 @@ void APotato::BeginPlay()
 {
 	Super::BeginPlay();
 
+	_foodGroup = _foodGroupType->GetDefaultObject();
+
 	UPotatoManagerSubsystem* potatoManager = GetGameInstance()->GetSubsystem<UPotatoManagerSubsystem>();
 	potatoManager->RegisterPotato(this);
 }

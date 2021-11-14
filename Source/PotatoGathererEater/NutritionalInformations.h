@@ -10,17 +10,17 @@ struct POTATOGATHEREREATER_API FNutritionalInformations
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere)
-	float ServingSize;
+	int32 ServingSize;
 
 	UPROPERTY(EditAnywhere)
-	int32 Calories;
+	float Calories;
 
 	UPROPERTY(EditAnywhere)
-	int32 Carbs;
+	float Carbs;
 
 	UPROPERTY(EditAnywhere)
-	int32 Fat;
+	float Fat;
 
 	UPROPERTY(EditAnywhere)
-	int32 Proteins;
+	float Proteins;
 };
