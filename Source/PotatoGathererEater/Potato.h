@@ -22,6 +22,8 @@ public:
 	float GetWeight() const { return _weight; }
 	virtual void Tick(float DeltaTime) override;
 
+	void SetIsPickedUp(bool isPickedUp);
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type endPlayReason) override;
@@ -41,4 +43,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UFoodGroup> _foodGroupType;
+
+	UPROPERTY(Transient)
+	UStaticMeshComponent* _staticMeshComponent;
+
+	UPROPERTY(Transient)
+	bool _isPickedUp = false;
 };

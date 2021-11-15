@@ -29,7 +29,9 @@ void APotatoGathererCharacter::PickupPotato(APotato* potato)
 		if (!potato->IsAttachedTo(this))
 		{
 			_heldPotato = potato;
+			_heldPotato->SetIsPickedUp(true);
 			_heldPotato->AttachToComponent(_characterMeshComponent, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("socket_hand_r"));
+			//_heldPotato->SetActorTransform(FTransform());
 		}
 	}
 }
@@ -39,6 +41,7 @@ void APotatoGathererCharacter::DropPotato()
 	if (IsValid(_heldPotato))
 	{
 		_heldPotato->DetachRootComponentFromParent(true);
+		_heldPotato->SetIsPickedUp(false);
 		_heldPotato = nullptr;
 	}
 }
