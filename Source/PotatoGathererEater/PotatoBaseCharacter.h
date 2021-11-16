@@ -7,7 +7,7 @@
 
 #include "PotatoBaseCharacter.generated.h"
 
-UCLASS(config=Game)
+UCLASS(Abstract, config=Game)
 class APotatoBaseCharacter : public ACharacter
 {
 	GENERATED_BODY()

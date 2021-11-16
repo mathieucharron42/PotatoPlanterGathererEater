@@ -12,10 +12,11 @@
 
 class UDecayComponent;
 
-UCLASS()
+UCLASS(Abstract)
 class POTATOGATHEREREATER_API APotato : public AActor
 {
 	GENERATED_BODY()
+
 public:	
 	APotato();
 
@@ -23,6 +24,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void SetIsPickedUp(bool isPickedUp);
+	const FNutritionalInformations& GetNutritionalInformations() const;
 
 protected:
 	virtual void BeginPlay() override;
@@ -34,9 +36,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	FNutritionalInformations _nutritionalInformations;
-
-	UPROPERTY(EditAnywhere)
-	UDecayComponent* _decayComponent;
 
 	UPROPERTY(Transient)
 	UObject* _foodGroup;

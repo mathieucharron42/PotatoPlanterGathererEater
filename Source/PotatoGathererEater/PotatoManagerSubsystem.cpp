@@ -14,6 +14,6 @@ void UPotatoManagerSubsystem::UnregisterPotato(APotato* potato)
 
 void UPotatoManagerSubsystem::RefreshPotatoDisplay()
 {
-	static int32 key = 6666;
-	GEngine->AddOnScreenDebugMessage(key, 5.f, FColor::Red, FString::Printf(TEXT("%i potatoes"), _potatoes.Num()));
+	/*static int32 key = 6666;
+	GEngine->AddOnScreenDebugMessage(key, 5.f, FColor::Red, FString::Printf(TEXT("%i potatoes"), _potatoes.Num()));*/
 }

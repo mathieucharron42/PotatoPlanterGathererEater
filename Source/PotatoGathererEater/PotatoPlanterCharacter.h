@@ -7,16 +7,17 @@
 
 #include "PotatoPlanterCharacter.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class POTATOGATHEREREATER_API APotatoPlanterCharacter : public APotatoBaseCharacter
 {
 	GENERATED_BODY()
 
-	UFUNCTION()
+public:
 	void PlantPotato();
 	
 private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void Tick(float dt);
 
 	UPROPERTY(EditAnywhere)
 	float _spawnDistance;

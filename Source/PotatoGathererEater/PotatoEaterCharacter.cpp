@@ -20,15 +20,36 @@ void APotatoEaterCharacter::NotifyActorBeginOverlap(AActor* otherActor)
 
 void APotatoEaterCharacter::UpdateVisual()
 {
-	// Double the size for every 500g
-	float scaleRatio = 1 + (_amountEaten / 500.f);
-	SetActorScale3D(FVector(scaleRatio, scaleRatio, scaleRatio));
-	_springArmComponent->TargetArmLength = _initialSpringArmLenght * scaleRatio;
+	const float scale = 1.f + _caloriesEaten * _caloryScale;
+	SetScale(scale);
 }
 
 void APotatoEaterCharacter::EatPotato(APotato* potato)
 {
-	_amountEaten += potato->GetWeight();
+	const FNutritionalInformations& nutritionalInformations = potato->GetNutritionalInformations();
+	_caloriesEaten += nutritionalInformations.GetCalories(potato->GetWeight());
 	potato->Destroy();
 	UpdateVisual();
+}
+
+bool APotatoEaterCharacter::IsHungry() const
+{
+	return _caloriesEaten < _caloriesNeeded;
+}
+
+void APotatoEaterCharacter::Tick(float dt)
+{
+	Super::Tick(dt);
+	if (IsPlayerControlled())
+	{
+		GEngine->AddOnScreenDebugMessage(555, 0.f, FColor::Red, TEXT("Currently possessing a potato eater"));
+		GEngine->AddOnScreenDebugMessage(556, 0.f, FColor::Red, TEXT("Move over potatoes to eat them"));
+		GEngine->AddOnScreenDebugMessage(557, 0.f, FColor::Red, FString::Printf(TEXT("%f / %f calories"), _caloriesEaten, _caloriesNeeded));
+	}
+}
+
+void APotatoEaterCharacter::SetScale_Implementation(float scale)
+{
+	SetActorScale3D(FVector(scale, scale, scale));
+	_springArmComponent->TargetArmLength = _initialSpringArmLenght * scale;
 }

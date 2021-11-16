@@ -12,25 +12,34 @@ UCLASS()
 class POTATOGATHEREREATER_API APotatoEaterCharacter : public APotatoBaseCharacter
 {
 	GENERATED_BODY()
+
+public:
+	bool IsHungry() const;
+
+protected:
+	UFUNCTION(BlueprintNativeEvent)
+	void SetScale(float scale);
 	
 private:
 	virtual void BeginPlay() override;
 	virtual void NotifyActorBeginOverlap(AActor* otherActor) override;
+	virtual void Tick(float dt);
 
 	void UpdateVisual();
-
 	void EatPotato(APotato* potato);
 
-	void SetScale(float scale);
+	UPROPERTY(EditAnywhere)
+	float _caloryScale;
 
-	USpringArmComponent* _springArmComponent;
+	UPROPERTY(EditAnywhere)
+	float _caloriesNeeded;
 
 	UPROPERTY(Transient)
 	int32 _initialSpringArmLenght;
 
 	UPROPERTY(Transient)
-	float _scale;
+	USpringArmComponent* _springArmComponent;
 
 	UPROPERTY(Transient)
-	int32 _amountEaten;
+	float _caloriesEaten;
 };

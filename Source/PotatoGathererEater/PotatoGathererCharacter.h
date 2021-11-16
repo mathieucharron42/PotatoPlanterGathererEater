@@ -9,18 +9,19 @@
 
 #include "PotatoGathererCharacter.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class POTATOGATHEREREATER_API APotatoGathererCharacter : public APotatoBaseCharacter
 {
 	GENERATED_BODY()
-public:
+private:
 	virtual void BeginPlay() override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+	virtual void Tick(float dt) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-private:
 	void PickupPotato(APotato* potato);
 	void DropPotato();
+	bool IsHoldingPotato() const;
 
 	UPROPERTY(Transient)
 	APotato* _heldPotato = nullptr;

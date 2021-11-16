@@ -1,13 +1,9 @@
 #include "Potato.h"
-#include "DecayComponent.h"
 #include "PotatoManagerSubsystem.h"
 
 APotato::APotato()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	_decayComponent = CreateDefaultSubobject<UDecayComponent>("DecayComponent");
-	_decayComponent->bAutoRegister = true;
 }
 
 void APotato::BeginPlay()
@@ -50,5 +46,10 @@ void APotato::SetIsPickedUp(bool isPickedUp)
 		//_staticMeshComponent->SetSimulatePhysics(true);
 		/*_staticMeshComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);*/
 	}
+}
+
+const FNutritionalInformations& APotato::GetNutritionalInformations() const
+{
+	return _nutritionalInformations;
 }
 
