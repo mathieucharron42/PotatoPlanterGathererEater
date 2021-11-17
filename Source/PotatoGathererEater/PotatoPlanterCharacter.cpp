@@ -36,7 +36,7 @@ void APotatoPlanterCharacter::Tick(float dt)
 	Super::Tick(dt);
 	if (IsPlayerControlled())
 	{
-		GEngine->AddOnScreenDebugMessage(444, 0.f, FColor::Emerald, TEXT("Currently possessing a potato planter"));
-		GEngine->AddOnScreenDebugMessage(445, 0.f, FColor::Emerald, TEXT("Right click to spawn potatoes"));
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Emerald, TEXT("Currently possessing a potato planter"), false);
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Emerald, TEXT("Right click to spawn potatoes"), false);
 	}
 }

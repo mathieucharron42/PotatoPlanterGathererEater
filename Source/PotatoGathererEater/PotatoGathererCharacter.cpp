@@ -63,8 +63,8 @@ void APotatoGathererCharacter::Tick(float dt)
 	if (IsPlayerControlled())
 	{
 		const FColor color = FColor(141, 154, 203);
-		GEngine->AddOnScreenDebugMessage(333, 0.001f, color, TEXT("Currently possessing a potato gatherer"));
-		GEngine->AddOnScreenDebugMessage(334, 0.001f, color, TEXT("Move over a potato to pick one up and right click to drop it"));
-		GEngine->AddOnScreenDebugMessage(335, 0.001f, color, FString::Printf(TEXT("Is holding potato: %s"), IsHoldingPotato() ? TEXT("true") : TEXT("false")));
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, color, TEXT("Currently possessing a potato gatherer"), false);
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, color, TEXT("Move over a potato to pick one up and right click to drop it"), false);
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, color, FString::Printf(TEXT("Is holding potato: %s"), IsHoldingPotato() ? TEXT("true") : TEXT("false")), false);
 	}
 }

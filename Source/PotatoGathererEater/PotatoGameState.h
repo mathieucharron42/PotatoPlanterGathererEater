@@ -10,5 +10,11 @@ UCLASS()
 class POTATOGATHEREREATER_API APotatoGameState : public AGameState
 {
 	GENERATED_BODY()
-	
+
+public:
+	bool IsGameEnded();
+	void SetGameEnded(bool completed);
+
+private:
+	bool _gameEnded = false;
 };

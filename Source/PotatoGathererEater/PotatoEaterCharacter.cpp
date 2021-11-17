@@ -42,9 +42,9 @@ void APotatoEaterCharacter::Tick(float dt)
 	Super::Tick(dt);
 	if (IsPlayerControlled())
 	{
-		GEngine->AddOnScreenDebugMessage(555, 0.f, FColor::Red, TEXT("Currently possessing a potato eater"));
-		GEngine->AddOnScreenDebugMessage(556, 0.f, FColor::Red, TEXT("Move over potatoes to eat them"));
-		GEngine->AddOnScreenDebugMessage(557, 0.f, FColor::Red, FString::Printf(TEXT("%f / %f calories"), _caloriesEaten, _caloriesNeeded));
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, TEXT("Currently possessing a potato eater"), false);
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, TEXT("Move over potatoes to eat them"), false);
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("%f / %f calories"), _caloriesEaten, _caloriesNeeded), false);
 	}
 }
 

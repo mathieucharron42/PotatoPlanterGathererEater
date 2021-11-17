@@ -15,13 +15,15 @@ class POTATOGATHEREREATER_API APotatoGameMode : public AGameMode
 	GENERATED_BODY()
 
 public:
-	bool ChangeRole(APotatoPlayerController* playerController);
+	virtual void Tick(float dt) override;
 
+	bool ChangeRole(APotatoPlayerController* playerController);
+	
 private:
 	virtual void BeginPlay() override;
 
+	void CheckGameEnded();
 	APotatoBaseCharacter* FindSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type);
-
 	UPotatoGameRole* GetNextRole(UPotatoGameRole* current);
 
 	UPROPERTY(Transient)
