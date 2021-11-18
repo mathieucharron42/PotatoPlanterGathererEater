@@ -23,6 +23,7 @@ protected:
 private:
 	virtual void BeginPlay() override;
 	virtual void NotifyActorBeginOverlap(AActor* otherActor) override;
+	virtual void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
 	virtual void Tick(float dt);
 
 	void UpdateVisual();

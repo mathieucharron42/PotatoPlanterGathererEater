@@ -18,6 +18,17 @@ void APotatoEaterCharacter::NotifyActorBeginOverlap(AActor* otherActor)
 	}
 }
 
+void APotatoEaterCharacter::NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
+{
+	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
+
+	if (Other->IsA<APotato>())
+	{
+		APotato* potato = Cast<APotato>(Other);
+		EatPotato(potato);
+	}
+}
+
 void APotatoEaterCharacter::UpdateVisual()
 {
 	const float scale = 1.f + _caloriesEaten * _caloryScale;
@@ -42,7 +53,7 @@ void APotatoEaterCharacter::Tick(float dt)
 	Super::Tick(dt);
 	if (IsPlayerControlled())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, TEXT("Currently possessing a potato eater"), false);
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, TEXT("Currently possessing a potato eater.  Press tab to change character."), false);
 		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, TEXT("Move over potatoes to eat them"), false);
 		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("%f / %f calories"), _caloriesEaten, _caloriesNeeded), false);
 	}

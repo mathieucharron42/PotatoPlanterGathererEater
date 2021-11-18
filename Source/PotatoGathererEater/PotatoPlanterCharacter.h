@@ -20,7 +20,10 @@ private:
 	virtual void Tick(float dt);
 
 	UPROPERTY(EditAnywhere)
-	float _spawnDistance;
+	FVector _spawn;
+
+	UPROPERTY(EditAnywhere)
+	float _spawnVelocity;
 
 	UPROPERTY(EditAnywhere)
 	TArray<TSubclassOf<APotato>> _potatoTypes;
