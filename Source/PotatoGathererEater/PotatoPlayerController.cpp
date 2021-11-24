@@ -18,6 +18,12 @@ void APotatoPlayerController::SetupInputComponent()
 void APotatoPlayerController::ChangeRole()
 {
 	UWorld* world = GetWorld();
-	APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
-	gameMode->ChangeRole(this);
+	if(ensure(IsValid(world)))
+	{
+		APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
+		if (ensure(IsValid(gameMode)))
+		{
+			gameMode->ChangeRole(this);
+		}
+	}
 }

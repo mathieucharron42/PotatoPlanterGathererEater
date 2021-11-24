@@ -17,7 +17,6 @@ public:
 	
 private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	virtual void Tick(float dt);
 
 	UPROPERTY(EditAnywhere)
 	FVector _spawn;

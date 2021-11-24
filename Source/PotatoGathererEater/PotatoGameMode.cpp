@@ -49,7 +49,12 @@ APotatoBaseCharacter* APotatoGameMode::FindSuitableCharacter(const TSubclassOf<A
 	for (TActorIterator<APotatoBaseCharacter> it(world, type); it; ++it)
 	{
 		APotatoBaseCharacter* character = Cast<APotatoBaseCharacter>(*it);
-		return character;
+		APotatoPlayerController* controller = character->GetController<APotatoPlayerController>();
+		if (!IsValid(controller))
+		{
+			return character;
+		}
+		
 	}
 
 	return nullptr;
@@ -72,8 +77,10 @@ void APotatoGameMode::Tick(float dt)
 bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 {
 	APotatoPlayerState* playerState = playerController->GetPlayerState<APotatoPlayerState>();
-	UPotatoGameRole* role = GetNextRole(playerState->GetCurrentRole());
-	while (role != playerState->GetCurrentRole())
+	
+	for (UPotatoGameRole* role = GetNextRole(playerState->GetCurrentRole()); 
+		role != playerState->GetCurrentRole();
+		role = GetNextRole(role))
 	{
 		APotatoBaseCharacter* character = FindSuitableCharacter(role->CharacterType);
 		if (IsValid(character))
@@ -82,8 +89,6 @@ bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 			playerState->SetCurrentRole(role);
 			return true;
 		}
-
-		role = GetNextRole(playerState->GetCurrentRole());
 	}
 	return false;
 }

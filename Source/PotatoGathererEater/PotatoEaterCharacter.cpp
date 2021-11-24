@@ -48,15 +48,14 @@ bool APotatoEaterCharacter::IsHungry() const
 	return _caloriesEaten < _caloriesNeeded;
 }
 
-void APotatoEaterCharacter::Tick(float dt)
-{
-	Super::Tick(dt);
-	if (IsPlayerControlled())
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, TEXT("Currently possessing a potato eater.  Press tab to change character."), false);
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, TEXT("Move over potatoes to eat them"), false);
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("%f / %f calories"), _caloriesEaten, _caloriesNeeded), false);
-	}
+float APotatoEaterCharacter::GetCaloriesNeeded() const 
+{ 
+	return _caloriesNeeded; 
+}
+
+float APotatoEaterCharacter::GetCaloriesEaten() const 
+{ 
+	return _caloriesEaten; 
 }
 
 void APotatoEaterCharacter::SetScale_Implementation(float scale)

@@ -13,16 +13,17 @@ UCLASS(Abstract)
 class POTATOGATHEREREATER_API APotatoGathererCharacter : public APotatoBaseCharacter
 {
 	GENERATED_BODY()
+public:
+	bool IsHoldingPotato() const;
+
 private:
 	virtual void BeginPlay() override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 	virtual void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	virtual void Tick(float dt) override;
 	
 	void PickupPotato(APotato* potato);
 	void DropPotato();
-	bool IsHoldingPotato() const;
 
 	UPROPERTY(Transient)
 	APotato* _heldPotato = nullptr;

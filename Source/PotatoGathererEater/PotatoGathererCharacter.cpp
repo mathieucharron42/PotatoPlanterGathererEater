@@ -76,15 +76,3 @@ void APotatoGathererCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APotatoGathererCharacter::DropPotato);
 }
-
-void APotatoGathererCharacter::Tick(float dt)
-{
-	Super::Tick(dt);
-	if (IsPlayerControlled())
-	{
-		const FColor color = FColor(141, 154, 203);
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, color, TEXT("Currently possessing a potato gatherer. Press tab to change character."), false);
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, color, TEXT("Move over a potato to pick one up and right click to drop it"), false);
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, color, FString::Printf(TEXT("Is holding potato: %s"), IsHoldingPotato() ? TEXT("true") : TEXT("false")), false);
-	}
-}

@@ -15,6 +15,8 @@ class POTATOGATHEREREATER_API APotatoEaterCharacter : public APotatoBaseCharacte
 
 public:
 	bool IsHungry() const;
+	float GetCaloriesNeeded() const;
+	float GetCaloriesEaten() const;
 
 protected:
 	UFUNCTION(BlueprintNativeEvent)
@@ -24,7 +26,6 @@ private:
 	virtual void BeginPlay() override;
 	virtual void NotifyActorBeginOverlap(AActor* otherActor) override;
 	virtual void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
-	virtual void Tick(float dt);
 
 	void UpdateVisual();
 	void EatPotato(APotato* potato);
