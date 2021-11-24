@@ -1,4 +1,11 @@
 #include "PotatoGathererCharacter.h"
+#include "Net/UnrealNetwork.h"
+
+void APotatoGathererCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(APotatoGathererCharacter, _heldPotato);
+}
 
 void APotatoGathererCharacter::BeginPlay()
 {
@@ -11,10 +18,13 @@ void APotatoGathererCharacter::NotifyActorBeginOverlap(AActor* otherActor)
 {
 	Super::NotifyActorBeginOverlap(otherActor);
 
-	if (otherActor->IsA<APotato>())
+	if (HasAuthority())
 	{
-		APotato* potato = Cast<APotato>(otherActor);
-		PickupPotato(potato);
+		if (otherActor->IsA<APotato>())
+		{
+			APotato* potato = Cast<APotato>(otherActor);
+			Authority_PickupPotato(potato);
+		}
 	}
 }
 
@@ -22,19 +32,61 @@ void APotatoGathererCharacter::NotifyHit(class UPrimitiveComponent* MyComp, AAct
 {
 	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
 
-	if (Other->IsA<APotato>())
+	if (HasAuthority())
 	{
-		APotato* potato = Cast<APotato>(Other);
-		PickupPotato(potato);
+		if (Other->IsA<APotato>())
+		{
+			APotato* potato = Cast<APotato>(Other);
+			Authority_PickupPotato(potato);
+		}
 	}
 }
 
-void APotatoGathererCharacter::PickupPotato(APotato* potato)
+void APotatoGathererCharacter::Authority_PickupPotato(APotato* potato)
 {
-	if (!IsHoldingPotato())
+	if (ensure(HasAuthority()))
 	{
-		_heldPotato = potato;
+		if (!IsHoldingPotato())
+		{
+			APotato* previous = _heldPotato;
+			_heldPotato = potato;
+			OnRep_HeldPotato(previous);
+		}
+	}
+}
 
+void APotatoGathererCharacter::Server_DropPotato_Implementation()
+{
+	Authority_DropPotato();
+}
+
+bool APotatoGathererCharacter::Server_DropPotato_Validate()
+{
+	return true;
+}
+
+void APotatoGathererCharacter::Authority_DropPotato()
+{
+	if (ensure(HasAuthority()))
+	{
+		if (IsHoldingPotato())
+		{
+			APotato* previous = _heldPotato;
+			_heldPotato = nullptr;
+			OnRep_HeldPotato(previous);
+		}
+	}
+}
+
+bool APotatoGathererCharacter::IsHoldingPotato() const
+{
+	return IsValid(_heldPotato);
+}
+
+void APotatoGathererCharacter::OnRep_HeldPotato(APotato* old)
+{
+	if (IsValid(_heldPotato))
+	{
 		UPrimitiveComponent* targetComponent = Cast<UPrimitiveComponent>(_heldPotato->GetRootComponent());
 
 		targetComponent->SetSimulatePhysics(false);
@@ -46,33 +98,22 @@ void APotatoGathererCharacter::PickupPotato(APotato* potato)
 		attachementRules.ScaleRule = EAttachmentRule::KeepRelative;
 		targetComponent->AttachToComponent(_characterMeshComponent, attachementRules, FName("socket_hand_r"));
 	}
-}
-
-void APotatoGathererCharacter::DropPotato()
-{
-	if (IsHoldingPotato())
+	else if (IsValid(old))
 	{
-		UPrimitiveComponent* targetComponent = Cast<UPrimitiveComponent>(_heldPotato->GetRootComponent());
+		UPrimitiveComponent* targetComponent = Cast<UPrimitiveComponent>(old->GetRootComponent());
 
 		FDetachmentTransformRules detachementRules = FDetachmentTransformRules::KeepWorldTransform;
 		detachementRules.ScaleRule = EDetachmentRule::KeepRelative;
-		_heldPotato->DetachFromActor(detachementRules);
+		old->DetachFromActor(detachementRules);
 
 		targetComponent->SetSimulatePhysics(true);
 		targetComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		targetComponent->SetEnableGravity(true);
-
-		_heldPotato = nullptr;
 	}
-}
-
-bool APotatoGathererCharacter::IsHoldingPotato() const
-{
-	return IsValid(_heldPotato);
 }
 
 void APotatoGathererCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APotatoGathererCharacter::DropPotato);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APotatoGathererCharacter::Server_DropPotato);
 }

@@ -13,7 +13,10 @@ class POTATOGATHEREREATER_API APotatoPlanterCharacter : public APotatoBaseCharac
 	GENERATED_BODY()
 
 public:
-	void PlantPotato();
+	void Authority_PlantPotato();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_PlantPotato();
 	
 private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

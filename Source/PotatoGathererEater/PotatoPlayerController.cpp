@@ -6,24 +6,40 @@
 void APotatoPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	ChangeRole();
+	if (HasAuthority())
+	{
+		Authority_ChangeRole();
+	}
 }
 
 void APotatoPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	InputComponent->BindAction("Switch", IE_Pressed, this, &APotatoPlayerController::ChangeRole);
+	InputComponent->BindAction("Switch", IE_Pressed, this, &APotatoPlayerController::Server_ChangeRole);
 }
 
-void APotatoPlayerController::ChangeRole()
+void APotatoPlayerController::Server_ChangeRole_Implementation()
 {
-	UWorld* world = GetWorld();
-	if(ensure(IsValid(world)))
+	Authority_ChangeRole();
+}
+
+bool APotatoPlayerController::Server_ChangeRole_Validate()
+{
+	return true;
+}
+
+void APotatoPlayerController::Authority_ChangeRole()
+{
+	if(ensure(HasAuthority()))
 	{
-		APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
-		if (ensure(IsValid(gameMode)))
+		UWorld* world = GetWorld();
+		if(ensure(IsValid(world)))
 		{
-			gameMode->ChangeRole(this);
+			APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
+			if (ensure(IsValid(gameMode)))
+			{
+				gameMode->ChangeRole(this);
+			}
 		}
 	}
 }

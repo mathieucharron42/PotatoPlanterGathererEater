@@ -19,16 +19,19 @@ public:
 	float GetCaloriesEaten() const;
 
 protected:
+	UFUNCTION(Client, NetMulticast, Reliable)
+	void Client_Multicast_SetScale(float scale);
+
 	UFUNCTION(BlueprintNativeEvent)
-	void SetScale(float scale);
+	void Local_SetScale(float scale);
 	
 private:
 	virtual void BeginPlay() override;
 	virtual void NotifyActorBeginOverlap(AActor* otherActor) override;
 	virtual void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
 
-	void UpdateVisual();
-	void EatPotato(APotato* potato);
+	void Authority_UpdateVisual();
+	void Authority_EatPotato(APotato* potato);
 
 	UPROPERTY(EditAnywhere)
 	float _caloryScale;
@@ -42,6 +45,6 @@ private:
 	UPROPERTY(Transient)
 	USpringArmComponent* _springArmComponent;
 
-	UPROPERTY(Transient)
+	UPROPERTY(Transient, Replicated)
 	float _caloriesEaten;
 };

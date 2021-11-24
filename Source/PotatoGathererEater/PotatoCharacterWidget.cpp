@@ -25,7 +25,7 @@ void UPotatoCharacterWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 	if (ensure(IsValid(_player)))
 	{
 		APotatoPlayerState* playerState = _player->GetPlayerState<APotatoPlayerState>();
-		if (ensure(IsValid(playerState)))
+		if (IsValid(playerState))
 		{
 			if (ensure(IsValid(playerState->GetCurrentRole())))
 			{

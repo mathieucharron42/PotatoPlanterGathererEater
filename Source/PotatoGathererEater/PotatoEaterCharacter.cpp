@@ -1,4 +1,11 @@
 #include "PotatoEaterCharacter.h"
+#include "Net/UnrealNetwork.h"
+
+void APotatoEaterCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(APotatoEaterCharacter, _caloriesEaten);
+}
 
 void APotatoEaterCharacter::BeginPlay()
 {
@@ -11,36 +18,47 @@ void APotatoEaterCharacter::NotifyActorBeginOverlap(AActor* otherActor)
 {
 	Super::NotifyActorBeginOverlap(otherActor);
 
-	if (otherActor->IsA<APotato>())
+	if (HasAuthority())
 	{
-		APotato* potato = Cast<APotato>(otherActor);
-		EatPotato(potato);
+		if (otherActor->IsA<APotato>())
+		{
+			APotato* potato = Cast<APotato>(otherActor);
+			Authority_EatPotato(potato);
+		}
 	}
 }
 
 void APotatoEaterCharacter::NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
 {
 	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
-
-	if (Other->IsA<APotato>())
+	if (HasAuthority())
 	{
-		APotato* potato = Cast<APotato>(Other);
-		EatPotato(potato);
+		if (Other->IsA<APotato>())
+		{
+			APotato* potato = Cast<APotato>(Other);
+			Authority_EatPotato(potato);
+		}
 	}
 }
 
-void APotatoEaterCharacter::UpdateVisual()
+void APotatoEaterCharacter::Authority_UpdateVisual()
 {
-	const float scale = 1.f + _caloriesEaten * _caloryScale;
-	SetScale(scale);
+	if (ensure(HasAuthority()))
+	{
+		const float scale = 1.f + _caloriesEaten * _caloryScale;
+		Client_Multicast_SetScale(scale);
+	}
 }
 
-void APotatoEaterCharacter::EatPotato(APotato* potato)
+void APotatoEaterCharacter::Authority_EatPotato(APotato* potato)
 {
-	const FNutritionalInformations& nutritionalInformations = potato->GetNutritionalInformations();
-	_caloriesEaten += nutritionalInformations.GetCalories(potato->GetWeight());
-	potato->Destroy();
-	UpdateVisual();
+	if (ensure(HasAuthority()))
+	{
+		const FNutritionalInformations& nutritionalInformations = potato->GetNutritionalInformations();
+		_caloriesEaten += nutritionalInformations.GetCalories(potato->GetWeight());
+		potato->Destroy();
+		Authority_UpdateVisual();
+	}
 }
 
 bool APotatoEaterCharacter::IsHungry() const
@@ -58,7 +76,12 @@ float APotatoEaterCharacter::GetCaloriesEaten() const
 	return _caloriesEaten; 
 }
 
-void APotatoEaterCharacter::SetScale_Implementation(float scale)
+void APotatoEaterCharacter::Client_Multicast_SetScale_Implementation(float scale)
+{
+	Local_SetScale(scale);
+}
+
+void APotatoEaterCharacter::Local_SetScale_Implementation(float scale)
 {
 	SetActorScale3D(FVector(scale, scale, scale));
 	_springArmComponent->TargetArmLength = _initialSpringArmLenght * scale;

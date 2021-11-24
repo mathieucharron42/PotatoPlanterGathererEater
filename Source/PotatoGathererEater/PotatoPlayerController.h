@@ -18,5 +18,8 @@ class POTATOGATHEREREATER_API APotatoPlayerController : public APlayerController
 private:
 	virtual void SetupInputComponent() override;
 
-	void ChangeRole();
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_ChangeRole();
+
+	void Authority_ChangeRole();
 };

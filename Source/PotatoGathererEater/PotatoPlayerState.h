@@ -12,9 +12,18 @@ class POTATOGATHEREREATER_API APotatoPlayerState : public APlayerState
 {
 	GENERATED_BODY()
 public:
+	DECLARE_MULTICAST_DELEGATE(FRoleChanged);
+	FRoleChanged& OnRoleChanged() { return _roleChangedEvent; }
+
 	void SetCurrentRole(UPotatoGameRole* role);
 	UPotatoGameRole* GetCurrentRole() const;
 
-	UPROPERTY(Transient)
+private:
+	UFUNCTION()
+	void OnRep_CurrentRole();
+
+	UPROPERTY(Transient, Replicated, ReplicatedUsing=OnRep_CurrentRole)
 	UPotatoGameRole* _currentRole = nullptr;
+
+	FRoleChanged _roleChangedEvent;
 };

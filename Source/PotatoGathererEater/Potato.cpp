@@ -3,7 +3,8 @@
 
 APotato::APotato()
 {
-	
+	SetReplicates(true);
+	SetReplicateMovement(true);
 }
 
 void APotato::BeginPlay()

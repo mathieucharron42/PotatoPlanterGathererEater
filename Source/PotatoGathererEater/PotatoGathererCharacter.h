@@ -22,10 +22,16 @@ private:
 	virtual void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
-	void PickupPotato(APotato* potato);
-	void DropPotato();
+	void Authority_PickupPotato(APotato* potato);
 
-	UPROPERTY(Transient)
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_DropPotato();
+	void Authority_DropPotato();
+
+	UFUNCTION()
+	void OnRep_HeldPotato(APotato* old);
+
+	UPROPERTY(Transient, Replicated, ReplicatedUsing=OnRep_HeldPotato)
 	APotato* _heldPotato = nullptr;
 
 	UPROPERTY(Transient)

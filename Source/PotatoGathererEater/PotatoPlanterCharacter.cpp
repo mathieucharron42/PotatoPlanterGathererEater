@@ -8,35 +8,48 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "DrawDebugHelpers.h"
 
-void APotatoPlanterCharacter::PlantPotato()
+void APotatoPlanterCharacter::Authority_PlantPotato()
 {
-	UWorld* world = GetWorld();
-	if (IsValid(world))
+	if (ensure(HasAuthority()))
 	{
-		FTransform planterTransform = GetTransform();
-		
-		FTransform potatoTransform = planterTransform;
+		UWorld* world = GetWorld();
+		if (IsValid(world))
 		{
-			FVector relativeLocation = planterTransform.GetRotation().RotateVector(_spawn);
-			potatoTransform.AddToTranslation(relativeLocation);
-			FRotator relativeRotation = UKismetMathLibrary::RandomRotator(true);
-			potatoTransform.SetRotation(relativeRotation.Quaternion());
+			FTransform planterTransform = GetTransform();
+		
+			FTransform potatoTransform = planterTransform;
+			{
+				FVector relativeLocation = planterTransform.GetRotation().RotateVector(_spawn);
+				potatoTransform.AddToTranslation(relativeLocation);
+				FRotator relativeRotation = UKismetMathLibrary::RandomRotator(true);
+				potatoTransform.SetRotation(relativeRotation.Quaternion());
+			}
+
+			FVector randomVelocity = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(planterTransform.GetUnitAxis(EAxis::X), 45.f) * _spawnVelocity;
+			randomVelocity.Z = FMath::Abs(randomVelocity.Z);
+			//DrawDebugLine(GetWorld(), potatoTransform.GetLocation(), potatoTransform.GetLocation() + randomVelocity, FColor::Red, false, 5);
+
+			TSubclassOf<APotato>& potatoType = _potatoTypes[FMath::RandRange(0, _potatoTypes.Num()-1)];
+
+			APotato* newPotato = world->SpawnActor<APotato>(potatoType, potatoTransform);
+			UPrimitiveComponent* potatoPrimitiveComponent = Cast<UPrimitiveComponent>(newPotato->GetRootComponent());
+			potatoPrimitiveComponent->SetPhysicsLinearVelocity(randomVelocity);
 		}
-
-		FVector randomVelocity = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(planterTransform.GetUnitAxis(EAxis::X), 45.f) * _spawnVelocity;
-		randomVelocity.Z = FMath::Abs(randomVelocity.Z);
-		//DrawDebugLine(GetWorld(), potatoTransform.GetLocation(), potatoTransform.GetLocation() + randomVelocity, FColor::Red, false, 5);
-
-		TSubclassOf<APotato>& potatoType = _potatoTypes[FMath::RandRange(0, _potatoTypes.Num()-1)];
-
-		APotato* newPotato = world->SpawnActor<APotato>(potatoType, potatoTransform);
-		UPrimitiveComponent* potatoPrimitiveComponent = Cast<UPrimitiveComponent>(newPotato->GetRootComponent());
-		potatoPrimitiveComponent->SetPhysicsLinearVelocity(randomVelocity);
 	}
+}
+
+void APotatoPlanterCharacter::Server_PlantPotato_Implementation()
+{
+	Authority_PlantPotato();
+}
+
+bool APotatoPlanterCharacter::Server_PlantPotato_Validate()
+{
+	return true;
 }
 
 void APotatoPlanterCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APotatoPlanterCharacter::PlantPotato);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APotatoPlanterCharacter::Server_PlantPotato);
 }
