@@ -27,6 +27,7 @@ private:
 
 	void CheckGameEnded();
 	APotatoBaseCharacter* FindSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type);
+	bool IsSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type, const APotatoBaseCharacter* character);
 	UPotatoGameRole* GetNextRole(UPotatoGameRole* current);
 
 	UPROPERTY(Transient)

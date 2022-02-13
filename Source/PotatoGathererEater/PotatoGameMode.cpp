@@ -48,9 +48,9 @@ void APotatoGameMode::CheckGameEnded()
 	}
 
 	const bool arePotatoEatersWellFeed = Algo::AllOf(potatoEaters, [](APotatoEaterCharacter* potatoEater)
-		{
-			return !potatoEater->IsHungry();
-		});
+	{
+		return !potatoEater->IsHungry();
+	});
 
 	if (potatoEaters.Num() > 0 && arePotatoEatersWellFeed)
 	{
@@ -67,21 +67,33 @@ APotatoBaseCharacter* APotatoGameMode::FindSuitableCharacter(const TSubclassOf<A
 	UWorld* world = GetWorld();
 
 	APotatoBaseCharacter* suitableCharacter = nullptr;
-
-	for (TActorIterator<APotatoBaseCharacter> it(world, type); it && !IsValid(suitableCharacter); ++it)
+	for (TActorIterator<APotatoBaseCharacter> it(world); it && !IsValid(suitableCharacter); ++it)
 	{
 		APotatoBaseCharacter* character = Cast<APotatoBaseCharacter>(*it);
-		const APotatoPlayerController* controller = character->GetController<APotatoPlayerController>();
-		const bool isCharacterPossessed = IsValid(controller);
-		if (!isCharacterPossessed)
+		if (IsSuitableCharacter(type, character))
 		{
 			suitableCharacter = character;
 		}
-
 	}
 
 	return suitableCharacter;
 }
+
+bool APotatoGameMode::IsSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type, const APotatoBaseCharacter* character)
+{
+	bool suitable = false;
+	if (ensure(IsValid(character)))
+	{
+		if (character->IsA(type))
+		{
+			const APotatoPlayerController* controller = character->GetController<APotatoPlayerController>();
+			const bool isCharacterPossessed = IsValid(controller);
+			suitable = !isCharacterPossessed;
+		}
+	}
+	return suitable;
+}
+
 
 UPotatoGameRole* APotatoGameMode::GetNextRole(UPotatoGameRole* current)
 {
