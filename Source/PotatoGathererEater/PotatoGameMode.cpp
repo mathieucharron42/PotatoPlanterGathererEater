@@ -11,6 +11,7 @@
 
 void APotatoGameMode::BeginPlay()
 {
+	Super::BeginPlay();
 	for (const TSubclassOf<UPotatoGameRole> roleType : _rolesTypes)
 	{
 		UPotatoGameRole* role = roleType->GetDefaultObject<UPotatoGameRole>();
@@ -62,9 +63,14 @@ APotatoBaseCharacter* APotatoGameMode::FindSuitableCharacter(const TSubclassOf<A
 
 UPotatoGameRole* APotatoGameMode::GetNextRole(UPotatoGameRole* current)
 {
-	const int32 currentIndex = _roles.Find(current);
-	const int32 nextIndex = (currentIndex + 1) % + _roles.Num();
-	return _roles[nextIndex];
+	UPotatoGameRole* nextRole = nullptr;
+	if (ensure(_roles.Num() > 0))
+	{
+		const int32 currentIndex = _roles.Find(current);
+		const int32 nextIndex = (currentIndex + 1) % +_roles.Num();
+		nextRole = _roles[nextIndex];
+	}
+	return nextRole;
 }
 
 void APotatoGameMode::Tick(float dt)
@@ -79,7 +85,7 @@ bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 	APotatoPlayerState* playerState = playerController->GetPlayerState<APotatoPlayerState>();
 	
 	for (UPotatoGameRole* role = GetNextRole(playerState->GetCurrentRole()); 
-		role != playerState->GetCurrentRole();
+		IsValid(role) && role != playerState->GetCurrentRole();
 		role = GetNextRole(role))
 	{
 		APotatoBaseCharacter* character = FindSuitableCharacter(role->CharacterType);
