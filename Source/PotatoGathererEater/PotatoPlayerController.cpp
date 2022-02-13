@@ -16,6 +16,12 @@ void APotatoPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 	InputComponent->BindAction("Switch", IE_Pressed, this, &APotatoPlayerController::Server_ChangeRole);
+	InputComponent->BindAction("Quit", IE_Pressed, this, &APotatoPlayerController::QuitGame);
+}
+
+void APotatoPlayerController::QuitGame()
+{
+	FGenericPlatformMisc::RequestExit(false);
 }
 
 void APotatoPlayerController::Server_ChangeRole_Implementation()
