@@ -21,6 +21,9 @@ public:
 	
 private:
 	virtual void BeginPlay() override;
+	virtual void PostInitializeComponents() override;
+	virtual void RestartPlayer(AController* NewPlayer) override;
+	
 
 	void CheckGameEnded();
 	APotatoBaseCharacter* FindSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type);

@@ -6,10 +6,6 @@
 void APotatoPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	if (HasAuthority())
-	{
-		Authority_ChangeRole();
-	}
 }
 
 void APotatoPlayerController::SetupInputComponent()

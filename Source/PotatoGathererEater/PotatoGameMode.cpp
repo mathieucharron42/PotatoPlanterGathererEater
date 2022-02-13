@@ -12,6 +12,11 @@
 void APotatoGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void APotatoGameMode::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
 	for (const TSubclassOf<UPotatoGameRole> roleType : _rolesTypes)
 	{
 		UPotatoGameRole* role = roleType->GetDefaultObject<UPotatoGameRole>();
@@ -19,25 +24,41 @@ void APotatoGameMode::BeginPlay()
 	}
 }
 
+void APotatoGameMode::RestartPlayer(AController* NewPlayer)
+{
+	if (NewPlayer->IsA<APotatoPlayerController>())
+	{
+		APotatoPlayerController* potatoPlayerController = Cast<APotatoPlayerController>(NewPlayer);
+		ensure(ChangeRole(potatoPlayerController));
+	}
+	else
+	{
+		Super::RestartPlayer(NewPlayer);
+	}
+}
+
 void APotatoGameMode::CheckGameEnded()
 {
 	UWorld* world = GetWorld();
 
-	TArray<APotatoEaterCharacter*> potatoEaters;	
+	TArray<APotatoEaterCharacter*> potatoEaters;
 	for (TActorIterator<APotatoEaterCharacter> it(world); it; ++it)
 	{
 		potatoEaters.Add(*it);
 	}
 
-	bool arePotatoEatersWellFeed = Algo::AllOf(potatoEaters, [](APotatoEaterCharacter* potatoEater)
-	{
-		return !potatoEater->IsHungry();
-	});
+	const bool arePotatoEatersWellFeed = Algo::AllOf(potatoEaters, [](APotatoEaterCharacter* potatoEater)
+		{
+			return !potatoEater->IsHungry();
+		});
 
 	if (potatoEaters.Num() > 0 && arePotatoEatersWellFeed)
 	{
 		APotatoGameState* gameState = GetGameState<APotatoGameState>();
-		gameState->SetGameEnded(true);
+		if (ensure(IsValid(gameState)))
+		{
+			gameState->SetGameEnded(true);
+		}
 	}
 }
 
@@ -45,20 +66,21 @@ APotatoBaseCharacter* APotatoGameMode::FindSuitableCharacter(const TSubclassOf<A
 {
 	UWorld* world = GetWorld();
 
-	TArray<APotatoBaseCharacter> characters;
+	APotatoBaseCharacter* suitableCharacter = nullptr;
 
-	for (TActorIterator<APotatoBaseCharacter> it(world, type); it; ++it)
+	for (TActorIterator<APotatoBaseCharacter> it(world, type); it && !IsValid(suitableCharacter); ++it)
 	{
 		APotatoBaseCharacter* character = Cast<APotatoBaseCharacter>(*it);
-		APotatoPlayerController* controller = character->GetController<APotatoPlayerController>();
-		if (!IsValid(controller))
+		const APotatoPlayerController* controller = character->GetController<APotatoPlayerController>();
+		const bool isCharacterPossessed = IsValid(controller);
+		if (!isCharacterPossessed)
 		{
-			return character;
+			suitableCharacter = character;
 		}
-		
+
 	}
 
-	return nullptr;
+	return suitableCharacter;
 }
 
 UPotatoGameRole* APotatoGameMode::GetNextRole(UPotatoGameRole* current)
@@ -82,19 +104,29 @@ void APotatoGameMode::Tick(float dt)
 
 bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 {
+	bool success = false;
+
 	APotatoPlayerState* playerState = playerController->GetPlayerState<APotatoPlayerState>();
-	
-	for (UPotatoGameRole* role = GetNextRole(playerState->GetCurrentRole()); 
-		IsValid(role) && role != playerState->GetCurrentRole();
-		role = GetNextRole(role))
+
+	UPotatoGameRole* initialRole = playerState->GetCurrentRole();
+	UPotatoGameRole* nextRole = GetNextRole(playerState->GetCurrentRole());
+	TArray<UPotatoGameRole*> consideredRoles;
+	while (!success && initialRole != nextRole && consideredRoles.Num() < _roles.Num())
 	{
-		APotatoBaseCharacter* character = FindSuitableCharacter(role->CharacterType);
-		if (IsValid(character))
+		UPotatoGameRole* role = nextRole; 
+		if (ensure(IsValid(role)))
 		{
-			playerController->Possess(character);
-			playerState->SetCurrentRole(role);
-			return true;
+			APotatoBaseCharacter* character = FindSuitableCharacter(role->CharacterType);
+			if (IsValid(character))
+			{
+				playerController->Possess(character);
+				playerState->SetCurrentRole(role);
+				success = true;
+			}
 		}
+		consideredRoles.Add(role);
+		nextRole = GetNextRole(nextRole);
 	}
-	return false;
+
+	return success;
 }
