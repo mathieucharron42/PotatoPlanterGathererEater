@@ -2,6 +2,12 @@
 
 #include "EngineUtils.h"
 #include "PotatoGameMode.h"
+#include "PotatoCheatManager.h"
+
+APotatoPlayerController::APotatoPlayerController()
+{
+	CheatClass = UPotatoCheatManager::StaticClass();
+}
 
 void APotatoPlayerController::BeginPlay()
 {

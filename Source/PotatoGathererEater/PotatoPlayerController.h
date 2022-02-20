@@ -13,6 +13,8 @@ class POTATOGATHEREREATER_API APotatoPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+	APotatoPlayerController();
+
 	virtual void BeginPlay() override;
 
 private:
