@@ -9,6 +9,8 @@
 
 #include "PotatoGameMode.generated.h"
 
+class APotato;
+
 UCLASS()
 class POTATOGATHEREREATER_API APotatoGameMode : public AGameMode
 {
@@ -18,6 +20,8 @@ public:
 	virtual void Tick(float dt) override;
 
 	bool ChangeRole(APotatoPlayerController* playerController);
+
+	void SpawnPotato(const FTransform& transform, const FVector& velocity);
 	
 private:
 	virtual void BeginPlay() override;
@@ -32,6 +36,9 @@ private:
 
 	UPROPERTY(Transient)
 	TArray<UPotatoGameRole*> _roles;
+
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<APotato>> _potatoTypes;
 
 	UPROPERTY(EditAnywhere)
 	TArray<TSubclassOf<UPotatoGameRole>> _rolesTypes;

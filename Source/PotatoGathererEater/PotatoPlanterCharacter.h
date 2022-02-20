@@ -26,7 +26,4 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float _spawnVelocity;
-
-	UPROPERTY(EditAnywhere)
-	TArray<TSubclassOf<APotato>> _potatoTypes;
 };

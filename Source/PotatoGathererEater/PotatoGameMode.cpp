@@ -142,3 +142,23 @@ bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 
 	return success;
 }
+
+void APotatoGameMode::SpawnPotato(const FTransform& transform, const FVector& velocity)
+{
+	UWorld* world = GetWorld();
+	if (ensure(IsValid(world)))
+	{
+		APotatoGameMode* potatoGameMode = world->GetAuthGameMode<APotatoGameMode>();
+		if (ensure(IsValid(potatoGameMode)))
+		{
+			if(ensure(_potatoTypes.Num() > 0))
+			{
+				const TSubclassOf<APotato>& potatoType = _potatoTypes[FMath::RandRange(0, _potatoTypes.Num() - 1)];
+
+				APotato* newPotato = world->SpawnActor<APotato>(potatoType, transform);
+				UPrimitiveComponent* potatoPrimitiveComponent = Cast<UPrimitiveComponent>(newPotato->GetRootComponent());
+				potatoPrimitiveComponent->SetPhysicsLinearVelocity(velocity);
+			}
+		}
+	}
+}
