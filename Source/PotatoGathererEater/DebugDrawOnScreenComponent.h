@@ -40,7 +40,6 @@ struct FDrawOnScreenBoxProperties
 	float Thickness = 1.f;
 };
 
-
 USTRUCT()
 struct FDrawOnScreenCircleProperties
 {
@@ -60,6 +59,24 @@ struct FDrawOnScreenCircleProperties
 
 	UPROPERTY(EditAnywhere)
 	float Thickness = 1.f;
+};
+
+USTRUCT()
+struct FDrawOnScreenTextProperties
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere)
+	FColor Color = FColor::Black;
+
+	UPROPERTY(EditAnywhere)
+	FText Message;
+
+	UPROPERTY(EditAnywhere)
+	FVector2D Position = FVector2D(0, 0);
+
+	UPROPERTY(EditAnywhere)
+	FVector2D Scale = FVector2D(1,1);
 };
 
 class UCanvas;
@@ -96,4 +113,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Debug Circle", meta = (EditCondition = "_circleEnabled"))
 	FDrawOnScreenCircleProperties _circleProperties;
+
+	UPROPERTY(EditAnywhere, Category = "Text Line")
+	bool _textEnabled = false;
+
+	UPROPERTY(EditAnywhere, Category = "Text Line", meta = (EditCondition = "_textEnabled"))
+	FDrawOnScreenTextProperties _textProperties;
 };

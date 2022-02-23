@@ -2,12 +2,15 @@
 
 
 #include "PotatoPlanterCharacter.h"
+#include "PotatoGameMode.h"
+
 
 #include "Components/InputComponent.h"
+#include "DisplayDebugHelpers.h"
+#include "DrawDebugHelpers.h"
+#include "Engine/Canvas.h"
 #include "GameFramework/MovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "DrawDebugHelpers.h"
-#include "PotatoGameMode.h"
 
 void APotatoPlanterCharacter::Authority_PlantPotato()
 {
@@ -53,4 +56,16 @@ void APotatoPlanterCharacter::SetupPlayerInputComponent(class UInputComponent* P
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APotatoPlanterCharacter::Server_PlantPotato);
+}
+
+void APotatoPlanterCharacter::DisplayDebug(UCanvas* Canvas, const FDebugDisplayInfo& DebugDisplay, float& YL, float& YPos)
+{
+ 	Super::DisplayDebug(Canvas, DebugDisplay, YL, YPos);
+	if(IsValid(Canvas))
+	{
+		if (DebugDisplay.IsDisplayOn(FName("PotatoPlanterCharacter")))
+		{
+			DrawDebugCanvas2DLine(Canvas, FVector2D(100, 100), FVector2D(200, 200), FLinearColor::Green, 5);
+		}
+	}
 }

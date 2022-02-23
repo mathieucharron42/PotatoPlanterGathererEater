@@ -20,7 +20,7 @@ public:
 	
 private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	virtual void DisplayDebug(class UCanvas* Canvas, const class FDebugDisplayInfo& DebugDisplay, float& YL, float& YPos) override;
 	UPROPERTY(EditAnywhere)
 	FVector _spawn;
 

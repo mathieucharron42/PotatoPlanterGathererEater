@@ -36,6 +36,13 @@ void UDebugDrawOnScreenComponent::OnPostRender(AHUD* HUD, UCanvas* canvas)
 		{
 			DrawDebugCanvas2DCircle(canvas, _circleProperties.Center, _circleProperties.Radius, _circleProperties.NbSide, _circleProperties.Color, _circleProperties.Thickness);
 		}
+
+		if (_textEnabled)
+		{
+			FCanvasTextItem textItem(_textProperties.Position, _textProperties.Message, GEngine->GetMediumFont(), _textProperties.Color);
+			textItem.Scale = _textProperties.Scale;
+			canvas->DrawItem(textItem);
+		}
 	}
 }
 
