@@ -2,14 +2,32 @@
 
 #include "UObject/NoExportTypes.h"
 
+static TAutoConsoleVariable<int32> CVarWasteTime(
+	TEXT("potato.WasteTime"),
+	0,
+	TEXT("Determine whether program will purposely waste time"),
+	ECVF_Cheat);
+
+static TAutoConsoleVariable<int32> CVarWasteMemory(
+	TEXT("potato.WasteMemory"),
+	0,
+	TEXT("Determine whether program will purposely waste memory"),
+	ECVF_Cheat);
+
 void PotatoUtilities::DoSomething(float value)
 {
-	WasteTime(value);
+	if(CVarWasteTime.GetValueOnGameThread())
+	{
+		WasteTime(value);
+	}
 }
 
 void PotatoUtilities::DoSomethingElse(int32 value)
 {
-	WasteMemory(value);
+	if (CVarWasteMemory.GetValueOnGameThread())
+	{
+		WasteMemory(value);
+	}
 }
 
 void PotatoUtilities::WasteTime(float seconds)

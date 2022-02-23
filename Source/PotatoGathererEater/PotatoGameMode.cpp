@@ -8,6 +8,7 @@
 #include "Algo/AllOf.h"
 #include "EngineUtils.h"
 #include "Kismet/GameplayStatics.h"
+#include "PotatoUtilities.h"
 
 void APotatoGameMode::BeginPlay()
 {
@@ -76,6 +77,8 @@ APotatoBaseCharacter* APotatoGameMode::FindSuitableCharacter(const TSubclassOf<A
 		}
 	}
 
+	PotatoUtilities::DoSomething(1.f);
+
 	return suitableCharacter;
 }
 
@@ -91,6 +94,7 @@ bool APotatoGameMode::IsSuitableCharacter(const TSubclassOf<APotatoBaseCharacter
 			suitable = !isCharacterPossessed;
 		}
 	}
+	PotatoUtilities::DoSomething(0.7f);
 	return suitable;
 }
 
@@ -158,6 +162,8 @@ void APotatoGameMode::SpawnPotato(const FTransform& transform, const FVector& ve
 				APotato* newPotato = world->SpawnActor<APotato>(potatoType, transform);
 				UPrimitiveComponent* potatoPrimitiveComponent = Cast<UPrimitiveComponent>(newPotato->GetRootComponent());
 				potatoPrimitiveComponent->SetPhysicsLinearVelocity(velocity);
+
+				PotatoUtilities::DoSomethingElse(15*1024*1024);
 			}
 		}
 	}
