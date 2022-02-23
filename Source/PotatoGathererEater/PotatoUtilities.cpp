@@ -2,6 +2,8 @@
 
 #include "UObject/NoExportTypes.h"
 
+DEFINE_LOG_CATEGORY(LogPotatoGame);
+
 static TAutoConsoleVariable<int32> CVarWasteTime(
 	TEXT("potato.WasteTime"),
 	0,

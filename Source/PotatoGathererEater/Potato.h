@@ -10,7 +10,7 @@
 
 #include "Potato.generated.h"
 
-class UDecayComponent;
+DECLARE_LOG_CATEGORY_EXTERN(LogPotato, Log, All);
 
 UCLASS(Abstract)
 class POTATOGATHEREREATER_API APotato : public AActor

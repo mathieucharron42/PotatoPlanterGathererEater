@@ -149,6 +149,7 @@ bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 
 void APotatoGameMode::SpawnPotato(const FTransform& transform, const FVector& velocity)
 {
+	UE_LOG(LogPotatoGame, Log, TEXT("Spawning potato at %s with velocity %s"), *transform.ToString(), *velocity.ToString())
 	UWorld* world = GetWorld();
 	if (ensure(IsValid(world)))
 	{
@@ -162,6 +163,8 @@ void APotatoGameMode::SpawnPotato(const FTransform& transform, const FVector& ve
 				APotato* newPotato = world->SpawnActor<APotato>(potatoType, transform);
 				UPrimitiveComponent* potatoPrimitiveComponent = Cast<UPrimitiveComponent>(newPotato->GetRootComponent());
 				potatoPrimitiveComponent->SetPhysicsLinearVelocity(velocity);
+
+				UE_LOG(LogPotatoGame, Log, TEXT("Spawned potato of type %s"), *potatoType->GetName())
 
 				PotatoUtilities::DoSomethingElse(15*1024*1024);
 			}

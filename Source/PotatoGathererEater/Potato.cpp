@@ -1,9 +1,11 @@
 #include "Potato.h"
 #include "PotatoManagerSubsystem.h"
 
+DEFINE_LOG_CATEGORY(LogPotato);
+
 APotato::APotato()
 {
-	SetReplicates(true);
+	bReplicates = true;
 	SetReplicateMovement(true);
 }
 
@@ -15,6 +17,8 @@ void APotato::BeginPlay()
 
 	UPotatoManagerSubsystem* potatoManager = GetGameInstance()->GetSubsystem<UPotatoManagerSubsystem>();
 	potatoManager->RegisterPotato(this);
+
+	UE_LOG(LogPotato, Log, TEXT("Spawned potato at %s"), *GetActorLocation().ToString())
 }
 
 void APotato::EndPlay(const EEndPlayReason::Type endPlayReason)
@@ -23,6 +27,8 @@ void APotato::EndPlay(const EEndPlayReason::Type endPlayReason)
 
 	UPotatoManagerSubsystem* potatoManager = GetGameInstance()->GetSubsystem<UPotatoManagerSubsystem>();
 	potatoManager->UnregisterPotato(this);
+
+	UE_LOG(LogPotato, Log, TEXT("Unspawned potato at %s"), *GetActorLocation().ToString())
 }
 
 const FNutritionalInformations& APotato::GetNutritionalInformations() const
