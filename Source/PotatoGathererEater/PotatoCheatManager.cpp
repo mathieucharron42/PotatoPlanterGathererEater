@@ -9,7 +9,7 @@
 #include "PotatoGameMode.h"
 #include <EngineUtils.h>
 
-void UPotatoCheatManager::SpawnPotatoes(int32 amount)
+void UPotatoCheatManager::Potato_SpawnPotatoes(int32 amount)
 {
 	UWorld* world = GetWorld();
 	const APotatoPlayerController* controller = Cast<APotatoPlayerController>(GetOuterAPlayerController());
@@ -36,7 +36,7 @@ void UPotatoCheatManager::SpawnPotatoes(int32 amount)
 	}
 }
 
-void UPotatoCheatManager::ClearPotatoes()
+void UPotatoCheatManager::Potato_ClearPotatoes()
 {
 	UWorld* world = GetWorld();
 	for (TActorIterator<APotato> actorItr(world); actorItr; ++actorItr)

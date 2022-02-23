@@ -15,8 +15,8 @@ class POTATOGATHEREREATER_API UPotatoCheatManager : public UCheatManager
 	GENERATED_BODY()
 	
 	UFUNCTION(Exec)
-	void SpawnPotatoes(int32 amount);
+	void Potato_SpawnPotatoes(int32 amount);
 
 	UFUNCTION(Exec)
-	void ClearPotatoes();
+	void Potato_ClearPotatoes();
 };
