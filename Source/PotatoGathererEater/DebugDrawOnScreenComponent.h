@@ -114,9 +114,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Debug Circle", meta = (EditCondition = "_circleEnabled"))
 	FDrawOnScreenCircleProperties _circleProperties;
 
-	UPROPERTY(EditAnywhere, Category = "Text Line")
+	UPROPERTY(EditAnywhere, Category = "Debug Text")
 	bool _textEnabled = false;
 
-	UPROPERTY(EditAnywhere, Category = "Text Line", meta = (EditCondition = "_textEnabled"))
+	UPROPERTY(EditAnywhere, Category = "Debug Text", meta = (EditCondition = "_textEnabled"))
 	FDrawOnScreenTextProperties _textProperties;
 };
