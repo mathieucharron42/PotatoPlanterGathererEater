@@ -44,3 +44,12 @@ void UPotatoCheatManager::Potato_ClearPotatoes()
 		actorItr->Destroy();
 	}
 }
+
+void UPotatoCheatManager::Potato_ScalePotatoes(float scale)
+{
+	UWorld* world = GetWorld();
+	for (TActorIterator<APotato> actorItr(world); actorItr; ++actorItr)
+	{
+		actorItr->Cheat_Scale(scale);
+	}
+}

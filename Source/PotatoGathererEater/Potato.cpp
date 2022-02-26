@@ -31,6 +31,11 @@ void APotato::EndPlay(const EEndPlayReason::Type endPlayReason)
 	UE_LOG(LogPotato, Log, TEXT("Unspawned potato at %s"), *GetActorLocation().ToString())
 }
 
+void APotato::Cheat_Scale(float scale)
+{
+	SetActorScale3D(FVector(scale, scale, scale));
+}
+
 const FNutritionalInformations& APotato::GetNutritionalInformations() const
 {
 	return _nutritionalInformations;

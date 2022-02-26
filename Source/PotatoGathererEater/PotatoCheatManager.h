@@ -19,4 +19,7 @@ class POTATOGATHEREREATER_API UPotatoCheatManager : public UCheatManager
 
 	UFUNCTION(Exec)
 	void Potato_ClearPotatoes();
+
+	UFUNCTION(Exec)
+	void Potato_ScalePotatoes(float scale);
 };

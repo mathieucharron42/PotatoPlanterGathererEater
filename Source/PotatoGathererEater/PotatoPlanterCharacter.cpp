@@ -12,6 +12,17 @@
 #include "GameFramework/MovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
+static TAutoConsoleVariable<float> CVarAutoPlantPotatoRate(
+	TEXT("potato.AutoPlantPotatoRate"),
+	-1,
+	TEXT("Rate at which planter automatically plant potato (-1 for disabled)")
+);
+
+APotatoPlanterCharacter::APotatoPlanterCharacter()
+{
+	PrimaryActorTick.bCanEverTick = true;
+}
+
 void APotatoPlanterCharacter::Authority_PlantPotato()
 {
 	if (ensure(HasAuthority()))
@@ -66,6 +77,20 @@ void APotatoPlanterCharacter::DisplayDebug(UCanvas* Canvas, const FDebugDisplayI
 		if (DebugDisplay.IsDisplayOn(FName("PotatoPlanterCharacter")))
 		{
 			DrawDebugCanvas2DLine(Canvas, FVector2D(100, 100), FVector2D(200, 200), FLinearColor::Green, 5);
+		}
+	}
+}
+
+void APotatoPlanterCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	if (CVarAutoPlantPotatoRate.GetValueOnGameThread() != -1)
+	{
+		_cheatAutoPlantNextTime -= DeltaSeconds;
+		if (_cheatAutoPlantNextTime <= 0)
+		{
+			Server_PlantPotato();
+			_cheatAutoPlantNextTime = CVarAutoPlantPotatoRate.GetValueOnGameThread();
 		}
 	}
 }

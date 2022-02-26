@@ -18,6 +18,8 @@ class POTATOGATHEREREATER_API APotato : public AActor
 	GENERATED_BODY()
 
 public:	
+	friend class UPotatoCheatManager;
+
 	APotato();
 
 	float GetWeight() const { return _weight; }
@@ -29,6 +31,8 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type endPlayReason) override;
 
 private:
+	void Cheat_Scale(float scale);
+
 	UPROPERTY(EditAnywhere)
 	float _weight;
 
