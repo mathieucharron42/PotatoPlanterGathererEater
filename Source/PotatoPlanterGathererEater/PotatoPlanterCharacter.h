@@ -8,7 +8,7 @@
 #include "PotatoPlanterCharacter.generated.h"
 
 UCLASS(Abstract)
-class POTATOGATHEREREATER_API APotatoPlanterCharacter : public APotatoBaseCharacter
+class POTATOPLANTERGATHEREREATER_API APotatoPlanterCharacter : public APotatoBaseCharacter
 {
 	GENERATED_BODY()
 

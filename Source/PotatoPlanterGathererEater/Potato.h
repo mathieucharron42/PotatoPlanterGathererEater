@@ -13,7 +13,7 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogPotato, Log, All);
 
 UCLASS(Abstract)
-class POTATOGATHEREREATER_API APotato : public AActor
+class POTATOPLANTERGATHEREREATER_API APotato : public AActor
 {
 	GENERATED_BODY()
 

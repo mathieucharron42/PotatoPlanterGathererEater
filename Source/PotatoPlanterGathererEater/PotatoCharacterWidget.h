@@ -11,7 +11,7 @@
 #include "PotatoCharacterWidget.generated.h"
 
 UCLASS()
-class POTATOGATHEREREATER_API UPotatoCharacterWidget : public UUserWidget
+class POTATOPLANTERGATHEREREATER_API UPotatoCharacterWidget : public UUserWidget
 {
 	GENERATED_BODY()
 

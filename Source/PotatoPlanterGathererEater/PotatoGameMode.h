@@ -12,7 +12,7 @@
 class APotato;
 
 UCLASS()
-class POTATOGATHEREREATER_API APotatoGameMode : public AGameMode
+class POTATOPLANTERGATHEREREATER_API APotatoGameMode : public AGameMode
 {
 	GENERATED_BODY()
 

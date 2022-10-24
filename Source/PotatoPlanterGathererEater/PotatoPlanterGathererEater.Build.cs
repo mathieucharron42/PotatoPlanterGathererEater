@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class PotatoGathererEater : ModuleRules
+public class PotatoPlanterGathererEater : ModuleRules
 {
-	public PotatoGathererEater(ReadOnlyTargetRules Target) : base(Target)
+	public PotatoPlanterGathererEater(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 

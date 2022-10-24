@@ -10,7 +10,7 @@ class UDebugDrawInWorldComponent;
 class USphereComponent;
 
 UCLASS()
-class POTATOGATHEREREATER_API ADummy : public AActor
+class POTATOPLANTERGATHEREREATER_API ADummy : public AActor
 {
 	GENERATED_BODY()
 	

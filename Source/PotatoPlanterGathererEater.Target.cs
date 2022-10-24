@@ -3,12 +3,12 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class PotatoGathererEaterTarget : TargetRules
+public class PotatoPlanterGathererEaterTarget : TargetRules
 {
-	public PotatoGathererEaterTarget(TargetInfo Target) : base(Target)
+	public PotatoPlanterGathererEaterTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.Add("PotatoGathererEater");
+		ExtraModuleNames.Add("PotatoPlanterGathererEater");
 	}
 }

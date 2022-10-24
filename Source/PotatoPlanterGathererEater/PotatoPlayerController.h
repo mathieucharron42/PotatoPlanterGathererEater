@@ -9,7 +9,7 @@
 #include "PotatoPlayerController.generated.h"
 
 UCLASS()
-class POTATOGATHEREREATER_API APotatoPlayerController : public APlayerController
+class POTATOPLANTERGATHEREREATER_API APotatoPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 

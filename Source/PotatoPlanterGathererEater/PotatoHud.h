@@ -10,7 +10,7 @@
 #include "PotatoHud.generated.h"
 
 UCLASS()
-class POTATOGATHEREREATER_API APotatoHud : public AHUD
+class POTATOPLANTERGATHEREREATER_API APotatoHud : public AHUD
 {
 	GENERATED_BODY()
 

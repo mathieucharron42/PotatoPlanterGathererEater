@@ -10,7 +10,7 @@
 class APotato;
 
 UCLASS()
-class POTATOGATHEREREATER_API UPotatoManagerSubsystem : public UGameInstanceSubsystem
+class POTATOPLANTERGATHEREREATER_API UPotatoManagerSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 

@@ -115,7 +115,7 @@ struct FDrawInWorldTextProperties
 };
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class POTATOGATHEREREATER_API UDebugDrawInWorldComponent : public USceneComponent
+class POTATOPLANTERGATHEREREATER_API UDebugDrawInWorldComponent : public USceneComponent
 {
 	GENERATED_BODY()
 

@@ -10,7 +10,7 @@
 #include "PotatoGathererCharacter.generated.h"
 
 UCLASS(Abstract)
-class POTATOGATHEREREATER_API APotatoGathererCharacter : public APotatoBaseCharacter
+class POTATOPLANTERGATHEREREATER_API APotatoGathererCharacter : public APotatoBaseCharacter
 {
 	GENERATED_BODY()
 public:

@@ -9,7 +9,7 @@
 #include "PotatoEaterCharacter.generated.h"
 
 UCLASS()
-class POTATOGATHEREREATER_API APotatoEaterCharacter : public APotatoBaseCharacter
+class POTATOPLANTERGATHEREREATER_API APotatoEaterCharacter : public APotatoBaseCharacter
 {
 	GENERATED_BODY()
 

@@ -1,4 +1,4 @@
-# PotatoGathererEater
+# PotatoPlanterGathererEater
 A staging of potato planter, potato gatherers and potato eaters
 ![Planter](/Jean_Francois_Millet.jpg)
 ![Gatherer](/October.jpg)

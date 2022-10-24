@@ -83,7 +83,7 @@ class UCanvas;
 class AHUD;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class POTATOGATHEREREATER_API UDebugDrawOnScreenComponent : public USceneComponent
+class POTATOPLANTERGATHEREREATER_API UDebugDrawOnScreenComponent : public USceneComponent
 {
 	GENERATED_BODY()
 

@@ -73,7 +73,7 @@ void APotatoBaseCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 
 void APotatoBaseCharacter::OnResetVR()
 {
-	// If PotatoGathererEater is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in PotatoGathererEater.Build.cs is not automatically propagated
+	// If PotatoPlanterGathererEater is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in PotatoPlanterGathererEater.Build.cs is not automatically propagated
 	// and a linker error will result.
 	// You will need to either:
 	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).

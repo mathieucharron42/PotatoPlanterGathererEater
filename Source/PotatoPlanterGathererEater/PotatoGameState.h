@@ -7,7 +7,7 @@
 #include "PotatoGameState.generated.h"
 
 UCLASS()
-class POTATOGATHEREREATER_API APotatoGameState : public AGameState
+class POTATOPLANTERGATHEREREATER_API APotatoGameState : public AGameState
 {
 	GENERATED_BODY()
 

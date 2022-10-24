@@ -18,7 +18,7 @@ enum class EGameRoleType
 };
 
 UCLASS(Blueprintable, BlueprintType)
-class POTATOGATHEREREATER_API UPotatoGameRole : public UObject
+class POTATOPLANTERGATHEREREATER_API UPotatoGameRole : public UObject
 {
 	GENERATED_BODY()
 public:

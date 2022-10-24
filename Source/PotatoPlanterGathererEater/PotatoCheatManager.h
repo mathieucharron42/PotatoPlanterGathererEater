@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class POTATOGATHEREREATER_API UPotatoCheatManager : public UCheatManager
+class POTATOPLANTERGATHEREREATER_API UPotatoCheatManager : public UCheatManager
 {
 	GENERATED_BODY()
 	

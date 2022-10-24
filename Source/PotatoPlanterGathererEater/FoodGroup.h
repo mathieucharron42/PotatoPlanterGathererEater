@@ -8,7 +8,7 @@
 #include "FoodGroup.generated.h"
 
 UCLASS(Blueprintable, BlueprintType)
-class POTATOGATHEREREATER_API UFoodGroup : public UObject
+class POTATOPLANTERGATHEREREATER_API UFoodGroup : public UObject
 {
 	GENERATED_BODY()
 
