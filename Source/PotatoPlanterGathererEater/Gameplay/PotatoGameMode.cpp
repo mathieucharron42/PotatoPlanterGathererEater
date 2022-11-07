@@ -10,16 +10,6 @@
 #include "EngineUtils.h"
 #include "Kismet/GameplayStatics.h"
 
-void APotatoGameMode::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void APotatoGameMode::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
-}
-
 void APotatoGameMode::RestartPlayer(AController* NewPlayer)
 {
 	if (NewPlayer->IsA<APotatoPlayerController>())
@@ -122,7 +112,7 @@ bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 
 	for (FPotatoGameRole role = GetNextRole(initialRole); initialRole != role; role = GetNextRole(initialRole))
 	{
-		APotatoBaseCharacter* character = FindSuitableCharacter(role.CharacterType);
+		APotatoBaseCharacter* character = FindSuitableCharacter(role.GetCharacterType());
 		if (IsValid(character))
 		{
 			playerController->Possess(character);

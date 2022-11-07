@@ -1,5 +1,6 @@
 #include "PotatoEaterCharacter.h"
 
+#include "GameFramework/SpringArmComponent.h"
 #include "Net/UnrealNetwork.h"
 
 void APotatoEaterCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const

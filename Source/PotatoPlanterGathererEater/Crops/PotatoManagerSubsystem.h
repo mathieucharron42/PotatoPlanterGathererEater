@@ -16,6 +16,8 @@ public:
 	void RegisterPotato(APotato* potato);
 	void UnregisterPotato(APotato* potato);
 
+	const TArray<APotato*> GetPotatoes() const;
+
 private:
 	UPROPERTY()
 	TArray<APotato*> _potatoes;

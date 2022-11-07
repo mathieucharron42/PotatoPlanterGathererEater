@@ -4,9 +4,10 @@
 #include "PotatoPlanterGathererEater/Characters/PotatoBaseCharacter.h"
 
 #include "CoreMinimal.h"
-#include "GameFramework/SpringArmComponent.h"
 
 #include "PotatoEaterCharacter.generated.h"
+
+class USpringArmComponent;
 
 UCLASS()
 class POTATOPLANTERGATHEREREATER_API APotatoEaterCharacter : public APotatoBaseCharacter

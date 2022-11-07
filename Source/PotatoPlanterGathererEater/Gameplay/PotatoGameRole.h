@@ -19,20 +19,25 @@ struct POTATOPLANTERGATHEREREATER_API FPotatoGameRole
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere)
-	EGameRoleType RoleType;
+	EGameRoleType GetRoleType() const { return _roleType; }
 
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<APotatoBaseCharacter> CharacterType;
+	TSubclassOf<APotatoBaseCharacter> GetCharacterType() const { return _characterType; }
 
 	bool operator==(const FPotatoGameRole& other) const
 	{
-		return RoleType == other.RoleType
-			&& CharacterType == other.CharacterType;
+		return _roleType == other._roleType
+			&& _characterType == other._characterType;
 	}
 
 	bool operator!=(const FPotatoGameRole& other) const
 	{
 		return !(operator==(other));
 	}
+
+private:
+	UPROPERTY(EditAnywhere)
+	EGameRoleType _roleType;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<APotatoBaseCharacter> _characterType;
 };

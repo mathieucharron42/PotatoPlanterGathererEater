@@ -2,6 +2,7 @@
 
 #include "PotatoPlanterGathererEater/Characters/PotatoBaseCharacter.h"
 #include "PotatoPlanterGathererEater/Crops/Potato.h"
+#include "PotatoPlanterGathererEater/Crops/PotatoManagerSubsystem.h"
 #include "PotatoPlanterGathererEater/Gameplay/PotatoPlayerController.h"
 #include "PotatoPlanterGathererEater/Gameplay/PotatoGameMode.h"
 
@@ -46,8 +47,21 @@ void UPotatoCheatManager::Potato_ClearPotatoes()
 void UPotatoCheatManager::Potato_ScalePotatoes(float scale)
 {
 	UWorld* world = GetWorld();
-	for (TActorIterator<APotato> actorItr(world); actorItr; ++actorItr)
+	if (ensure(IsValid(world)))
 	{
-		actorItr->Cheat_Scale(scale);
+		UGameInstance* gameInstance = world->GetGameInstance();
+		if (ensure(IsValid(gameInstance)))
+		{
+			UPotatoManagerSubsystem* potatoSubsystem = gameInstance->GetSubsystem<UPotatoManagerSubsystem>();
+			for (APotato* potato : potatoSubsystem->GetPotatoes())
+			{
+				if (ensure(IsValid(potato)))
+				{
+					potato->Cheat_Scale(scale);
+				}
+			}
+
+			// Aussi considérer for (TActorIterator<APotato> actorItr(world); actorItr; ++actorItr) bien que plus lent
+		}
 	}
 }

@@ -22,7 +22,7 @@ private:
 
 	void QuitGame();
 
-	UFUNCTION(Server, Reliable, WithValidation)
+	UFUNCTION(Server, Reliable)
 	void Server_ChangeRole();
 
 	void Authority_ChangeRole();

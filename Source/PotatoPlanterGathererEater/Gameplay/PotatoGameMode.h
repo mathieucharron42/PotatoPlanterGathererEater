@@ -24,11 +24,8 @@ public:
 	void SpawnPotato(const FTransform& transform, const FVector& velocity);
 	
 private:
-	virtual void BeginPlay() override;
-	virtual void PostInitializeComponents() override;
 	virtual void RestartPlayer(AController* NewPlayer) override;
 	
-
 	void CheckGameEnded();
 	APotatoBaseCharacter* FindSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type);
 	bool IsSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type, const APotatoBaseCharacter* character);

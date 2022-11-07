@@ -32,11 +32,6 @@ void APotatoPlayerController::Server_ChangeRole_Implementation()
 	Authority_ChangeRole();
 }
 
-bool APotatoPlayerController::Server_ChangeRole_Validate()
-{
-	return true;
-}
-
 void APotatoPlayerController::Authority_ChangeRole()
 {
 	if(ensure(HasAuthority()))

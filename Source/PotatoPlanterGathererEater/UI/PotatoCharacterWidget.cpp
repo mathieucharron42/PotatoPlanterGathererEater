@@ -24,7 +24,7 @@ void UPotatoCharacterWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 		APotatoPlayerState* playerState = _player->GetPlayerState<APotatoPlayerState>();
 		if (IsValid(playerState))
 		{
-			EGameRoleType roleType = playerState->GetCurrentRole().RoleType;
+			EGameRoleType roleType = playerState->GetCurrentRole().GetRoleType();
 			instructions.Add("Press Tab to change character");
 			if (roleType == EGameRoleType::Eater)
 			{

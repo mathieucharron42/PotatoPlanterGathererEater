@@ -9,3 +9,8 @@ void UPotatoManagerSubsystem::UnregisterPotato(APotato* potato)
 {
 	_potatoes.Remove(potato);
 }
+
+const TArray<APotato*> UPotatoManagerSubsystem::GetPotatoes() const
+{
+	return _potatoes;
+}
