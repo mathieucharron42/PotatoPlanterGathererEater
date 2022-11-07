@@ -7,7 +7,7 @@ Developed with Unreal Engine 4.27.1 and 5.0.3.
 
 ### Potato Planter
 A selfless worker farming the next harvest of potatoes.
-![Planter](/Jean_Francois_Millet.jpg) 
+![Planter](/Jean_Francois_Millet.jpg)                         
 Source: *L'Homme à la houe* by Jean-François Millet
 
 ### Potato Gatherer
