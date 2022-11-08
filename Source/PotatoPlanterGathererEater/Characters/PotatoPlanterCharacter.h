@@ -13,7 +13,6 @@ class POTATOPLANTERGATHEREREATER_API APotatoPlanterCharacter : public APotatoBas
 	GENERATED_BODY()
 
 public:
-
 	APotatoPlanterCharacter();
 
 	void Authority_PlantPotato();

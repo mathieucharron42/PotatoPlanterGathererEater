@@ -38,9 +38,18 @@ void UPotatoCheatManager::Potato_SpawnPotatoes(int32 amount)
 void UPotatoCheatManager::Potato_ClearPotatoes()
 {
 	UWorld* world = GetWorld();
-	for (TActorIterator<APotato> actorItr(world); actorItr; ++actorItr)
+	if (ensure(IsValid(world)))
 	{
-		actorItr->Destroy();
+		UGameInstance* gameInstance = world->GetGameInstance();
+		if (ensure(IsValid(gameInstance)))
+		{
+			UPotatoManagerSubsystem* potatoSubsystem = gameInstance->GetSubsystem<UPotatoManagerSubsystem>();
+			// Aussi considérer for (TActorIterator<APotato> actorItr(world); actorItr; ++actorItr) bien que plus lent
+			for (APotato* potato : potatoSubsystem->GetPotatoes())
+			{
+				potato->Destroy();
+			}
+		}
 	}
 }
 
@@ -53,6 +62,7 @@ void UPotatoCheatManager::Potato_ScalePotatoes(float scale)
 		if (ensure(IsValid(gameInstance)))
 		{
 			UPotatoManagerSubsystem* potatoSubsystem = gameInstance->GetSubsystem<UPotatoManagerSubsystem>();
+			// Aussi considérer for (TActorIterator<APotato> actorItr(world); actorItr; ++actorItr) bien que plus lent
 			for (APotato* potato : potatoSubsystem->GetPotatoes())
 			{
 				if (ensure(IsValid(potato)))
@@ -60,8 +70,6 @@ void UPotatoCheatManager::Potato_ScalePotatoes(float scale)
 					potato->Cheat_Scale(scale);
 				}
 			}
-
-			// Aussi considérer for (TActorIterator<APotato> actorItr(world); actorItr; ++actorItr) bien que plus lent
 		}
 	}
 }
