@@ -5,35 +5,26 @@
 #include "PotatoPlanterGathererEater/Characters/PotatoBaseCharacter.h"
 
 #include "CoreMinimal.h"
-#include "Components/SkeletalMeshComponent.h"
 
 #include "PotatoGathererCharacter.generated.h"
+
+class UPotatoPickUpComponent;
 
 UCLASS(Abstract)
 class POTATOPLANTERGATHEREREATER_API APotatoGathererCharacter : public APotatoBaseCharacter
 {
 	GENERATED_BODY()
 public:
+	APotatoGathererCharacter();
+	
 	bool IsHoldingPotato() const;
 
-private:
+protected:
 	virtual void BeginPlay() override;
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
-	virtual void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
+
+private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
-	void Authority_PickupPotato(APotato* potato);
-
-	UFUNCTION(Server, Reliable)
-	void Server_DropPotato();
-	void Authority_DropPotato();
-
-	UFUNCTION()
-	void OnRep_HeldPotato(APotato* old);
-
-	UPROPERTY(Transient, Replicated, ReplicatedUsing=OnRep_HeldPotato)
-	APotato* _heldPotato = nullptr;
-
-	UPROPERTY(Transient)
-	USkeletalMeshComponent* _characterMeshComponent = nullptr;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
+	UPotatoPickUpComponent* _potatoPickUpComponent = nullptr;
 };
