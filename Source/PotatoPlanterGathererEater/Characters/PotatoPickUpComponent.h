@@ -21,9 +21,8 @@ public:
 	
 	UFUNCTION(Server, Reliable)
 	void Server_DropPotato();
-	void Authority_DropPotato();
+	APotato* Authority_DropPotato();
 
-	APotato* Authority_RemovePotato();
 
 protected:
 	virtual void BeginPlay() override;

@@ -31,7 +31,7 @@ void UPotatoPickUpComponent::EndPlay(EEndPlayReason::Type endPlayReason)
 {
 	Super::EndPlay(endPlayReason);
 	AActor* owner = GetOwner();
-	if (ensure(IsValid(owner)))
+	if (IsValid(owner))
 	{
 		owner->OnActorBeginOverlap.RemoveDynamic(this, &UPotatoPickUpComponent::OnOwnerOverlap);
 		owner->OnActorHit.RemoveDynamic(this, &UPotatoPickUpComponent::OnOwnerHit);
@@ -90,22 +90,7 @@ void UPotatoPickUpComponent::Server_DropPotato_Implementation()
 	Authority_DropPotato();
 }
 
-void UPotatoPickUpComponent::Authority_DropPotato()
-{
-	AActor* owner = GetOwner();
-	if (ensure(IsValid(owner)))
-	{
-		if (ensure(owner->HasAuthority()))
-		{
-			if (IsHoldingPotato())
-			{
-				SetHeldPotato(nullptr);
-			}
-		}
-	}
-}
-
-APotato* UPotatoPickUpComponent::Authority_RemovePotato()
+APotato* UPotatoPickUpComponent::Authority_DropPotato()
 {
 	APotato* potato = nullptr;
 

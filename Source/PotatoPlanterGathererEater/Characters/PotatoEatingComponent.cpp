@@ -29,7 +29,7 @@ void UPotatoEatingComponent::EndPlay(EEndPlayReason::Type endPlayReason)
 {
 	Super::EndPlay(endPlayReason);
 	AActor* owner = GetOwner();
-	if (ensure(IsValid(owner)))
+	if (IsValid(owner))
 	{
 		
 	}
@@ -84,7 +84,7 @@ void UPotatoEatingComponent::Server_EatHeldPotato_Implementation()
 {
 	if (_potatoPickUpComponent->IsHoldingPotato())
 	{
-		APotato* potato = _potatoPickUpComponent->Authority_RemovePotato();
+		APotato* potato = _potatoPickUpComponent->Authority_DropPotato();
 		Authority_EatPotato(potato);
 	}
 }
