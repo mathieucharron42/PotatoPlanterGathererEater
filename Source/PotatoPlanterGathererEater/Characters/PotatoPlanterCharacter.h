@@ -8,6 +8,7 @@
 #include "PotatoPlanterCharacter.generated.h"
 
 class UPotatoPlantingComponent;
+class UPotatoPickUpComponent;
 
 UCLASS(Abstract)
 class POTATOPLANTERGATHEREREATER_API APotatoPlanterCharacter : public APotatoBaseCharacter
@@ -22,4 +23,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
 	UPotatoPlantingComponent* _potatoPlantingComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
+	UPotatoPickUpComponent* _potatoPickUpComponent = nullptr;
 };

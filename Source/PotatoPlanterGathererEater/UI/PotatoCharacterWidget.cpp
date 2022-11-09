@@ -46,7 +46,6 @@ void UPotatoCharacterWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 				else if (roleType == EGameRoleType::Planter)
 				{
 					role = TEXT("Potato Planter");
-					
 					color = FColor::Emerald;
 				}
 
