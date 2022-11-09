@@ -20,12 +20,11 @@ public:
 	APotatoEaterCharacter();
 
 protected:
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent);
-	
-private:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(EEndPlayReason::Type reason) override;
-
+	
+private:
+	
 	void OnCaloriesEatenChanged();
 
 	void Authority_SetScale(float scale);

@@ -36,6 +36,7 @@ protected:
 	virtual void EndPlay(EEndPlayReason::Type endPlayReason) override;
 
 private:
+	void OnSetupPlayerInput(UInputComponent* inputComponent);
 	void SetCaloriesEaten(float calories);
 
 	UPROPERTY(EditAnywhere)

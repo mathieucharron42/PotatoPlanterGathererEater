@@ -6,6 +6,7 @@
 #include "PotatoPickUpComponent.generated.h"
 
 class APotato;
+class UInputComponent;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class POTATOPLANTERGATHEREREATER_API UPotatoPickUpComponent : public USceneComponent
@@ -34,6 +35,8 @@ private:
 	
 	UFUNCTION()
 	void OnOwnerHit(AActor* owningActor, AActor* otherActor, FVector normalImpulse, const FHitResult& hit);
+
+	void OnSetupPlayerInput(UInputComponent* inputComponent);
 
 	UFUNCTION()
 	void OnRep_HeldPotato(APotato* old);

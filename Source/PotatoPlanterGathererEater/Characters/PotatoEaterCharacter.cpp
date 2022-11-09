@@ -43,10 +43,3 @@ void APotatoEaterCharacter::Authority_SetScale(float scale)
 	SetActorScale3D(FVector(scale, scale, scale));
 	_springArmComponent->TargetArmLength = _initialSpringArmLenght * scale;
 }
-
-void APotatoEaterCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Release", IE_Pressed, _potatoPickUpComponent, &UPotatoPickUpComponent::Server_DropPotato);
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, _potatoEatingComponent, &UPotatoEatingComponent::Server_EatHeldPotato);
-}

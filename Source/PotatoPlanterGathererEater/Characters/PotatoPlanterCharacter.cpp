@@ -15,10 +15,3 @@ APotatoPlanterCharacter::APotatoPlanterCharacter()
 	_potatoPickUpComponent = CreateDefaultSubobject<UPotatoPickUpComponent>(TEXT("PotatoPickUpComponent"));
 	_potatoPickUpComponent->SetupAttachment(RootComponent);
 }
-
-void APotatoPlanterCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, _potatoPlantingComponent, &UPotatoPlantingComponent::Server_PlantPotato);
-	PlayerInputComponent->BindAction("Release", IE_Pressed, _potatoPickUpComponent, &UPotatoPickUpComponent::Server_DropPotato);
-}

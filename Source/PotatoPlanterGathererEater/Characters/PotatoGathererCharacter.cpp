@@ -9,14 +9,3 @@ APotatoGathererCharacter::APotatoGathererCharacter()
 	_potatoPickUpComponent = CreateDefaultSubobject<UPotatoPickUpComponent>(TEXT("PotatoPickUpComponent"));
 	_potatoPickUpComponent->SetupAttachment(RootComponent);
 }
-
-void APotatoGathererCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void APotatoGathererCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Release", IE_Pressed, _potatoPickUpComponent, &UPotatoPickUpComponent::Server_DropPotato);
-}

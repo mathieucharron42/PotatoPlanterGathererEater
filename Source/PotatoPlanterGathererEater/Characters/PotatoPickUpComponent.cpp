@@ -1,8 +1,12 @@
 #include "PotatoPickUpComponent.h"
 
 #include "PotatoPlanterGathererEater/Crops/Potato.h"
+#include "PotatoPlanterGathererEater/Characters/PotatoBaseCharacter.h"
 
 #include "Net/UnrealNetwork.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Components/InputComponent.h"
+
 
 UPotatoPickUpComponent::UPotatoPickUpComponent()
 {
@@ -18,23 +22,25 @@ void UPotatoPickUpComponent::GetLifetimeReplicatedProps(TArray< FLifetimePropert
 void UPotatoPickUpComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	AActor* owner = GetOwner();
+	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (ensure(IsValid(owner)))
 	{
 		_characterMeshComponent = owner->FindComponentByClass<USkeletalMeshComponent>();
 		owner->OnActorBeginOverlap.AddDynamic(this, &UPotatoPickUpComponent::OnOwnerOverlap);
 		owner->OnActorHit.AddDynamic(this, &UPotatoPickUpComponent::OnOwnerHit);
+		owner->OnSetupPlayerInput.AddUObject(this, &UPotatoPickUpComponent::OnSetupPlayerInput);
 	}
 }
 
 void UPotatoPickUpComponent::EndPlay(EEndPlayReason::Type endPlayReason)
 {
 	Super::EndPlay(endPlayReason);
-	AActor* owner = GetOwner();
+	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (IsValid(owner))
 	{
 		owner->OnActorBeginOverlap.RemoveDynamic(this, &UPotatoPickUpComponent::OnOwnerOverlap);
 		owner->OnActorHit.RemoveDynamic(this, &UPotatoPickUpComponent::OnOwnerHit);
+		owner->OnSetupPlayerInput.RemoveAll(this);
 	}
 }
 
@@ -68,6 +74,11 @@ void UPotatoPickUpComponent::OnOwnerHit(AActor* owningActor, AActor* otherActor,
 			}
 		}
 	}
+}
+
+void UPotatoPickUpComponent::OnSetupPlayerInput(UInputComponent* inputComponent)
+{
+	inputComponent->BindAction("Release", IE_Pressed, this, &UPotatoPickUpComponent::Server_DropPotato);
 }
 
 void UPotatoPickUpComponent::Authority_PickupPotato(APotato* potato)

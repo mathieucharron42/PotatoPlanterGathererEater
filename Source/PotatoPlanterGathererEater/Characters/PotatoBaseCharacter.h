@@ -22,6 +22,9 @@ class APotatoBaseCharacter : public ACharacter
 public:
 	APotatoBaseCharacter();
 
+	DECLARE_MULTICAST_DELEGATE_OneParam(FSetupPlayerInput, UInputComponent*);
+	FSetupPlayerInput OnSetupPlayerInput;
+
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;

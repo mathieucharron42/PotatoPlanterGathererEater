@@ -47,6 +47,7 @@ APotatoBaseCharacter::APotatoBaseCharacter()
 
 void APotatoBaseCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
+	OnSetupPlayerInput.Broadcast(PlayerInputComponent);
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);

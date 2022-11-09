@@ -17,12 +17,6 @@ class POTATOPLANTERGATHEREREATER_API APotatoGathererCharacter : public APotatoBa
 public:
 	APotatoGathererCharacter();
 	
-protected:
-	virtual void BeginPlay() override;
-
-private:
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
 	UPotatoPickUpComponent* _potatoPickUpComponent = nullptr;
 };

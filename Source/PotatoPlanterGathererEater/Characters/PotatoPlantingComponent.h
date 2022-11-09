@@ -19,7 +19,14 @@ public:
 	UFUNCTION(Server, Reliable)
 	void Server_PlantPotato();
 
+protected:
+	virtual void BeginPlay() override;
+
+	virtual void EndPlay(EEndPlayReason::Type endPlayReason) override;
+
 private:
+	void OnSetupPlayerInput(UInputComponent* inputComponent);
+
 	UPROPERTY(EditAnywhere)
 	FVector _spawn;
 

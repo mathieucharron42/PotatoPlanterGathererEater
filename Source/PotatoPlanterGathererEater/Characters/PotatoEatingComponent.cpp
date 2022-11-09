@@ -1,5 +1,6 @@
 #include "PotatoEatingComponent.h"
 
+#include "PotatoPlanterGathererEater/Characters/PotatoBaseCharacter.h"
 #include "PotatoPlanterGathererEater/Characters/PotatoPickUpComponent.h"
 #include "PotatoPlanterGathererEater/Crops/Potato.h"
 
@@ -18,20 +19,29 @@ void UPotatoEatingComponent::GetLifetimeReplicatedProps(TArray< FLifetimePropert
 void UPotatoEatingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	AActor* owner = GetOwner();
+	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (ensure(IsValid(owner)))
 	{
 		_potatoPickUpComponent = owner->FindComponentByClass<UPotatoPickUpComponent>();
+		owner->OnSetupPlayerInput.AddUObject(this, &UPotatoEatingComponent::OnSetupPlayerInput);
 	}
 }
 
 void UPotatoEatingComponent::EndPlay(EEndPlayReason::Type endPlayReason)
 {
 	Super::EndPlay(endPlayReason);
-	AActor* owner = GetOwner();
+	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (IsValid(owner))
 	{
-		
+		owner->OnSetupPlayerInput.RemoveAll(this);
+	}
+}
+
+void UPotatoEatingComponent::OnSetupPlayerInput(UInputComponent* inputComponent)
+{
+	if (ensure(IsValid(inputComponent)))
+	{
+		inputComponent->BindAction("Fire", IE_Pressed, this, &UPotatoEatingComponent::Server_EatHeldPotato);
 	}
 }
 

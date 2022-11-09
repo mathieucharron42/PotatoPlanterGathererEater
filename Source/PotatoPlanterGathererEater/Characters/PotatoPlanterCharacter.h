@@ -19,8 +19,6 @@ public:
 	APotatoPlanterCharacter();
 
 private:
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
 	UPotatoPlantingComponent* _potatoPlantingComponent;
 

@@ -48,3 +48,28 @@ void UPotatoPlantingComponent::Server_PlantPotato_Implementation()
 	Authority_PlantPotato();
 }
 
+void UPotatoPlantingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
+	if (ensure(IsValid(owner)))
+	{
+		owner->OnSetupPlayerInput.AddUObject(this, &UPotatoPlantingComponent::OnSetupPlayerInput);
+	}
+}
+
+void UPotatoPlantingComponent::EndPlay(EEndPlayReason::Type endPlayReason)
+{
+	Super::EndPlay(endPlayReason);
+	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
+	if (IsValid(owner))
+	{
+		owner->OnSetupPlayerInput.RemoveAll(this);
+	}
+}
+
+void UPotatoPlantingComponent::OnSetupPlayerInput(UInputComponent* inputComponent)
+{
+	inputComponent->BindAction("Fire", IE_Pressed, this, &UPotatoPlantingComponent::Server_PlantPotato);
+}
+
