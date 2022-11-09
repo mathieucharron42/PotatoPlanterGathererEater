@@ -47,5 +47,6 @@ void APotatoEaterCharacter::Authority_SetScale(float scale)
 void APotatoEaterCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	PlayerInputComponent->BindAction("Release", IE_Pressed, _potatoPickUpComponent, &UPotatoPickUpComponent::Server_DropPotato);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, _potatoEatingComponent, &UPotatoEatingComponent::Server_EatHeldPotato);
 }
