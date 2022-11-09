@@ -7,6 +7,8 @@
 
 #include "PotatoPlanterCharacter.generated.h"
 
+class UPotatoPlantingComponent;
+
 UCLASS(Abstract)
 class POTATOPLANTERGATHEREREATER_API APotatoPlanterCharacter : public APotatoBaseCharacter
 {
@@ -15,17 +17,9 @@ class POTATOPLANTERGATHEREREATER_API APotatoPlanterCharacter : public APotatoBas
 public:
 	APotatoPlanterCharacter();
 
-	void Authority_PlantPotato();
-
-	UFUNCTION(Server, Reliable)
-	void Server_PlantPotato();
-	
 private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere)
-	FVector _spawn;
-
-	UPROPERTY(EditAnywhere)
-	float _spawnVelocity;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
+	UPotatoPlantingComponent* _potatoPlantingComponent;
 };

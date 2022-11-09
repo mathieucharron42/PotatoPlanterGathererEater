@@ -10,11 +10,6 @@ APotatoGathererCharacter::APotatoGathererCharacter()
 	_potatoPickUpComponent->SetupAttachment(RootComponent);
 }
 
-bool APotatoGathererCharacter::IsHoldingPotato() const
-{
-	return _potatoPickUpComponent->IsHoldingPotato();
-}
-
 void APotatoGathererCharacter::BeginPlay()
 {
 	Super::BeginPlay();

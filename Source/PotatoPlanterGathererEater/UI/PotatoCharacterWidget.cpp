@@ -7,6 +7,10 @@
 #include "PotatoPlanterGathererEater/Gameplay/PotatoPlayerController.h"
 #include "PotatoPlanterGathererEater/Gameplay/PotatoPlayerState.h"
 
+#include "PotatoPlanterGathererEater/Characters/PotatoEatingComponent.h"
+#include "PotatoPlanterGathererEater/Characters/PotatoPickUpComponent.h"
+#include "PotatoPlanterGathererEater/Characters/PotatoPlantingComponent.h"
+
 void UPotatoCharacterWidget::SetTargetPlayer(APotatoPlayerController* player)
 {
 	_player = player;
@@ -24,37 +28,47 @@ void UPotatoCharacterWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 		APotatoPlayerState* playerState = _player->GetPlayerState<APotatoPlayerState>();
 		if (IsValid(playerState))
 		{
-			EGameRoleType roleType = playerState->GetCurrentRole().GetRoleType();
-			instructions.Add("Press Tab to change character");
-			if (roleType == EGameRoleType::Eater)
+			APawn* pawn = playerState->GetPawn();
+			if (IsValid(pawn))
 			{
-				APotatoEaterCharacter* eaterCharacter = playerState->GetPawn<APotatoEaterCharacter>();
-
-				color = FColor::Red;
-				role = TEXT("Potato Eater");
-				instructions.Add(TEXT("Move over potatoes to eat them"));
-				if (IsValid(eaterCharacter))
+				EGameRoleType roleType = playerState->GetCurrentRole().GetRoleType();
+				instructions.Add("Press Tab to change character");
+				if (roleType == EGameRoleType::Eater)
 				{
-					instructions.Add(FString::Printf(TEXT("%f / %f calories"), eaterCharacter->GetCaloriesEaten(), eaterCharacter->GetCaloriesNeeded()));
+					color = FColor::Red;
+					role = TEXT("Potato Eater");
 				}
-			}
-			else if (roleType == EGameRoleType::Gatherer)
-			{
-				APotatoGathererCharacter* gathererCharacter = playerState->GetPawn<APotatoGathererCharacter>();
-
-				color = FColor(141, 154, 203);
-				role = TEXT("Potato Gatherer");
-				instructions.Add(TEXT("Move over a potato to pick one up and right click to drop it"));
-				if (IsValid(gathererCharacter))
+				else if (roleType == EGameRoleType::Gatherer)
 				{
-					instructions.Add(FString::Printf(TEXT("Is holding potato: %s"), gathererCharacter->IsHoldingPotato() ? TEXT("true") : TEXT("false")));
+					color = FColor(141, 154, 203);
+					role = TEXT("Potato Gatherer");
 				}
-			}
-			else if (roleType == EGameRoleType::Planter)
-			{
-				role = TEXT("Potato Planter");
-				instructions.Add(TEXT("Right click to spawn potatoes"));
-				color = FColor::Emerald;
+				else if (roleType == EGameRoleType::Planter)
+				{
+					role = TEXT("Potato Planter");
+					
+					color = FColor::Emerald;
+				}
+
+				UPotatoPickUpComponent* potatoPickupComponent = pawn->FindComponentByClass<UPotatoPickUpComponent>();
+				if (IsValid(potatoPickupComponent))
+				{
+					instructions.Add(TEXT("Move over a potato to pick one up and right click to drop it"));
+					instructions.Add(FString::Printf(TEXT("Is holding potato: %s"), potatoPickupComponent->IsHoldingPotato() ? TEXT("true") : TEXT("false")));
+				}
+
+				UPotatoPlantingComponent* potatoPlantingComponent = pawn->FindComponentByClass<UPotatoPlantingComponent>();
+				if (IsValid(potatoPlantingComponent))
+				{
+					instructions.Add(TEXT("Right click to spawn potatoes"));
+				}
+
+				UPotatoEatingComponent* potatoEatingComponent = pawn->FindComponentByClass<UPotatoEatingComponent>();
+				if (IsValid(potatoEatingComponent))
+				{
+					instructions.Add(TEXT("Right click to eat held potatoes"));
+					instructions.Add(FString::Printf(TEXT("%f / %f calories"), potatoEatingComponent->GetCaloriesEaten(), potatoEatingComponent->GetCaloriesNeeded()));
+				}
 			}
 		}
 	}

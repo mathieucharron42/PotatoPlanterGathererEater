@@ -7,6 +7,8 @@
 
 #include "PotatoEaterCharacter.generated.h"
 
+class UPotatoEatingComponent;
+class UPotatoPickUpComponent;
 class USpringArmComponent;
 
 UCLASS()
@@ -15,30 +17,21 @@ class POTATOPLANTERGATHEREREATER_API APotatoEaterCharacter : public APotatoBaseC
 	GENERATED_BODY()
 
 public:
-	bool IsHungry() const;
-	float GetCaloriesNeeded() const;
-	float GetCaloriesEaten() const;
+	APotatoEaterCharacter();
 
 protected:
-	UFUNCTION(Client, NetMulticast, Reliable)
-	void Client_Multicast_SetScale(float scale);
-
-	UFUNCTION(BlueprintNativeEvent)
-	void Local_SetScale(float scale);
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent);
 	
 private:
 	virtual void BeginPlay() override;
-	virtual void NotifyActorBeginOverlap(AActor* otherActor) override;
-	virtual void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
+	virtual void EndPlay(EEndPlayReason::Type reason) override;
 
-	void Authority_UpdateVisual();
-	void Authority_EatPotato(APotato* potato);
+	void OnCaloriesEatenChanged();
+
+	void Authority_SetScale(float scale);
 
 	UPROPERTY(EditAnywhere)
 	float _caloryScale;
-
-	UPROPERTY(EditAnywhere)
-	float _caloriesNeeded;
 
 	UPROPERTY(Transient)
 	int32 _initialSpringArmLenght;
@@ -46,6 +39,9 @@ private:
 	UPROPERTY(Transient)
 	USpringArmComponent* _springArmComponent;
 
-	UPROPERTY(Transient, Replicated)
-	float _caloriesEaten;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
+	UPotatoEatingComponent* _potatoEatingComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
+	UPotatoPickUpComponent* _potatoPickUpComponent;
 };

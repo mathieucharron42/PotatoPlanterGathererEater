@@ -13,16 +13,17 @@ class POTATOPLANTERGATHEREREATER_API UPotatoPickUpComponent : public USceneCompo
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	UPotatoPickUpComponent();
 
 	bool IsHoldingPotato() const;
 
 	void Authority_PickupPotato(APotato* potato);
-	void Authority_DropPotato();
-
+	
 	UFUNCTION(Server, Reliable)
 	void Server_DropPotato();
+	void Authority_DropPotato();
+
+	APotato* Authority_RemovePotato();
 
 protected:
 	virtual void BeginPlay() override;

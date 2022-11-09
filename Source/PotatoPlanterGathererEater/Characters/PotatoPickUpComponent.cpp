@@ -105,6 +105,26 @@ void UPotatoPickUpComponent::Authority_DropPotato()
 	}
 }
 
+APotato* UPotatoPickUpComponent::Authority_RemovePotato()
+{
+	APotato* potato = nullptr;
+
+	AActor* owner = GetOwner();
+	if (ensure(IsValid(owner)))
+	{
+		if (ensure(owner->HasAuthority()))
+		{
+			if (IsHoldingPotato())
+			{
+				potato = _heldPotato;
+				SetHeldPotato(nullptr);
+			}
+		}
+	}
+
+	return potato;
+}
+
 bool UPotatoPickUpComponent::IsHoldingPotato() const
 {
 	return IsValid(_heldPotato);

@@ -1,6 +1,7 @@
 #include "PotatoGameMode.h"
 
 #include "PotatoPlanterGathererEater/Characters/PotatoEaterCharacter.h"
+#include "PotatoPlanterGathererEater/Characters/PotatoEatingComponent.h"
 #include "PotatoPlanterGathererEater/Gameplay/PotatoGameRole.h"
 #include "PotatoPlanterGathererEater/Gameplay/PotatoGameState.h"
 #include "PotatoPlanterGathererEater/Gameplay/PotatoPlayerState.h"
@@ -28,18 +29,26 @@ void APotatoGameMode::CheckGameEnded()
 	UWorld* world = GetWorld();
 	if (ensure(IsValid(world)))
 	{
-		TArray<APotatoEaterCharacter*> potatoEaters;
-		for (TActorIterator<APotatoEaterCharacter> it(world); it; ++it)
+		TArray<UPotatoEatingComponent*> eatingComponents;
+		for (TActorIterator<APotatoBaseCharacter> it(world); it; ++it)
 		{
-			potatoEaters.Add(*it);
+			AActor* actor = *it;
+			if (IsValid(actor))
+			{
+				UPotatoEatingComponent* component = it->FindComponentByClass<UPotatoEatingComponent>();
+				if (IsValid(component))
+				{
+					eatingComponents.Add(component);
+				}
+			}
 		}
 
-		const bool arePotatoEatersWellFeed = Algo::AllOf(potatoEaters, [](APotatoEaterCharacter* potatoEater)
+		const bool arePotatoEatersWellFeed = Algo::AllOf(eatingComponents, [](UPotatoEatingComponent* eatingComponent)
 		{
-			return !potatoEater->IsHungry();
+			return !eatingComponent->IsHungry();
 		});
 
-		if (potatoEaters.Num() > 0 && arePotatoEatersWellFeed)
+		if (eatingComponents.Num() > 0 && arePotatoEatersWellFeed)
 		{
 			APotatoGameState* gameState = GetGameState<APotatoGameState>();
 			if (ensure(IsValid(gameState)))

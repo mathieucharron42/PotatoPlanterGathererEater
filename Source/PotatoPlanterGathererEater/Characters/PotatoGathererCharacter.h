@@ -17,8 +17,6 @@ class POTATOPLANTERGATHEREREATER_API APotatoGathererCharacter : public APotatoBa
 public:
 	APotatoGathererCharacter();
 	
-	bool IsHoldingPotato() const;
-
 protected:
 	virtual void BeginPlay() override;
 
