@@ -119,7 +119,7 @@ bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 	APotatoPlayerState* playerState = playerController->GetPlayerState<APotatoPlayerState>();
 	FPotatoGameRole initialRole = playerState->GetCurrentRole();
 
-	for (FPotatoGameRole role = GetNextRole(initialRole); initialRole != role; role = GetNextRole(initialRole))
+	for (FPotatoGameRole role = GetNextRole(initialRole); initialRole != role; role = GetNextRole(role))
 	{
 		APotatoBaseCharacter* character = FindSuitableCharacter(role.GetCharacterType());
 		if (IsValid(character))
