@@ -16,9 +16,9 @@ void UPotatoEatingComponent::GetLifetimeReplicatedProps(TArray< FLifetimePropert
 	DOREPLIFETIME(UPotatoEatingComponent, _caloriesEaten);
 }
 
-void UPotatoEatingComponent::BeginPlay()
+void UPotatoEatingComponent::OnRegister()
 {
-	Super::BeginPlay();
+	Super::OnRegister();
 	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (ensure(IsValid(owner)))
 	{
@@ -27,9 +27,9 @@ void UPotatoEatingComponent::BeginPlay()
 	}
 }
 
-void UPotatoEatingComponent::EndPlay(EEndPlayReason::Type endPlayReason)
+void UPotatoEatingComponent::OnUnregister()
 {
-	Super::EndPlay(endPlayReason);
+	Super::OnUnregister();
 	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (IsValid(owner))
 	{

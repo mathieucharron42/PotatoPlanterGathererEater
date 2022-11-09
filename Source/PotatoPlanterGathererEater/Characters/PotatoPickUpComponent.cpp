@@ -19,9 +19,9 @@ void UPotatoPickUpComponent::GetLifetimeReplicatedProps(TArray< FLifetimePropert
 	DOREPLIFETIME(UPotatoPickUpComponent, _heldPotato);
 }
 
-void UPotatoPickUpComponent::BeginPlay()
+void UPotatoPickUpComponent::OnRegister()
 {
-	Super::BeginPlay();
+	Super::OnRegister();
 	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (ensure(IsValid(owner)))
 	{
@@ -32,9 +32,9 @@ void UPotatoPickUpComponent::BeginPlay()
 	}
 }
 
-void UPotatoPickUpComponent::EndPlay(EEndPlayReason::Type endPlayReason)
+void UPotatoPickUpComponent::OnUnregister()
 {
-	Super::EndPlay(endPlayReason);
+	Super::OnUnregister();
 	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (IsValid(owner))
 	{

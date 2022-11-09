@@ -32,8 +32,8 @@ public:
 	float GetCaloriesEaten() const;
 
 protected:
-	virtual void BeginPlay() override;
-	virtual void EndPlay(EEndPlayReason::Type endPlayReason) override;
+	virtual void OnRegister() override;
+	virtual void OnUnregister() override;
 
 private:
 	void OnSetupPlayerInput(UInputComponent* inputComponent);
