@@ -8,12 +8,6 @@
 #include "GameFramework/MovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
-static TAutoConsoleVariable<float> CVarAutoPlantPotatoRate(
-	TEXT("potato.AutoPlantPotatoRate"),
-	-1,
-	TEXT("Rate at which planter automatically plant potato (-1 for disabled)")
-);
-
 APotatoPlanterCharacter::APotatoPlanterCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -54,39 +48,8 @@ void APotatoPlanterCharacter::Server_PlantPotato_Implementation()
 	Authority_PlantPotato();
 }
 
-bool APotatoPlanterCharacter::Server_PlantPotato_Validate()
-{
-	return true;
-}
-
 void APotatoPlanterCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APotatoPlanterCharacter::Server_PlantPotato);
-}
-
-void APotatoPlanterCharacter::DisplayDebug(UCanvas* Canvas, const FDebugDisplayInfo& DebugDisplay, float& YL, float& YPos)
-{
- 	Super::DisplayDebug(Canvas, DebugDisplay, YL, YPos);
-	if(IsValid(Canvas))
-	{
-		if (DebugDisplay.IsDisplayOn(FName("PotatoPlanterCharacter")))
-		{
-			DrawDebugCanvas2DLine(Canvas, FVector2D(100, 100), FVector2D(200, 200), FLinearColor::Green, 5);
-		}
-	}
-}
-
-void APotatoPlanterCharacter::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-	if (CVarAutoPlantPotatoRate.GetValueOnGameThread() != -1)
-	{
-		_cheatAutoPlantNextTime -= DeltaSeconds;
-		if (_cheatAutoPlantNextTime <= 0)
-		{
-			Server_PlantPotato();
-			_cheatAutoPlantNextTime = CVarAutoPlantPotatoRate.GetValueOnGameThread();
-		}
-	}
 }
