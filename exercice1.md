@@ -82,7 +82,7 @@
 	* Définir 3 champs
 		* Potato actuellement tenue
 			* UPROPERTY(Transient)
-	                * APotato* heldPotato;
+			* APotato* heldPotato;
 		* Nom du socket de tenue
 			* UPROPERTY(EditAnywhere)
 			* FName heldSocketName = FName("socket_hand_r")
