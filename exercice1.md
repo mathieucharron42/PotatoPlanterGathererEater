@@ -11,6 +11,7 @@
   * Sélectionner le Mesh
   * Assigner Material -> Element0 avec le MaterialInstance défini
 * Exécuter pour tous les personnages
+* Valider que les personnages de scène ont bien un nouveau matériel !
 
 ## Mise en place de l'acteur Potato
 * Créer une structure FNutritionalInformations
@@ -37,3 +38,79 @@
   * Ajouter un StaticMeshComponent
   * Assigner le StaticMesh précédement défini
   * Assigner le Material précédement défini 
+* Valider le blueprint Potato dans la scène !
+
+## Mise en place de l'interaction "Plant"
+* Définir classe UPotatoPlantingComponent 
+	* Descendante de USceneComponent
+	* Anoter UCLASS(meta=(BlueprintSpawnableComponent))
+	* Définir 2 champs exposés UPROPERTY(EditAnywhere)
+		* FName SpawnSocketName
+		* float SpawnVelocity
+		* TSubclassOf<APotato> PotatoClass;
+	* Définir 4 méthodes
+		* virtual void InitializeComponent()
+			* S'enregistre sur APotatoBaseCharacter::OnSetupPlayerInput de son owner
+		* virtual void UninitializeComponent()
+			* Se désenregistre de APotatoBaseCharacter::OnSetupPlayerInput de son owner
+		* void OnSetupPlayerInput(UInputComponent* inputComponent)
+			* Bind l'input 'fire' sur PlantPotato
+		* void PlantPotato()
+			* Récupere le socket SpawnSocketName sur le modèle
+			* Obtient la world transform du socket
+			* Détermine une vélocité aléatoire dans un cône face au personnage d'une magnitude SpawnVelocity
+			* Instancie une Potato de type PotatoClass à la transform et vélocité calculée
+* Ajouter UPotatoPlantingComponent au PotatoPlanterCharacter
+	* Ajouter champ pour stocker le component
+		* UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
+		* UPotatoPlantingComponent* potatoPlantingComponent;
+	* Créer et enregistrer component dans constructeur UPotatoPlanterCharacter()
+		* potatoPlantingComponent = CreateDefaultSubobject<UPotatoPlantingComponent>(TEXT("PotatoPlantComponent"));
+		* potatoPlantingComponent->SetupAttachment(RootComponent);
+* Testez si le Potato Planter est maintenant capable de spawner des potatoes !
+
+## Mise en place de l'interaction 'PickUp'
+* Définir classe UPotatoPickUpComponent 
+	* Descendante de USceneComponent
+	* Anoter UCLASS(meta=(BlueprintSpawnableComponent))
+	* Définir 3 champs
+		* Potato actuellement tenue
+			* UPROPERTY(Transient)
+			* APotato* heldPotato;
+		* Nom du socket de tenue
+			* UPROPERTY(EditAnywhere)
+			* FName heldSocketName = FName("socket_hand_r")
+	* Définir 4 méthodes
+		* virtual void InitializeComponent()
+			* Enregistre OnSetupPlayerInput sur APotatoBaseCharacter::OnSetupPlayerInput de son owner
+			* Enregistre OnOwnerOverlap sur APotatoBaseCharacter::OnActorBeginOverlap
+			* Enregistre OnOwnerHit sur APotatoBaseCharacter::OnActorHit
+		* virtual void UninitializeComponent()
+			* Se désenregistre de APotatoBaseCharacter::OnSetupPlayerInput
+			* Se désenregistre de APotatoBaseCharacter::OnActorBeginOverlap
+			* Se désenregistre de APotatoBaseCharacter::OnActorHit
+		* void OnSetupPlayerInput(UInputComponent* inputComponent)
+			* Bind l'input 'release' sur DropPotato()
+		* void OnOwnerOverlap(AActor* owningActor, AActor* otherActor)
+			* Lors d'un overlap où otherActor est de type APotato, invoquer PickupPotato()
+		* void OnOwnerHit(AActor* owningActor, AActor* otherActor, FVector normalImpulse, const FHitResult& hit)
+			* Lors d'un hit où otherActor est de type APotato, invoquer PickupPotato()
+		* void PickupPotato(APotato* potato)
+			* Si IsHoldingPotato() est faux, alors invoque SetHeldPotato(potato)
+		* void DropPotato()
+			* Si IsHoldingPotato() est vrai, alors invoque SetHeldPotato(null)
+		* bool IsHoldingPotato() const
+			* Informe si heldPotato est assigné
+		* void SetHeldPotato(APotato* potato)
+			* Assigne _heldPotato
+			* Si heldPotato vient d'être attrapé, désactiver physique + collision et attacher l'acteur au socket heldSocketName
+			* Si heldPotato vient d'être relâché, activer physique + collision et détacher l'acteur du socket
+* Ajouter UPotatoPickUpComponent au PotatoPlanterCharacter, PotatoGathererCharacter et PotatoEaterCharacter
+	* Ajouter champ pour stocker le component
+		* UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
+		* UPotatoPickUpComponent* potatoPickUpComponent = nullptr;
+	* Créer et enregistrer component dans constructeur
+		* potatoPickUpComponent = CreateDefaultSubobject<UPotatoPickUpComponent>(TEXT("PotatoPickUpComponent"));
+		* potatoPickUpComponent->SetupAttachment(RootComponent);
+}
+* Testez si les personnages sont maintenant capables de prendre et déposer des potatoes !
