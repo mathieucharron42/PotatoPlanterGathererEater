@@ -20,9 +20,8 @@ public:
 	void Server_PlantPotato();
 
 protected:
-	virtual void OnRegister() override;
-
-	virtual void OnUnregister() override;
+	virtual void InitializeComponent() override;
+	virtual void UninitializeComponent() override;
 
 private:
 	void OnSetupPlayerInput(UInputComponent* inputComponent);

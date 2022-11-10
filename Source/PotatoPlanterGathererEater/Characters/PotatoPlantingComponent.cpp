@@ -6,7 +6,7 @@
 
 UPotatoPlantingComponent::UPotatoPlantingComponent()
 {
-
+	bWantsInitializeComponent = true;
 }
 
 void UPotatoPlantingComponent::Authority_PlantPotato()
@@ -48,9 +48,9 @@ void UPotatoPlantingComponent::Server_PlantPotato_Implementation()
 	Authority_PlantPotato();
 }
 
-void UPotatoPlantingComponent::OnRegister()
+void UPotatoPlantingComponent::InitializeComponent()
 {
-	Super::OnRegister();
+	Super::InitializeComponent();
 	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (ensure(IsValid(owner)))
 	{
@@ -58,9 +58,9 @@ void UPotatoPlantingComponent::OnRegister()
 	}
 }
 
-void UPotatoPlantingComponent::OnUnregister()
+void UPotatoPlantingComponent::UninitializeComponent()
 {
-	Super::OnUnregister();
+	Super::UninitializeComponent();
 	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (IsValid(owner))
 	{

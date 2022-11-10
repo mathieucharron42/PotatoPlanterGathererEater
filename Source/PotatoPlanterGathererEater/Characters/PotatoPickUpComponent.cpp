@@ -10,7 +10,7 @@
 
 UPotatoPickUpComponent::UPotatoPickUpComponent()
 {
-	PrimaryComponentTick.bCanEverTick = false;
+	bWantsInitializeComponent = true;
 }
 
 void UPotatoPickUpComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
@@ -19,9 +19,9 @@ void UPotatoPickUpComponent::GetLifetimeReplicatedProps(TArray< FLifetimePropert
 	DOREPLIFETIME(UPotatoPickUpComponent, _heldPotato);
 }
 
-void UPotatoPickUpComponent::OnRegister()
+void UPotatoPickUpComponent::InitializeComponent()
 {
-	Super::OnRegister();
+	Super::InitializeComponent();
 	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (ensure(IsValid(owner)))
 	{
@@ -32,9 +32,9 @@ void UPotatoPickUpComponent::OnRegister()
 	}
 }
 
-void UPotatoPickUpComponent::OnUnregister()
+void UPotatoPickUpComponent::UninitializeComponent()
 {
-	Super::OnUnregister();
+	Super::UninitializeComponent();
 	APotatoBaseCharacter* owner = Cast<APotatoBaseCharacter>(GetOwner());
 	if (IsValid(owner))
 	{
