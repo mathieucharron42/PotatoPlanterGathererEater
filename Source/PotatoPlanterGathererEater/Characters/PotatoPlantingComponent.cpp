@@ -28,9 +28,11 @@ void UPotatoPlantingComponent::Authority_PlantPotato()
 					// Set random rotation on potato
 					newPotatoTransform.SetRotation(UKismetMathLibrary::RandomRotator(true).Quaternion());
 
+					// Set random velocity in 45 degree half-cone 
 					FVector newPotatoVelocity = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(owner->GetTransform().GetUnitAxis(EAxis::X), 45.f) * _spawnVelocity;
+					newPotatoVelocity.Z = FMath::Abs(newPotatoVelocity.Z);
 
-					//DrawDebugLine(GetWorld(), potatoTransform.GetLocation(), potatoTransform.GetLocation() + randomVelocity, FColor::Red, false, 5);
+					DrawDebugLine(GetWorld(), newPotatoTransform.GetLocation(), newPotatoTransform.GetLocation() + newPotatoVelocity, FColor::Red, false, 5);
 
 					APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
 					if (ensure(IsValid(gameMode)))

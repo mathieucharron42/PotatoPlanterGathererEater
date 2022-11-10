@@ -27,9 +27,6 @@ private:
 	void OnSetupPlayerInput(UInputComponent* inputComponent);
 
 	UPROPERTY(EditAnywhere)
-	FVector _spawn;
-
-	UPROPERTY(EditAnywhere)
 	FName _spawnSocketName = FName("socket_spawn");
 
 	UPROPERTY(EditAnywhere)
