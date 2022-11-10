@@ -73,7 +73,7 @@
 	* Créer et enregistrer component dans constructeur UPotatoPlanterCharacter()
 		* potatoPlantingComponent = CreateDefaultSubobject<UPotatoPlantingComponent>(TEXT("PotatoPlantComponent"));
 		* potatoPlantingComponent->SetupAttachment(RootComponent);
-* Testez si le Potato Planter est maintenant capable de spawner des potatoes !
+* Testez si le Potato Planter est maintenant capable de spawner des patates !
 
 ## Mise en place de l'interaction 'PickUp'
 * Définir classe UPotatoPickUpComponent 
@@ -119,4 +119,31 @@
 		* potatoPickUpComponent = CreateDefaultSubobject<UPotatoPickUpComponent>(TEXT("PotatoPickUpComponent"));
 		* potatoPickUpComponent->SetupAttachment(RootComponent);
 }
-* Testez si les personnages sont maintenant capables de prendre et déposer des potatoes !
+* Testez si les personnages sont maintenant capables de prendre et déposer des patates !
+
+## Mise en place de l'interaction "Eat"
+* Définir classe UPotatoEatingComponent 
+	* Descendante de USceneComponent
+	* Anoter UCLASS(meta=(BlueprintSpawnableComponent))
+	* Définir 4 méthodes
+		* virtual void InitializeComponent()
+			* S'enregistre sur APotatoBaseCharacter::OnSetupPlayerInput de son owner
+		* virtual void UninitializeComponent()
+			* Se désenregistre de APotatoBaseCharacter::OnSetupPlayerInput de son owner
+		* void OnSetupPlayerInput(UInputComponent* inputComponent)
+			* Bind l'input 'fire' sur EatHeldPotato
+		* void EatHeldPotato()
+			* Récupere le PotatoPickUpComponent du owner
+			* Si UPotatoPickUpComponent::IsHoldingPotato())
+				* Invoque UPotatoPickUpComponent::Authority_DropPotato() pour relâcher et obtenir la potato
+				* Invoque EatPotato(potato)
+		* void EatPotato(APotato* potato)
+			* Invoque AActor::Destroy() sur la potato pour la détruire
+* Ajouter UPotatoEatingComponent au PotatoEaterCharacter
+	* Ajouter champ pour stocker le component
+		* UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
+		* UPotatoEatingComponent* potatoEatingComponent;
+	* Créer et enregistrer component dans constructeur UPotatoPlanterCharacter()
+		* potatoEatingComponent = CreateDefaultSubobject<UPotatoEatingComponent>(TEXT("PotatoPlantComponent"));
+		* potatoEatingComponent->SetupAttachment(RootComponent);
+* Testez si le Potato Eater est maintenant capable de manger la patate tenue !
