@@ -44,10 +44,16 @@
 * Définir classe UPotatoPlantingComponent 
 	* Descendante de USceneComponent
 	* Anoter UCLASS(meta=(BlueprintSpawnableComponent))
-	* Définir 2 champs exposés UPROPERTY(EditAnywhere)
-		* FName SpawnSocketName
-		* float SpawnVelocity
-		* TSubclassOf<APotato> PotatoClass;
+	* Définir 3 champs 
+		* Nom du socket de spawn
+			* UPROPERTY(EditAnywhere)
+			* FName SpawnSocketName
+		* Vélocité de spawn
+			* UPROPERTY(EditAnywhere)
+			* float SpawnVelocity
+		* Type de potato à spawn
+			* UPROPERTY(EditAnywhere)
+			* TSubclassOf<APotato> PotatoClass;
 	* Définir 4 méthodes
 		* virtual void InitializeComponent()
 			* S'enregistre sur APotatoBaseCharacter::OnSetupPlayerInput de son owner
@@ -76,7 +82,7 @@
 	* Définir 3 champs
 		* Potato actuellement tenue
 			* UPROPERTY(Transient)
-			* APotato* heldPotato;
+	                * APotato* heldPotato;
 		* Nom du socket de tenue
 			* UPROPERTY(EditAnywhere)
 			* FName heldSocketName = FName("socket_hand_r")
@@ -103,8 +109,8 @@
 			* Informe si heldPotato est assigné
 		* void SetHeldPotato(APotato* potato)
 			* Assigne _heldPotato
-			* Si heldPotato vient d'être attrapé, désactiver physique + collision et attacher l'acteur au socket heldSocketName
-			* Si heldPotato vient d'être relâché, activer physique + collision et détacher l'acteur du socket
+			* Si heldPotato vient d'être pris, désactiver physique + collision et attacher l'acteur au socket heldSocketName
+			* Si heldPotato vient d'être déposé, activer physique + collision et détacher l'acteur du socket
 * Ajouter UPotatoPickUpComponent au PotatoPlanterCharacter, PotatoGathererCharacter et PotatoEaterCharacter
 	* Ajouter champ pour stocker le component
 		* UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
