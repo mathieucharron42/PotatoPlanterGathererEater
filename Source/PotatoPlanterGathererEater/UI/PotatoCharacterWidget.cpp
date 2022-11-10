@@ -52,7 +52,8 @@ void UPotatoCharacterWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 				UPotatoPickUpComponent* potatoPickupComponent = pawn->FindComponentByClass<UPotatoPickUpComponent>();
 				if (IsValid(potatoPickupComponent))
 				{
-					instructions.Add(TEXT("Move over a potato to pick one up. Left click to drop it"));
+					instructions.Add(TEXT("Move over a potato to pick one up"));
+					instructions.Add(TEXT("Left click to drop held potato"));
 					instructions.Add(FString::Printf(TEXT("Is holding potato: %s"), potatoPickupComponent->IsHoldingPotato() ? TEXT("true") : TEXT("false")));
 				}
 

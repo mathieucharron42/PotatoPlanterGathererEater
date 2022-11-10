@@ -25,18 +25,23 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void Server_EatPotato(APotato* potato);
+
 	void Authority_EatPotato(APotato* potato);
 
 	bool IsHungry() const;
+
 	float GetCaloriesNeeded() const;
+
 	float GetCaloriesEaten() const;
 
 protected:
 	virtual void InitializeComponent() override;
+
 	virtual void UninitializeComponent() override;
 
 private:
 	void OnSetupPlayerInput(UInputComponent* inputComponent);
+
 	void SetCaloriesEaten(float calories);
 
 	UPROPERTY(EditAnywhere)

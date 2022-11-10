@@ -2,8 +2,6 @@
 
 #include "PotatoPlanterGathererEater/Characters/PotatoPickUpComponent.h"
 
-#include "Net/UnrealNetwork.h"
-
 APotatoGathererCharacter::APotatoGathererCharacter()
 {
 	_potatoPickUpComponent = CreateDefaultSubobject<UPotatoPickUpComponent>(TEXT("PotatoPickUpComponent"));

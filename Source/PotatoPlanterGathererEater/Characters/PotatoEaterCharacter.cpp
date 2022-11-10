@@ -4,7 +4,6 @@
 #include "PotatoPlanterGathererEater/Characters/PotatoPickUpComponent.h"
 
 #include "GameFramework/SpringArmComponent.h"
-#include "Net/UnrealNetwork.h"
 
 APotatoEaterCharacter::APotatoEaterCharacter()
 {

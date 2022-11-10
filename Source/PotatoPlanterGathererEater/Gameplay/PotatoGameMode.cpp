@@ -2,6 +2,7 @@
 
 #include "PotatoPlanterGathererEater/Characters/PotatoEaterCharacter.h"
 #include "PotatoPlanterGathererEater/Characters/PotatoEatingComponent.h"
+#include "PotatoPlanterGathererEater/Crops/Potato.h"
 #include "PotatoPlanterGathererEater/Gameplay/PotatoGameRole.h"
 #include "PotatoPlanterGathererEater/Gameplay/PotatoGameState.h"
 #include "PotatoPlanterGathererEater/Gameplay/PotatoPlayerState.h"

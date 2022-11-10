@@ -27,6 +27,7 @@ public:
 
 protected:
 	virtual void InitializeComponent() override;
+
 	virtual void UninitializeComponent() override;
 
 private:
@@ -42,6 +43,7 @@ private:
 	void OnRep_HeldPotato(APotato* old);
 
 	void SetHeldPotato(APotato* potato);
+
 	void OnUpdate_HeldPotato(APotato* old);
 
 	UPROPERTY()

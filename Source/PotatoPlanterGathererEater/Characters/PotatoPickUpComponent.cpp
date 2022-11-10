@@ -7,7 +7,6 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/InputComponent.h"
 
-
 UPotatoPickUpComponent::UPotatoPickUpComponent()
 {
 	bWantsInitializeComponent = true;
