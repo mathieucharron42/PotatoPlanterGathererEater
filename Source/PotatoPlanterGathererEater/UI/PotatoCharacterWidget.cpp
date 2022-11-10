@@ -7,10 +7,6 @@
 #include "PotatoPlanterGathererEater/Gameplay/PotatoPlayerController.h"
 #include "PotatoPlanterGathererEater/Gameplay/PotatoPlayerState.h"
 
-#include "PotatoPlanterGathererEater/Characters/PotatoEatingComponent.h"
-#include "PotatoPlanterGathererEater/Characters/PotatoPickUpComponent.h"
-#include "PotatoPlanterGathererEater/Characters/PotatoPlantingComponent.h"
-
 void UPotatoCharacterWidget::SetTargetPlayer(APotatoPlayerController* player)
 {
 	_player = player;
@@ -49,26 +45,7 @@ void UPotatoCharacterWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 					color = FColor::Emerald;
 				}
 
-				UPotatoPickUpComponent* potatoPickupComponent = pawn->FindComponentByClass<UPotatoPickUpComponent>();
-				if (IsValid(potatoPickupComponent))
-				{
-					instructions.Add(TEXT("Move over a potato to pick one up"));
-					instructions.Add(TEXT("Left click to drop held potato"));
-					instructions.Add(FString::Printf(TEXT("Is holding potato: %s"), potatoPickupComponent->IsHoldingPotato() ? TEXT("true") : TEXT("false")));
-				}
-
-				UPotatoPlantingComponent* potatoPlantingComponent = pawn->FindComponentByClass<UPotatoPlantingComponent>();
-				if (IsValid(potatoPlantingComponent))
-				{
-					instructions.Add(TEXT("Left click to spawn potatoes"));
-				}
-
-				UPotatoEatingComponent* potatoEatingComponent = pawn->FindComponentByClass<UPotatoEatingComponent>();
-				if (IsValid(potatoEatingComponent))
-				{
-					instructions.Add(TEXT("Right click to eat held potatoes"));
-					instructions.Add(FString::Printf(TEXT("%f / %f calories"), potatoEatingComponent->GetCaloriesEaten(), potatoEatingComponent->GetCaloriesNeeded()));
-				}
+				// Append instructions based on available behaviours
 			}
 		}
 	}
