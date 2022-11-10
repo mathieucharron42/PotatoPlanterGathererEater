@@ -21,18 +21,12 @@ public:
 
 	bool ChangeRole(APotatoPlayerController* playerController);
 
-	void SpawnPotato(const FTransform& transform, const FVector& velocity);
-	
 private:
 	virtual void RestartPlayer(AController* NewPlayer) override;
 	
-	void CheckGameEnded();
 	APotatoBaseCharacter* FindSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type);
 	bool IsSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type, const APotatoBaseCharacter* character);
 	FPotatoGameRole GetNextRole(FPotatoGameRole current);
-
-	UPROPERTY(EditAnywhere)
-	TArray<TSubclassOf<APotato>> _potatoTypes;
 
 	UPROPERTY(EditAnywhere)
 	TArray<FPotatoGameRole> _roles;
