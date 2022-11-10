@@ -11,32 +11,32 @@ UPotatoPlantingComponent::UPotatoPlantingComponent()
 
 void UPotatoPlantingComponent::Authority_PlantPotato()
 {
-	AActor* owner = GetOwner();
+	ACharacter* owner = Cast<ACharacter>(GetOwner());
 	if (ensure(IsValid(owner)))
 	{
 		if (ensure(owner->HasAuthority()))
 		{
 			UWorld* world = GetWorld();
-			if (IsValid(world))
+			if (ensure(IsValid(world)))
 			{
-				APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
-				if (ensure(IsValid(gameMode)))
+				USkeletalMeshComponent* meshComponent = owner->GetMesh();
+				if (ensure(IsValid(meshComponent)) && ensure(meshComponent->DoesSocketExist(_spawnSocketName)))
 				{
-					FTransform characterTransform = owner->GetTransform();
+					// Locate socket for location
+					FTransform newPotatoTransform = meshComponent->GetSocketTransform(_spawnSocketName);
 
-					FTransform potatoTransform = characterTransform;
-					{
-						FVector relativeLocation = characterTransform.GetRotation().RotateVector(_spawn);
-						potatoTransform.AddToTranslation(relativeLocation);
-						FRotator relativeRotation = UKismetMathLibrary::RandomRotator(true);
-						potatoTransform.SetRotation(relativeRotation.Quaternion());
-					}
+					// Set random rotation on potato
+					newPotatoTransform.SetRotation(UKismetMathLibrary::RandomRotator(true).Quaternion());
 
-					FVector randomVelocity = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(characterTransform.GetUnitAxis(EAxis::X), 45.f) * _spawnVelocity;
-					randomVelocity.Z = FMath::Abs(randomVelocity.Z);
+					FVector newPotatoVelocity = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(owner->GetTransform().GetUnitAxis(EAxis::X), 45.f) * _spawnVelocity;
+
 					//DrawDebugLine(GetWorld(), potatoTransform.GetLocation(), potatoTransform.GetLocation() + randomVelocity, FColor::Red, false, 5);
 
-					gameMode->SpawnPotato(potatoTransform, randomVelocity);
+					APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
+					if (ensure(IsValid(gameMode)))
+					{
+						gameMode->SpawnPotato(newPotatoTransform, newPotatoVelocity);
+					}
 				}
 			}
 		}

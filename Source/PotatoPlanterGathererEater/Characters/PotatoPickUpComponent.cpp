@@ -150,7 +150,7 @@ void UPotatoPickUpComponent::OnUpdate_HeldPotato(APotato* old)
 		FAttachmentTransformRules attachementRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
 		attachementRules.bWeldSimulatedBodies = true;
 		attachementRules.ScaleRule = EAttachmentRule::KeepRelative;
-		targetComponent->AttachToComponent(_characterMeshComponent, attachementRules, FName("socket_hand_r"));
+		targetComponent->AttachToComponent(_characterMeshComponent, attachementRules, _heldSocketName);
 	}
 	else if (IsValid(old))
 	{

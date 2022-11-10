@@ -24,7 +24,6 @@ public:
 	void Server_DropPotato();
 	APotato* Authority_DropPotato();
 
-
 protected:
 	virtual void InitializeComponent() override;
 
@@ -54,4 +53,7 @@ private:
 
 	UPROPERTY(Transient)
 	USkeletalMeshComponent* _characterMeshComponent = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	FName _heldSocketName = FName("socket_hand_r");
 };

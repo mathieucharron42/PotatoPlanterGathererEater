@@ -30,5 +30,8 @@ private:
 	FVector _spawn;
 
 	UPROPERTY(EditAnywhere)
+	FName _spawnSocketName = FName("socket_spawn");
+
+	UPROPERTY(EditAnywhere)
 	float _spawnVelocity;
 };
