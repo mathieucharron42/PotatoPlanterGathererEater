@@ -19,3 +19,10 @@ Source: *October* by Jules Bastien-Lepage
 A lazy upper class eating potatoes.
 ![Eater](/Potato_Eater.jpg) 
 Source: *The Potato Eaters* by Vincent van Goth
+
+## Structure
+### Main Objects and Actors 
+![Diagram1](/diagram.png)
+
+### Gameplay Framework Usage
+![Diagram2](/diagram2.png)
