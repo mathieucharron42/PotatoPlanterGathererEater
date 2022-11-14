@@ -1,7 +1,5 @@
 #pragma once
 
-
-#include "PotatoPlanterGathererEater/Crops/Potato.h"
 #include "PotatoPlanterGathererEater/Characters/PotatoBaseCharacter.h"
 
 #include "CoreMinimal.h"

@@ -32,14 +32,14 @@ void UPotatoPlantingComponent::Authority_PlantPotato()
 					FVector newPotatoVelocity = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(owner->GetTransform().GetUnitAxis(EAxis::X), 45.f) * _spawnVelocity;
 					newPotatoVelocity.Z = FMath::Abs(newPotatoVelocity.Z);
 
-					DrawDebugLine(GetWorld(), newPotatoTransform.GetLocation(), newPotatoTransform.GetLocation() + newPotatoVelocity, FColor::Red, false, 5);
+					//DrawDebugLine(GetWorld(), newPotatoTransform.GetLocation(), newPotatoTransform.GetLocation() + newPotatoVelocity, FColor::Red, false, 5);
 
 					APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
 					if (ensure(IsValid(gameMode)))
 					{
 						gameMode->SpawnPotato(newPotatoTransform, newPotatoVelocity);
 					}
-				}
+				} 
 			}
 		}
 	}
