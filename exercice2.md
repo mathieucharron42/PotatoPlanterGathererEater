@@ -26,15 +26,15 @@
 * Définir APotatoPlayerController
 	* Hériter de APlayerController
 	* Définir 3 méthodes
-		* Changer de role
-			* void ChangeRole()
+		* void ChangeRole()
+			* But: Demander un changement de role
 			* Récuperer le APotatoGameMode
 			* Déléguer exécution par APotatoGameMode::ChangeRole(APotatoPlayerController*)
-		* Quitter la partie
-			* APotatoPlayerController::QuitGame()
+		* APotatoPlayerController::QuitGame()
+			* But: Quitter la partie
 			* Invoquer FGenericPlatformMisc::RequestExit(false);
-		* Binder aux inputs
-			* virtual void SetupInputComponent() override
+		* virtual void SetupInputComponent() override
+			* Binder les inputs aux méthodes
 			* Binder sur "Switch" la méthode APotatoPlayerController::Server_ChangeRole
 			* Binder sur "Quit" la méthode &APotatoPlayerController::QuitGame
 * Assigner le APotatoPlayerController au niveau
@@ -89,6 +89,10 @@
 					* Posséder personnage (APlayerController::Possess(character))
 					* Assigner role itéré (APotatoPlayerState::SetCurrentRole(role))
 				* Sinon, continuer la recherche
+		* virtual APotatoGameMode::RestartPlayer(AController* playerController)
+			* But: Assigner un role au joueur lorsqu'il débute la partie
+			* Si playerController est un APotatoPlayerController (AActor::IsA<APotatoPlayerController>())
+				* Invoquer ChangeRole(potatoPlayerController)
 		* void SpawnPotato(const FTransform& transform, const FVector& velocity)
 			* But: Créer une patate dans le monde
 			* Invoquer UWorld::SpawnActor<APotato>(PotatoType, transform)
