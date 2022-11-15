@@ -26,3 +26,18 @@ Source: *The Potato Eaters* by Vincent van Goth
 
 ### Gameplay Framework Usage
 ![Diagram2](/diagram2.png)
+
+## Exercices
+### Introduction
+Do the basic setup of the project while getting familiar with FStruct, UObject, AActor, AActorComponent and assets
+```
+git checkout exercice1
+```
+See [exercice1.md](exercice1.md)
+
+### Gameplay Frameworlk
+Put in place the Gameplay Framework to get familiar with APlayerState, APlayerController, AGameState and APlayerController
+```
+git checkout exercice2
+```
+See [exercice2.md](exercice2.md)
