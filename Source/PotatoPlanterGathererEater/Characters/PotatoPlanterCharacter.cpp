@@ -1,6 +1,5 @@
 #include "PotatoPlanterCharacter.h"
 
-#include "PotatoPlanterGathererEater/Gameplay/PotatoGameMode.h"
 #include "PotatoPlanterGathererEater/Characters/PotatoPlantingComponent.h"
 #include "PotatoPlanterGathererEater/Characters/PotatoPickUpComponent.h"
 

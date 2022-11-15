@@ -1,7 +1,8 @@
 #include "PotatoPlantingComponent.h"
 
-#include "PotatoPlanterGathererEater/Gameplay/PotatoGameMode.h"
+#include "PotatoPlanterGathererEater/Characters/PotatoBaseCharacter.h"
 
+#include "GameFramework/Character.h"
 #include "Kismet/KismetMathLibrary.h"
 
 UPotatoPlantingComponent::UPotatoPlantingComponent()
@@ -34,11 +35,11 @@ void UPotatoPlantingComponent::Authority_PlantPotato()
 
 					//DrawDebugLine(GetWorld(), newPotatoTransform.GetLocation(), newPotatoTransform.GetLocation() + newPotatoVelocity, FColor::Red, false, 5);
 
-					APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
-					if (ensure(IsValid(gameMode)))
-					{
-						gameMode->SpawnPotato(newPotatoTransform, newPotatoVelocity);
-					}
+					//APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
+					//if (ensure(IsValid(gameMode)))
+					//{
+					//	//gameMode->SpawnPotato(newPotatoTransform, newPotatoVelocity);
+					//}
 				} 
 			}
 		}
