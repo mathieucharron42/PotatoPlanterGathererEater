@@ -35,7 +35,7 @@ git checkout exercice1
 ```
 See [exercice1.md](exercice1.md)
 
-### Gameplay Frameworlk
+### Gameplay Framework
 Put in place the Gameplay Framework to get familiar with APlayerState, APlayerController, AGameState and APlayerController
 ```
 git checkout exercice2
