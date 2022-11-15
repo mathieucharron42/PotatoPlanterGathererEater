@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "PotatoPlayerController.h"
+#include "PotatoPlanterGathererEater/Gameplay/PotatoGameRole.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
@@ -10,6 +10,7 @@
 #include "PotatoGameMode.generated.h"
 
 class APotato;
+class APotatoPlayerController;
 
 UCLASS()
 class POTATOPLANTERGATHEREREATER_API APotatoGameMode : public AGameMode

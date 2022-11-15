@@ -11,15 +11,9 @@ void APotatoPlayerState::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >&
 void APotatoPlayerState::SetCurrentRole(FPotatoGameRole role)
 {
 	_currentRole = role;
-	OnRep_CurrentRole();
 }
 
 FPotatoGameRole APotatoPlayerState::GetCurrentRole() const
 {
 	return _currentRole;
-}
-
-void APotatoPlayerState::OnRep_CurrentRole()
-{
-	OnRoleChanged().Broadcast();
 }
