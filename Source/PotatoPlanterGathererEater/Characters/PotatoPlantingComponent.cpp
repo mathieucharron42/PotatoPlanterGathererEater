@@ -7,6 +7,7 @@
 UPotatoPlantingComponent::UPotatoPlantingComponent()
 {
 	bWantsInitializeComponent = true;
+	SetIsReplicatedByDefault(true);
 }
 
 void UPotatoPlantingComponent::Authority_PlantPotato()

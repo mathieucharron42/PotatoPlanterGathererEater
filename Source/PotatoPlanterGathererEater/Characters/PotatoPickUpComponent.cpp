@@ -10,6 +10,7 @@
 UPotatoPickUpComponent::UPotatoPickUpComponent()
 {
 	bWantsInitializeComponent = true;
+	SetIsReplicatedByDefault(true);
 }
 
 void UPotatoPickUpComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const

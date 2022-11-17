@@ -5,6 +5,8 @@
 
 #include "GameFramework/SpringArmComponent.h"
 
+#include "Net/UnrealNetwork.h"
+
 APotatoEaterCharacter::APotatoEaterCharacter()
 {
 	_potatoEatingComponent = CreateDefaultSubobject<UPotatoEatingComponent>(TEXT("PotatoEatingComponent"));
@@ -12,6 +14,12 @@ APotatoEaterCharacter::APotatoEaterCharacter()
 
 	_potatoPickUpComponent = CreateDefaultSubobject<UPotatoPickUpComponent>(TEXT("PotatoPickUpComponent"));
 	_potatoPickUpComponent->SetupAttachment(RootComponent);
+}
+
+void APotatoEaterCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(APotatoEaterCharacter, _currentScale);
 }
 
 void APotatoEaterCharacter::BeginPlay()
@@ -39,6 +47,21 @@ void APotatoEaterCharacter::OnCaloriesEatenChanged()
 
 void APotatoEaterCharacter::Authority_SetScale(float scale)
 {
-	SetActorScale3D(FVector(scale, scale, scale));
-	_springArmComponent->TargetArmLength = _initialSpringArmLenght * scale;
+	if (HasAuthority())
+	{
+		float oldScale = _currentScale;
+		_currentScale = scale;
+		OnUpdate_CurrentScale(oldScale);
+	}
+}
+
+void APotatoEaterCharacter::OnRep_CurrentScale(float oldScale)
+{
+	OnUpdate_CurrentScale(oldScale);
+}
+
+void APotatoEaterCharacter::OnUpdate_CurrentScale(float oldScale)
+{
+	SetActorScale3D(FVector(_currentScale, _currentScale, _currentScale));
+	_springArmComponent->TargetArmLength = _initialSpringArmLenght * _currentScale;
 }

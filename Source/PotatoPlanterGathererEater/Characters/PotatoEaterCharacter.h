@@ -27,12 +27,18 @@ private:
 	void OnCaloriesEatenChanged();
 
 	void Authority_SetScale(float scale);
+	UFUNCTION()
+	void OnRep_CurrentScale(float oldScale);
+	void OnUpdate_CurrentScale(float oldScale);
 
-	UPROPERTY(EditAnywhere)
-	float _caloryScale;
+	UPROPERTY(Transient, Replicated, ReplicatedUsing=OnRep_CurrentScale)
+	float _currentScale = 1.0f;
 
 	UPROPERTY(Transient)
 	int32 _initialSpringArmLenght;
+
+	UPROPERTY(EditAnywhere)
+	float _caloryScale;
 
 	UPROPERTY(Transient)
 	USpringArmComponent* _springArmComponent;
