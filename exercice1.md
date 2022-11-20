@@ -1,82 +1,114 @@
 # Exercice1 : Les bases
 
 ## Material des personnages
-* Localiser le dossier des personnages sous Content/Potato/Characters
-* Créer un MaterialInstance
-  * Définir M_Male_Body comme parent
-  * Observer l'existance d'un paramètre BodyColor dans M_Male_Body
-  * Assigner une couleur au paramètre BodyColor
-* Assigner le MaterialInstance au personnages
-  * Ouvrir le blueprint d'un personnage Characters/BP_{character}
-  * Sélectionner le Mesh
-  * Assigner Material -> Element0 avec le MaterialInstance défini
-* Exécuter pour tous les personnages
-* Valider que les personnages de scène ont bien un nouveau matériel !
+* Pour tous les personnages de Content/Potato/Characters
+  * Créer un MaterialInstance
+    * Définir M_Male_Body comme parent
+    * Observer l'existance d'un paramètre BodyColor dans M_Male_Body
+    * Assigner une couleur au paramètre BodyColor
+  * Assigner le MaterialInstance au personnage
+    * Ouvrir le blueprint d'un personnage Characters/BP_{character}
+    * Sélectionner le mesh
+    * Assigner Material -> Element0 avec le MaterialInstance défini
+* Valider que les personnages de scène ont bien un nouveau matériel
 
 ## Mise en place de l'acteur Potato
 * Créer une structure FNutritionalInformations
-  * Anoter par USTRUCT()
-  * Définir des champs calories, carbs, fat et proteins
+  * Anoter de USTRUCT()
+  * Définir les champs flotants Calories, Carbs, Fat et Proteins
   * Exposer ces champs à l'editor avec UPROPERTY(EditAnywhere)
 * Créer une classe APotato descendante de AActor
-  * Anoter par UCLASS
-  * Définir champ weight et nutritionalInformations
+  * Anoter de UCLASS()
+  * Définir les champs Weight et NutritionalInformations
   * Exposer ces champs à l'editor avec UPROPERTY(EditAnywhere)
-* Mise en place du modèle
-  * Création du StaticMeshes
-  * Importer ImportAssets/Potato/potatoes.FBX
-  * Considérer utiliser un Import Uniform Scale de 5
+* Créer le StaticMesh
+	* Importer ImportAssets/Potato/potatoes.FBX
+	* Considérer utiliser un Import Uniform Scale de 3
 * Créer la Texture
-  * Importer les textures ImportAssets/Potato/potato_texture.jpg
+	* Importer les textures ImportAssets/Potato/potato_texture.jpg
 * Créer le Material
-  * Créer nouveau Material 
-  * Définir Texture Sample vers texture en fournir dans Base Color
-  * Définir Constant 0 à Metallic et Specular
-  * Définir Constant 1 à Roughness
+	* Créer nouveau Material 
+	* Définir Texture Sample vers texture en fournir dans Base Color
+	* Définir Constant 0 à Metalic et Specular
+	* Définir Constant 1 à Roughness
 * Créer le blueprint
-  * Choisir APotato comme classe parent
-  * Ajouter un StaticMeshComponent
-  * Assigner le StaticMesh précédement défini
-  * Assigner le Material précédement défini 
-* Valider le blueprint Potato dans la scène !
+	* Choisir APotato comme classe parent
+	* Ajouter un StaticMeshComponent
+		* Assigner la propriété StaticMesh avec le StaticMesh précédement défini
+		* Assigner la propriété Material avec le Matérial précédement défini
+	* Assigner la propriété Weight et NutritionalInformations
+* Valider le blueprint Potato dans la scène en glisser déposer l'acteur dans la scène
 
 ## Mise en place de l'interaction "Plant"
 * Définir classe UPotatoPlantingComponent 
 	* Descendante de USceneComponent
-	* Anoter UCLASS(meta=(BlueprintSpawnableComponent))
+	* Anoter de ``UCLASS(meta=(BlueprintSpawnableComponent))``
 	* Définir 3 champs 
 		* Nom du socket de spawn
-			* UPROPERTY(EditAnywhere)
-			* FName SpawnSocketName
+			```c++
+			UPROPERTY(EditAnywhere)
+			FName SpawnSocketName
 		* Vélocité de spawn
-			* UPROPERTY(EditAnywhere)
-			* float SpawnVelocity
+			```c++
+			UPROPERTY(EditAnywhere)
+			float SpawnVelocity``
 		* Type de potato à spawn
-			* UPROPERTY(EditAnywhere)
-			* TSubclassOf<APotato> PotatoClass;
+			```c++
+			UPROPERTY(EditAnywhere)
+			TSubclassOf<APotato> PotatoType
+			```
 	* Définir 4 méthodes
-		* virtual void InitializeComponent()
-			* S'enregistre sur APotatoBaseCharacter::OnSetupPlayerInput de son owner
-		* virtual void UninitializeComponent()
-			* Se désenregistre de APotatoBaseCharacter::OnSetupPlayerInput de son owner
-		* void OnSetupPlayerInput(UInputComponent* inputComponent)
-			* Bind l'input 'fire' sur PlantPotato
-		* void PlantPotato()
-			* Récupere le socket SpawnSocketName sur le modèle
-			* Obtient la world transform du socket
-			* Détermine une vélocité aléatoire dans un cône face au personnage d'une magnitude SpawnVelocity
-			* Instancie une Potato de type PotatoClass à la transform et vélocité calculée
+		* ```c++
+			virtual void InitializeComponent() override
+			{
+					// S'enregistre sur APotatoBaseCharacter::OnSetupPlayerInput du owner
+			}
+		  ```
+		* ```c++
+			virtual void UninitializeComponent() override
+			{
+					// Se désenregistre de APotatoBaseCharacter::OnSetupPlayerInput du owner
+			}
+		  ``` 
+		* ```c++
+			void OnSetupPlayerInput(UInputComponent* inputComponent)
+			{
+					// Bind l'input 'fire' sur la méthode
+			}
+		  ```	
+		* ```c++
+			void PlantPotato()
+			{
+					// Récupere le socket SpawnSocketName sur le modèle
+					// Obtient la world transform du socket
+					// Détermine une vélocité aléatoire dans un cône face au personnage d'une magnitude SpawnVelocity
+					// Instancie une Potato de type PotatoType à la transform et vélocité calculée
+			}
+		  ```
 * Ajouter UPotatoPlantingComponent au PotatoPlanterCharacter
 	* Ajouter champ pour stocker le component
-		* UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
-		* UPotatoPlantingComponent* potatoPlantingComponent;
+		* ```c++
+			UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction)
+			UPotatoPlantingComponent* PotatoPlantingComponent;
+		  ```
 	* Créer et enregistrer component dans constructeur UPotatoPlanterCharacter()
-		* potatoPlantingComponent = CreateDefaultSubobject<UPotatoPlantingComponent>(TEXT("PotatoPlantComponent"));
-		* potatoPlantingComponent->SetupAttachment(RootComponent);
-* Testez si le Potato Planter est maintenant capable de spawner des patates !
+		* ```c++
+			UPotatoPlantingComponent::UPotatoPlantingComponent()
+			{
+					PotatoPlantingComponent = CreateDefaultSubobject<UPotatoPlantingComponent>(TEXT("PotatoPlantComponent"));
+					PotatoPlantingComponent->SetupAttachment(RootComponent);
+			}
+		  ```
+* Assigner les valeurs au PotatoPlantingComponent
+	* Ouvrir BP_PotatoPlanterCharacter
+	* Sélectionner PotatoPlantingComponent dans la hierarchie de components
+	* Assigner "Spawn Socket Name" à "socket_spawn"
+	* Assigner "Potato Type" au BP_Potato créé précédemment
+	* Assigner "Spawn Velocity" d'une valeur positive entre 5 et 30
+* Testez si le Potato Planter est maintenant capable de spawner des potatoes
 
 ## Mise en place de l'interaction 'PickUp'
-* Définir classe UPotatoPickUpComponent 
+* Définir la classe UPotatoPickUpComponent 
 	* Descendante de USceneComponent
 	* Anoter UCLASS(meta=(BlueprintSpawnableComponent))
 	* Définir 3 champs
