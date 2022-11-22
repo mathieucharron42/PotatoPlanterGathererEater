@@ -1,99 +1,177 @@
-# Exercice1 : Gameplay Framework
+# Exercice2 : Gameplay Framework
+
+Sélectionner branche 'exercice2' comme point de départ.
+
+Comparer avec branche 'master' pour la version complétée.
 
 ## Mise en place initiale du GameRole: APotatoGameRole
 * Définir APotatoGameMode
-	* Hériter de AGameMode
+	* Créer nouvelle classe ``APotatoGameMode``
+	* Hériter de ``AGameMode``
 	* Laisser vide pour l'instant, suite à venir
+* Créer un blueprint BP_PotatoGameMode
+	* Créer nouveau blueprint class ``BP_PotatoGameMode`` 
+	* Hériter de ``APotatoGameMode``
 * Assigner le APotatoGameRole au niveau
 	* Ouvrir l'onglet Window -> World Settings
-	* Assigner APotatoGameMode dans GameMode Override
+	* Assigner ``BP_PotatoGameMode`` dans GameMode Override du niveau
 
 ## Mise en place du PlayerState: APotatoPlayerState
+* Définir EGameRoleType
+	* Créer nouveau enum ``EGameRoleType``
+		```c++
+		UENUM()
+		enum class EGameRoleType
+		{
+			Planter,
+			Gatherer,
+			Eater
+		};
+		```
+* Définir FPotatoGameRole
+	* Créer nouvelle structure ``FPotatoGameRole``
+	* Définir 2 champs
+		* Valeur numérique de rôle
+			```c++
+			UPROPERTY(EditAnywhere)
+			EGameRoleType RoleType;
+			```
+		* Type de personnage pouvant être possédé par ce rôle
+			```c++
+			UPROPERTY(EditAnywhere)
+			TSubclassOf<APotatoBaseCharacter> CharacterType;
+			```
 * Définir APotatoPlayerState
-	* Hériter de APlayerState
+	* Créer nouvelle classe ``APotatoPlayerState``
+	* Hériter de ``APlayerState``
 	* Définir 1 champ
 		* Role courrant
-			* UPROPERTY(Transient)
-			* FPotatoGameRole CurrentRole
-	* Définir 2 méthodes
-		* void SetCurrentRole(FPotatoGameRole)
-		* FPotatoGameRole GetCurrentRole()
+			```c++
+			UPROPERTY(Transient)
+			FPotatoGameRole CurrentRole
+			```
+* Créer BP_APotatoPlayerState
+	* Créer nouveau blueprint class ``BP_APotatoPlayerState``
+	* Utiliser ``APlayerState`` comme classe de base
 * Assigner le APotatoPlayerState au niveau
 	* Ouvrir l'onglet Window -> World Settings
-	* Assigner APotatoPlayerState dans Player State Class
+	* Assigner ``APotatoPlayerState`` dans Player State Class du niveau
 
 ## Mise en place du PlayerController: APotatoPlayerController
 * Définir APotatoPlayerController
+	* Créer nouvelle classe ``APotatoPlayerController``
 	* Hériter de APlayerController
 	* Définir 3 méthodes
-		* void ChangeRole()
-			* But: Demander un changement de role
-			* Récuperer le APotatoGameMode
-			* Déléguer exécution par APotatoGameMode::ChangeRole(APotatoPlayerController*)
-		* APotatoPlayerController::QuitGame()
-			* But: Quitter la partie
-			* Invoquer FGenericPlatformMisc::RequestExit(false);
-		* virtual void SetupInputComponent() override
-			* Binder les inputs aux méthodes
-			* Binder sur "Switch" la méthode APotatoPlayerController::Server_ChangeRole
-			* Binder sur "Quit" la méthode &APotatoPlayerController::QuitGame
+		* Changer de rôle
+			```c++
+			void ChangeRole()
+			{
+				// Récuperer le APotatoGameMode
+				// Déléguer exécution sur APotatoGameMode::ChangeRole(this)
+			}
+			```
+		* Quitter la partie
+			```c++
+			void QuitGame()
+			{
+				// Récuperer le APotatoGameMode
+				// Déléguer exécution sur APotatoGameMode::QuitGame(this)
+			}
+			```
+		* Connecter aux inputs
+			```c++
+			virtual void SetupInputComponent() override
+			{
+				// Binder "Switch" sur APotatoPlayerController::Server_ChangeRole
+				// Binder "Quit" sur APotatoPlayerController::QuitGame
+			}
+			```
+* Créer BP_PotatoPlayerController
+	* Créer nouveau blueprint class ``BP_PotatoPlayerController``
+	* Utiliser ``APotatoPlayerController`` comme classe de base
 * Assigner le APotatoPlayerController au niveau
 	* Ouvrir l'onglet Window -> World Settings
-	* Assigner APotatoPlayerController dans Player Controller Class
+	* Assigner ``BP_PotatoPlayerController`` dans Player Controller Class du niveau
 
 ## Mise en place du GameState: APotatoGameState
 * Définir APotatoGameState
-	* Hériter de AGameState
+	* Créer nouvelle classe ``APotatoGameState``
+	* Hériter de ``AGameState``
 	* Définir 1 champ
 		* Indicateur de termination de la partie
-			* UPROPERTY(Transient)
-			* bool GameEnded = false
-	* Définir 2 méthodes
-		* bool GetGameEnded()
-		* void SetGameEnded(bool gameEnded)
+			```c++
+			UPROPERTY(Transient)
+			bool GameEnded = false
+			```
+* Créer BP_PotatoGameState
+	* Créer nouveau blueprint class ``BP_PotatoGameState``
+	* Utiliser ``APotatoGameState`` comme classe de base
 * Assigner le APotatoGameState au niveau
 	* Ouvrir l'onglet Window -> World Settings
-	* Assigner APotatoGameState dans Game State Class
+	* Assigner ``BP_PotatoGameState`` dans Game State Class du niveau
 
 ## Compléter le GameMode: APotatoGameMode
 * Compléter APotatoGameMode
-	* Hériter de AGameMode
 	* Définir 2 champs
-		* Type de potato à spawner
-			* UPROPERTY(EditAnywhere)
-			* TSubclassOf<APotato> PotatoType;
 		* Ensemble des rôles disponibles
-			* UPROPERTY(EditAnywhere)
-			* TArray<FPotatoGameMode> Roles;
+			```c++
+			UPROPERTY(EditAnywhere)
+			TArray<FPotatoGameMode> Roles;
+			```
 	* Définir 4 méthodes
-		* void CheckGameEnded()
-			* But: Vérification de la fin de la partie
-			* Collecter tous les UPotatoEatingComponent des APotatoBaseCharacters du world
-			* Déterminer si tous les UPotatoEatingComponent retournent !UPotatoEatingComponent::IsHungry()
-			* Si oui alors invoquer APotatoGameState::SetGameEnded(true) pour mettre fin à la partie sur le GameState associé
-		* virtual void Tick(float dt) override
-			* But: Fonction invoquée à chaque frame
-			* Invoquer APotatoGameMode::CheckGameEnded()
-		* APotatoBaseCharacter* APotatoBaseCharacter* FindSuitableCharacter(TSubclassOf<APotatoBaseCharacter> type)
-			* But: Trouver personnage non-possédé d'un type spécifique	
-			* Itérer sur tous les APotatoBaseCharacter du world
-				* Valider si le APotatoBaseCharacter itéré correspond au type (AActor::IsA(type))
-				* Valider si le APotatoBaseCharacter itéré n'est pas possédé par un joueur (APawn::GetController() == nullptr)
-				* Si oui alors retourner le personnage
-		* void ChangeRole(APotatoPlayerController* requester)
-			* But: Changer de role
-			* Récupérer APlayerState associé au requester
-			* Itérer sur les Roles autres que celui de APlayerState::GetCurrentRole()
-				* Chercher personnage compatible non-possédé (APotatoGameMode::FindSuitableCharacter)
-				* Si personnage trouvé
-					* Posséder personnage (APlayerController::Possess(character))
-					* Assigner role itéré (APotatoPlayerState::SetCurrentRole(role))
-				* Sinon, continuer la recherche
-		* virtual APotatoGameMode::RestartPlayer(AController* playerController)
-			* But: Assigner un role au joueur lorsqu'il débute la partie
-			* Si playerController est un APotatoPlayerController (AActor::IsA<APotatoPlayerController>())
-				* Invoquer ChangeRole(potatoPlayerController)
-		* void SpawnPotato(const FTransform& transform, const FVector& velocity)
-			* But: Créer une patate dans le monde
-			* Invoquer UWorld::SpawnActor<APotato>(PotatoType, transform)
-			* Invoquer UPrimitiveComponent::SetPhysicsLinearVelocity(velocity)
+		* Vérification de la fin de la partie
+			```c++
+			void CheckGameEnded()
+			{
+				// Collectionner UPotatoEatingComponent des APotatoBaseCharacters
+				// Si aucun component est UPotatoEatingComponent::IsHungry(),
+					// Récupérer APotatoGameState
+					// Invoquer APotatoGameState::SetGameEnded(true) 
+			}
+			```
+		* Function de tick
+			```c++
+			virtual void Tick(float dt) override
+			{
+				// Invoquer APotatoGameMode::CheckGameEnded()
+			}
+			```
+		* Trouver un personnage à posséder en fonction d'un type
+			```c++
+			void test()
+			{
+				// Itérer sur tous les APotatoBaseCharacter du world
+					// Vérifier si APotatoBaseCharacter est du bon type...
+						// avec AActor::IsA(type)
+					// Vérifier character n'est pas possédé par un joueur...
+						//  avec !APawn::GetController()
+					// Si vrai au deux, retourner le character
+			}
+			
+			```
+		* Changer de rôle
+			```c++
+			void ChangeRole(APotatoPlayerController* requester)
+			{
+				// Récupérer APlayerState associé au requester
+				// Itérer sur roles autres que APlayerState::GetCurrentRole()
+					// Trouver personnage (FindSuitableCharacter(type))
+					// Si character trouvé
+						// Posséder character...
+							// avec APotatoPlayerController::Possess(character)
+						// Assigner rôle...
+							// avec APotatoPlayerState::SetCurrentRole(role)
+						// Arrêter l'itération
+			}
+			```
+		* Assigner rôle au démarrage
+			```c++
+			virtual RestartPlayer(AController* playerController)
+			{
+				// Caster playerController en APotatoPlayerController...
+					// avec Cast<APotatoPlayerController>(playerController))
+				// Si IsValid(potatoPlayerController),
+					// Invoquer ChangeRole(potatoPlayerController)
+			}
+			```
+* Vérifier le bon fonctionnement du changement de rôle et condition de victoire.
