@@ -10,9 +10,11 @@
 #include "PotatoPlanterGathererEater/Utils/PotatoUtilities.h"
 
 #include "Algo/AllOf.h"
+#include "Editor/EditorEngine.h"
 #include "EngineUtils.h"
 #include "GameFramework/GameSession.h"
 #include "Kismet/GameplayStatics.h"
+
 void APotatoGameMode::RestartPlayer(AController* NewPlayer)
 {
 	if (NewPlayer->IsA<APotatoPlayerController>())
@@ -138,11 +140,15 @@ bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 
 void APotatoGameMode::QuitGame(APotatoPlayerController* playerController)
 {
+	// Disconnect player
 	playerController->Destroy(false);
 
+	// Check if server should shutdown
 	UWorld* world = GetWorld();
 	if (ensure(IsValid(world)))
 	{
+		bool isServerLeaving = playerController->IsLocalController();
+
 		bool allPlayersLeft = true;
 		for (TActorIterator<APotatoPlayerController> it(world); it; ++it)
 		{
@@ -152,10 +158,20 @@ void APotatoGameMode::QuitGame(APotatoPlayerController* playerController)
 			}
 		}
 
-		bool listenServerLeaving = playerController->IsLocalController();
-		if (allPlayersLeft || listenServerLeaving)
+		if (allPlayersLeft || isServerLeaving)
 		{
+			// Have player quit which might shutdown game if server
 			UKismetSystemLibrary::QuitGame(this, playerController, EQuitPreference::Quit, false);
+
+			// If dedicated server, shutdown explicitly
+			if (world->GetNetMode() == ENetMode::NM_DedicatedServer)
+			{
+				UEditorEngine* engine = Cast<UEditorEngine>(GEngine);
+				if (IsValid(engine))
+				{
+					engine->RequestEndPlayMap();
+				}
+			}
 		}
 	}
 }

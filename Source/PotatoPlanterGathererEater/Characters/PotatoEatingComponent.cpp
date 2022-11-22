@@ -4,6 +4,7 @@
 #include "PotatoPlanterGathererEater/Characters/PotatoPickUpComponent.h"
 #include "PotatoPlanterGathererEater/Crops/Potato.h"
 
+#include "Components/InputComponent.h"
 #include "Net/UnrealNetwork.h"
 
 UPotatoEatingComponent::UPotatoEatingComponent()

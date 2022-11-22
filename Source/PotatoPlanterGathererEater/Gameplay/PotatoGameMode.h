@@ -29,6 +29,8 @@ private:
 	virtual void RestartPlayer(AController* NewPlayer) override;
 	
 	void CheckGameEnded();
+	void CheckGameEmpty();
+
 	APotatoBaseCharacter* FindSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type);
 	bool IsSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type, const APotatoBaseCharacter* character);
 	FPotatoGameRole GetNextRole(FPotatoGameRole current);
