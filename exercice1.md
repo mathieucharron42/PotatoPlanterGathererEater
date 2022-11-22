@@ -1,5 +1,9 @@
 # Exercice1 : Les bases
 
+Sélectionner branche 'exercice2' comme point de départ.
+
+Comparer avec branche 'master' pour la version complétée.
+
 ## Material des personnages
 * Pour tous les personnages de Content/Potato/Characters
   * Créer un MaterialInstance
