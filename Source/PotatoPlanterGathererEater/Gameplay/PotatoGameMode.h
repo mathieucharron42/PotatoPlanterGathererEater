@@ -21,6 +21,7 @@ public:
 	virtual void Tick(float dt) override;
 
 	bool ChangeRole(APotatoPlayerController* playerController);
+	void QuitGame(APotatoPlayerController* playerController);
 
 	void SpawnPotato(const FTransform& transform, const FVector& velocity);
 	

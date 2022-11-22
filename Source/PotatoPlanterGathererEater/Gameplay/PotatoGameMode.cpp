@@ -11,8 +11,8 @@
 
 #include "Algo/AllOf.h"
 #include "EngineUtils.h"
+#include "GameFramework/GameSession.h"
 #include "Kismet/GameplayStatics.h"
-
 void APotatoGameMode::RestartPlayer(AController* NewPlayer)
 {
 	if (NewPlayer->IsA<APotatoPlayerController>())
@@ -134,6 +134,30 @@ bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 	}
 
 	return found;
+}
+
+void APotatoGameMode::QuitGame(APotatoPlayerController* playerController)
+{
+	playerController->Destroy(false);
+
+	UWorld* world = GetWorld();
+	if (ensure(IsValid(world)))
+	{
+		bool allPlayersLeft = true;
+		for (TActorIterator<APotatoPlayerController> it(world); it; ++it)
+		{
+			if (IsValid(*it) && *it != playerController)
+			{
+				allPlayersLeft = false;
+			}
+		}
+
+		bool listenServerLeaving = playerController->IsLocalController();
+		if (allPlayersLeft || listenServerLeaving)
+		{
+			UKismetSystemLibrary::QuitGame(this, playerController, EQuitPreference::Quit, false);
+		}
+	}
 }
 
 void APotatoGameMode::SpawnPotato(const FTransform& transform, const FVector& velocity)

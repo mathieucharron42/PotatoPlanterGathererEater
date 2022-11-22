@@ -33,6 +33,7 @@ void UPotatoCharacterWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 			{
 				EGameRoleType roleType = playerState->GetCurrentRole().GetRoleType();
 				instructions.Add("Press Tab to change character");
+				instructions.Add("Press Q to quit game");
 				if (roleType == EGameRoleType::Eater)
 				{
 					color = FColor::Red;
@@ -48,7 +49,6 @@ void UPotatoCharacterWidget::NativeTick(const FGeometry& MyGeometry, float InDel
 					role = TEXT("Potato Planter");
 					color = FColor::Emerald;
 				}
-
 				UPotatoPickUpComponent* potatoPickupComponent = pawn->FindComponentByClass<UPotatoPickUpComponent>();
 				if (IsValid(potatoPickupComponent))
 				{

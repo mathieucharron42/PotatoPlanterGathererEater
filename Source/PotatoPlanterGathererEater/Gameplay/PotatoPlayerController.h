@@ -25,5 +25,8 @@ protected:
 	virtual void SetupInputComponent() override;
 
 private:
-	void QuitGame();
+	UFUNCTION(Server, Reliable)
+	void Server_QuitGame();
+
+	void Authority_QuitGame();
 };
