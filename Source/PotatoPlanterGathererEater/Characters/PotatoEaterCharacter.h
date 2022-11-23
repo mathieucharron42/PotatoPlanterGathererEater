@@ -28,10 +28,9 @@ private:
 
 	void Authority_SetScale(float scale);
 	UFUNCTION()
-	void OnRep_CurrentScale(float oldScale);
 	void OnUpdate_CurrentScale(float oldScale);
 
-	UPROPERTY(Transient, Replicated, ReplicatedUsing=OnRep_CurrentScale)
+	UPROPERTY(Transient)
 	float _currentScale = 1.0f;
 
 	UPROPERTY(Transient)

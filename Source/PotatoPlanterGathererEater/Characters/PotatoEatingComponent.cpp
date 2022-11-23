@@ -10,13 +10,6 @@
 UPotatoEatingComponent::UPotatoEatingComponent()
 {
 	bWantsInitializeComponent = true;
-	SetIsReplicatedByDefault(true);
-}
-
-void UPotatoEatingComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UPotatoEatingComponent, _caloriesEaten);
 }
 
 void UPotatoEatingComponent::InitializeComponent()
@@ -44,7 +37,7 @@ void UPotatoEatingComponent::OnSetupPlayerInput(UInputComponent* inputComponent)
 {
 	if (ensure(IsValid(inputComponent)))
 	{
-		inputComponent->BindAction("Fire", IE_Pressed, this, &UPotatoEatingComponent::Server_EatHeldPotato);
+		inputComponent->BindAction("Fire", IE_Pressed, this, &UPotatoEatingComponent::Authority_EatHeldPotato);
 	}
 }
 
@@ -56,11 +49,6 @@ void UPotatoEatingComponent::SetCaloriesEaten(float calories)
 	{
 		OnCaloriesEatenChanged.Broadcast();
 	}
-}
-
-void UPotatoEatingComponent::Server_EatPotato_Implementation(APotato* potato)
-{
-	Authority_EatPotato(potato);
 }
 
 void UPotatoEatingComponent::Authority_EatPotato(APotato* potato)
@@ -93,11 +81,18 @@ float UPotatoEatingComponent::GetCaloriesEaten() const
 	return _caloriesEaten;
 }
 
-void UPotatoEatingComponent::Server_EatHeldPotato_Implementation()
+void UPotatoEatingComponent::Authority_EatHeldPotato()
 {
-	if (_potatoPickUpComponent->IsHoldingPotato())
+	AActor* owner = GetOwner();
+	if (ensure(IsValid(owner)))
 	{
-		APotato* potato = _potatoPickUpComponent->Authority_DropPotato();
-		Authority_EatPotato(potato);
+		if (ensure(owner->HasAuthority()))
+		{
+			if (_potatoPickUpComponent->IsHoldingPotato())
+			{
+				APotato* potato = _potatoPickUpComponent->Authority_ReleasePotato();
+				Authority_EatPotato(potato);
+			}
+		}
 	}
 }

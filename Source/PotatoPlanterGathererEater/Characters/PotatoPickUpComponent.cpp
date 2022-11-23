@@ -10,13 +10,6 @@
 UPotatoPickUpComponent::UPotatoPickUpComponent()
 {
 	bWantsInitializeComponent = true;
-	SetIsReplicatedByDefault(true);
-}
-
-void UPotatoPickUpComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UPotatoPickUpComponent, _heldPotato);
 }
 
 void UPotatoPickUpComponent::InitializeComponent()
@@ -78,7 +71,7 @@ void UPotatoPickUpComponent::OnOwnerHit(AActor* owningActor, AActor* otherActor,
 
 void UPotatoPickUpComponent::OnSetupPlayerInput(UInputComponent* inputComponent)
 {
-	inputComponent->BindAction("Release", IE_Pressed, this, &UPotatoPickUpComponent::Server_DropPotato);
+	inputComponent->BindAction("Release", IE_Pressed, this, &UPotatoPickUpComponent::Authority_DropPotato);
 }
 
 void UPotatoPickUpComponent::Authority_PickupPotato(APotato* potato)
@@ -96,15 +89,8 @@ void UPotatoPickUpComponent::Authority_PickupPotato(APotato* potato)
 	}
 }
 
-void UPotatoPickUpComponent::Server_DropPotato_Implementation()
+void UPotatoPickUpComponent::Authority_DropPotato()
 {
-	Authority_DropPotato();
-}
-
-APotato* UPotatoPickUpComponent::Authority_DropPotato()
-{
-	APotato* potato = nullptr;
-
 	AActor* owner = GetOwner();
 	if (ensure(IsValid(owner)))
 	{
@@ -112,11 +98,17 @@ APotato* UPotatoPickUpComponent::Authority_DropPotato()
 		{
 			if (IsHoldingPotato())
 			{
-				potato = _heldPotato;
 				SetHeldPotato(nullptr);
 			}
 		}
 	}
+}
+
+APotato* UPotatoPickUpComponent::Authority_ReleasePotato()
+{
+	APotato* potato = _heldPotato;
+
+	Authority_DropPotato();
 
 	return potato;
 }

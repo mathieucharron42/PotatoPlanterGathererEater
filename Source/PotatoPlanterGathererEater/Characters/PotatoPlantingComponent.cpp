@@ -7,7 +7,6 @@
 UPotatoPlantingComponent::UPotatoPlantingComponent()
 {
 	bWantsInitializeComponent = true;
-	SetIsReplicatedByDefault(true);
 }
 
 void UPotatoPlantingComponent::Authority_PlantPotato()
@@ -46,11 +45,6 @@ void UPotatoPlantingComponent::Authority_PlantPotato()
 	}
 }
 
-void UPotatoPlantingComponent::Server_PlantPotato_Implementation()
-{
-	Authority_PlantPotato();
-}
-
 void UPotatoPlantingComponent::InitializeComponent()
 {
 	Super::InitializeComponent();
@@ -73,6 +67,6 @@ void UPotatoPlantingComponent::UninitializeComponent()
 
 void UPotatoPlantingComponent::OnSetupPlayerInput(UInputComponent* inputComponent)
 {
-	inputComponent->BindAction("Fire", IE_Pressed, this, &UPotatoPlantingComponent::Server_PlantPotato);
+	inputComponent->BindAction("Fire", IE_Pressed, this, &UPotatoPlantingComponent::Authority_PlantPotato);
 }
 

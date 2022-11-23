@@ -16,17 +16,11 @@ class POTATOPLANTERGATHEREREATER_API APotatoPlayerController : public APlayerCon
 	APotatoPlayerController();
 
 public:
-	UFUNCTION(Server, Reliable)
-	void Server_ChangeRole();
-
 	void Authority_ChangeRole();
 
 protected:
 	virtual void SetupInputComponent() override;
 
 private:
-	UFUNCTION(Server, Reliable)
-	void Server_QuitGame();
-
 	void Authority_QuitGame();
 };

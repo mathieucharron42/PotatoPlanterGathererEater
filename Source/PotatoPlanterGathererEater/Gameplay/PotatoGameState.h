@@ -17,6 +17,6 @@ public:
 	void SetGameEnded(bool completed);
 
 private:
-	UPROPERTY(Transient, Replicated)
+	UPROPERTY(Transient)
 	bool _gameEnded = false;
 };

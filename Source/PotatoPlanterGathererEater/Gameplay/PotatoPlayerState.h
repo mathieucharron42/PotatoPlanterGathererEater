@@ -18,6 +18,6 @@ public:
 	FPotatoGameRole GetCurrentRole() const;
 
 private:
-	UPROPERTY(Transient, Replicated)
+	UPROPERTY(Transient)
 	FPotatoGameRole _currentRole;
 };

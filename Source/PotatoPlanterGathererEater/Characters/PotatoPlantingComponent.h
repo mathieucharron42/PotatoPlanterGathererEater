@@ -16,9 +16,6 @@ public:
 
 	void Authority_PlantPotato();
 
-	UFUNCTION(Server, Reliable)
-	void Server_PlantPotato();
-
 protected:
 	virtual void InitializeComponent() override;
 	virtual void UninitializeComponent() override;

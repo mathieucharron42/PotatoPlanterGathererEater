@@ -13,13 +13,8 @@ APotatoPlayerController::APotatoPlayerController()
 void APotatoPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	InputComponent->BindAction("Switch", IE_Pressed, this, &APotatoPlayerController::Server_ChangeRole);
-	InputComponent->BindAction("Quit", IE_Pressed, this, &APotatoPlayerController::Server_QuitGame);
-}
-
-void APotatoPlayerController::Server_QuitGame_Implementation()
-{
-	Authority_QuitGame();
+	InputComponent->BindAction("Switch", IE_Pressed, this, &APotatoPlayerController::Authority_ChangeRole);
+	InputComponent->BindAction("Quit", IE_Pressed, this, &APotatoPlayerController::Authority_QuitGame);
 }
 
 void APotatoPlayerController::Authority_QuitGame()
@@ -36,11 +31,6 @@ void APotatoPlayerController::Authority_QuitGame()
 			}
 		}
 	}
-}
-
-void APotatoPlayerController::Server_ChangeRole_Implementation()
-{
-	Authority_ChangeRole();
 }
 
 void APotatoPlayerController::Authority_ChangeRole()

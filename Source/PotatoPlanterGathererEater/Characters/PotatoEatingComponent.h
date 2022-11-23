@@ -20,11 +20,7 @@ public:
 	DECLARE_MULTICAST_DELEGATE(FCaloriesEatenChanged);
 	FCaloriesEatenChanged OnCaloriesEatenChanged;
 
-	UFUNCTION(Server, Reliable)
-	void Server_EatHeldPotato();
-
-	UFUNCTION(Server, Reliable)
-	void Server_EatPotato(APotato* potato);
+	void Authority_EatHeldPotato();
 
 	void Authority_EatPotato(APotato* potato);
 
@@ -47,7 +43,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	float _caloriesNeeded;
 
-	UPROPERTY(Transient, Replicated)
+	UPROPERTY(Transient)
 	float _caloriesEaten;
 
 	UPROPERTY(Transient)

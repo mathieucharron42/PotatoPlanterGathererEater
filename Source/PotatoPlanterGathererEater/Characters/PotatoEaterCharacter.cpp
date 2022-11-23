@@ -16,12 +16,6 @@ APotatoEaterCharacter::APotatoEaterCharacter()
 	_potatoPickUpComponent->SetupAttachment(RootComponent);
 }
 
-void APotatoEaterCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(APotatoEaterCharacter, _currentScale);
-}
-
 void APotatoEaterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -53,11 +47,6 @@ void APotatoEaterCharacter::Authority_SetScale(float scale)
 		_currentScale = scale;
 		OnUpdate_CurrentScale(oldScale);
 	}
-}
-
-void APotatoEaterCharacter::OnRep_CurrentScale(float oldScale)
-{
-	OnUpdate_CurrentScale(oldScale);
 }
 
 void APotatoEaterCharacter::OnUpdate_CurrentScale(float oldScale)

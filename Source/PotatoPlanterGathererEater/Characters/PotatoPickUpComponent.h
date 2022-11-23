@@ -19,10 +19,10 @@ public:
 	bool IsHoldingPotato() const;
 
 	void Authority_PickupPotato(APotato* potato);
-	
-	UFUNCTION(Server, Reliable)
-	void Server_DropPotato();
-	APotato* Authority_DropPotato();
+
+	void Authority_DropPotato();
+
+	APotato* Authority_ReleasePotato();
 
 protected:
 	virtual void InitializeComponent() override;
@@ -48,7 +48,7 @@ private:
 	UPROPERTY()
 	UPotatoPickUpComponent* _potatoPickUpComponent = nullptr;
 
-	UPROPERTY(Transient, Replicated, ReplicatedUsing = OnRep_HeldPotato)
+	UPROPERTY(Transient)
 	APotato* _heldPotato = nullptr;
 
 	UPROPERTY(Transient)
