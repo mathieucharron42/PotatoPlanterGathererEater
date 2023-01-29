@@ -10,7 +10,9 @@
 #include "PotatoPlanterGathererEater/Utils/PotatoUtilities.h"
 
 #include "Algo/AllOf.h"
+#if WITH_EDITOR
 #include "Editor/EditorEngine.h"
+#endif
 #include "EngineUtils.h"
 #include "GameFramework/GameSession.h"
 #include "Kismet/GameplayStatics.h"
@@ -162,7 +164,7 @@ void APotatoGameMode::QuitGame(APotatoPlayerController* playerController)
 		{
 			// Have player quit which might shutdown game if server
 			UKismetSystemLibrary::QuitGame(this, playerController, EQuitPreference::Quit, false);
-
+#if WITH_EDITOR
 			// If dedicated server, shutdown explicitly
 			if (world->GetNetMode() == ENetMode::NM_DedicatedServer)
 			{
@@ -172,6 +174,7 @@ void APotatoGameMode::QuitGame(APotatoPlayerController* playerController)
 					engine->RequestEndPlayMap();
 				}
 			}
+#endif
 		}
 	}
 }
