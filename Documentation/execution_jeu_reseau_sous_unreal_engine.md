@@ -80,7 +80,7 @@ Notes:
 * Fidélité moyenne: Exécutable unique ne permettant pas d'exclure le code client du dedicated serveur et d'exclure le code serveur du dedicated client (risque d'exécution accidentelle)
 
 
-# Packaged
+# Packaged Listen Server Target
 
 Exécution des instances de jeu dans des excutables indépendants avec Unreal Engine précompilé
 
@@ -115,7 +115,7 @@ Notes:
 * Exécution rapide: Code compilé et assets cookés s'exécutant nativement hors moteur
 * Fidélité élevé: Excécute un vrai client sans support ni artifice du moteur
 
-# Packaged (Dedicated Server)
+# Packaged Dedicated Targets
 
 Exécution des instances de jeu dans des excutables indépendants avec Unreal Engine bâti des sources
 
