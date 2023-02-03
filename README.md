@@ -4,7 +4,7 @@ A staging on the potato industry in 19th century Europe.
 Developed with Unreal Engine 4.27.1 and 5.0.3.
 
 ## How to Setup and Run The Game
-## Execution modes
+### Networked Execution Modes
 Learn different network execution mode [execution_jeu_reseau_sous_unreal_engine.md](Documentation/execution_jeu_reseau_sous_unreal_engine.md)
 
 ## Exercices
