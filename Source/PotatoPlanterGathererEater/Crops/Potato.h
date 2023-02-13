@@ -10,8 +10,6 @@
 
 #include "Potato.generated.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(LogPotato, Log, All);
-
 UCLASS(Abstract)
 class POTATOPLANTERGATHEREREATER_API APotato : public AActor
 {

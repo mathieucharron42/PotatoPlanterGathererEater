@@ -23,7 +23,7 @@ public:
 	bool ChangeRole(APotatoPlayerController* playerController);
 	void QuitGame(APotatoPlayerController* playerController);
 
-	void SpawnPotato(const FTransform& transform, const FVector& velocity);
+	APotato* SpawnPotato(const FTransform& transform, const FVector& velocity);
 	
 private:
 	virtual void RestartPlayer(AController* NewPlayer) override;

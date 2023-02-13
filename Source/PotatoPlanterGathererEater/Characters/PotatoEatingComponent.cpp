@@ -3,6 +3,7 @@
 #include "PotatoPlanterGathererEater/Characters/PotatoBaseCharacter.h"
 #include "PotatoPlanterGathererEater/Characters/PotatoPickUpComponent.h"
 #include "PotatoPlanterGathererEater/Crops/Potato.h"
+#include "PotatoPlanterGathererEater/Utils/PotatoUtilities.h"
 
 #include "Components/InputComponent.h"
 #include "Net/UnrealNetwork.h"
@@ -74,6 +75,8 @@ void UPotatoEatingComponent::Authority_EatPotato(APotato* potato)
 			float newCalories = nutritionalInformations.GetCalories(potato->GetWeight());
 			SetCaloriesEaten(GetCaloriesEaten() + newCalories);
 			potato->Destroy();
+
+			UE_LOG(LogPotato, Log, TEXT("Ate potato %s by %s at %s"), *potato->GetName(), *owner->GetName(), *owner->GetTransform().ToString());
 		}
 	}
 }

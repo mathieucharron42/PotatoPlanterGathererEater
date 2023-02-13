@@ -2,6 +2,7 @@
 
 #include "PotatoPlanterGathererEater/Crops/Potato.h"
 #include "PotatoPlanterGathererEater/Characters/PotatoBaseCharacter.h"
+#include "PotatoPlanterGathererEater/Utils/PotatoUtilities.h"
 
 #include "Net/UnrealNetwork.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -91,6 +92,7 @@ void UPotatoPickUpComponent::Authority_PickupPotato(APotato* potato)
 			if (!IsHoldingPotato())
 			{
 				SetHeldPotato(potato);
+				UE_LOG(LogPotato, Log, TEXT("Pick up potato %s by %s at %s"), *potato->GetName(), *owner->GetName(), *owner->GetTransform().ToString());
 			}
 		}
 	}
@@ -114,6 +116,7 @@ APotato* UPotatoPickUpComponent::Authority_DropPotato()
 			{
 				potato = _heldPotato;
 				SetHeldPotato(nullptr);
+				UE_LOG(LogPotato, Log, TEXT("Pick up potato %s by %s"), *potato->GetName(), *owner->GetName());
 			}
 		}
 	}
@@ -124,6 +127,11 @@ APotato* UPotatoPickUpComponent::Authority_DropPotato()
 bool UPotatoPickUpComponent::IsHoldingPotato() const
 {
 	return IsValid(_heldPotato);
+}
+
+bool UPotatoPickUpComponent::IsHoldingPotato(APotato* potato) const
+{
+	return IsHoldingPotato() && _heldPotato == potato;
 }
 
 void UPotatoPickUpComponent::OnRep_HeldPotato(APotato* old)

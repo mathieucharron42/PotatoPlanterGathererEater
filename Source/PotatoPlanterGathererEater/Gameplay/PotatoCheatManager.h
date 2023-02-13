@@ -18,4 +18,13 @@ class POTATOPLANTERGATHEREREATER_API UPotatoCheatManager : public UCheatManager
 
 	UFUNCTION(Exec)
 	void Potato_ScalePotatoes(float scale);
+
+	UFUNCTION(Exec)
+	void Potato_UseTheForce();
+
+	UFUNCTION(Exec)
+	void Potato_IgnoreForceField();
+
+	UFUNCTION(Exec)
+	void Potato_RemoveForceField();
 };

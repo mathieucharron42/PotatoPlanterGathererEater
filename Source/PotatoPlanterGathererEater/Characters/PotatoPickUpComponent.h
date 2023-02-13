@@ -17,6 +17,7 @@ public:
 	UPotatoPickUpComponent();
 
 	bool IsHoldingPotato() const;
+	bool IsHoldingPotato(APotato* potato) const;
 
 	void Authority_PickupPotato(APotato* potato);
 	

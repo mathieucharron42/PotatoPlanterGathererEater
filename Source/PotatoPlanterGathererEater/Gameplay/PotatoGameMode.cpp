@@ -179,9 +179,10 @@ void APotatoGameMode::QuitGame(APotatoPlayerController* playerController)
 	}
 }
 
-void APotatoGameMode::SpawnPotato(const FTransform& transform, const FVector& velocity)
+APotato* APotatoGameMode::SpawnPotato(const FTransform& transform, const FVector& velocity)
 {
-	UE_LOG(LogPotatoGame, Log, TEXT("Spawning potato at %s with velocity %s"), *transform.ToString(), *velocity.ToString())
+	APotato* newPotato = nullptr;
+
 	UWorld* world = GetWorld();
 	if (ensure(IsValid(world)))
 	{
@@ -192,12 +193,12 @@ void APotatoGameMode::SpawnPotato(const FTransform& transform, const FVector& ve
 			{
 				const TSubclassOf<APotato>& potatoType = _potatoTypes[FMath::RandRange(0, _potatoTypes.Num() - 1)];
 
-				APotato* newPotato = world->SpawnActor<APotato>(potatoType, transform);
+				newPotato = world->SpawnActor<APotato>(potatoType, transform);
 				UPrimitiveComponent* potatoPrimitiveComponent = Cast<UPrimitiveComponent>(newPotato->GetRootComponent());
 				potatoPrimitiveComponent->SetPhysicsLinearVelocity(velocity);
-
-				UE_LOG(LogPotatoGame, Log, TEXT("Spawned potato of type %s"), *potatoType->GetName())
 			}
 		}
 	}
+
+	return newPotato;
 }

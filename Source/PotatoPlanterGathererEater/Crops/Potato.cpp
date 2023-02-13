@@ -1,8 +1,7 @@
 #include "Potato.h"
 
 #include "PotatoPlanterGathererEater/Crops/PotatoManagerSubsystem.h"
-
-DEFINE_LOG_CATEGORY(LogPotato);
+#include "PotatoPlanterGathererEater/Utils/PotatoUtilities.h"
 
 APotato::APotato()
 {
@@ -17,7 +16,8 @@ void APotato::BeginPlay()
 	UPotatoManagerSubsystem* potatoManager = GetGameInstance()->GetSubsystem<UPotatoManagerSubsystem>();
 	potatoManager->RegisterPotato(this);
 
-	UE_LOG(LogPotato, Log, TEXT("Spawned potato at %s"), *GetActorLocation().ToString())
+
+	UE_LOG(LogPotato, Log, TEXT("Spawned potato %s of type %s at %s"), *GetName(), *GetClass()->GetName(), *GetTransform().ToString())
 }
 
 void APotato::EndPlay(const EEndPlayReason::Type endPlayReason)
@@ -27,7 +27,7 @@ void APotato::EndPlay(const EEndPlayReason::Type endPlayReason)
 	UPotatoManagerSubsystem* potatoManager = GetGameInstance()->GetSubsystem<UPotatoManagerSubsystem>();
 	potatoManager->UnregisterPotato(this);
 
-	UE_LOG(LogPotato, Log, TEXT("Unspawned potato at %s"), *GetActorLocation().ToString())
+	UE_LOG(LogPotato, Log, TEXT("Unspawned potato %s at %s"), *GetName(), *GetActorLocation().ToString())
 }
 
 void APotato::Cheat_Scale(float scale)

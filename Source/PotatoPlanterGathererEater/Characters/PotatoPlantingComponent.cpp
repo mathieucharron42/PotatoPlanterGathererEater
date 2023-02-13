@@ -1,6 +1,8 @@
 #include "PotatoPlantingComponent.h"
 
+#include "PotatoPlanterGathererEater/Crops/Potato.h"
 #include "PotatoPlanterGathererEater/Gameplay/PotatoGameMode.h"
+#include "PotatoPlanterGathererEater/Utils/PotatoUtilities.h"
 
 #include "Kismet/KismetMathLibrary.h"
 
@@ -33,12 +35,11 @@ void UPotatoPlantingComponent::Authority_PlantPotato()
 					FVector newPotatoVelocity = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(owner->GetTransform().GetUnitAxis(EAxis::X), 45.f) * _spawnVelocity;
 					newPotatoVelocity.Z = FMath::Abs(newPotatoVelocity.Z);
 
-					//DrawDebugLine(GetWorld(), newPotatoTransform.GetLocation(), newPotatoTransform.GetLocation() + newPotatoVelocity, FColor::Red, false, 5);
-
 					APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
 					if (ensure(IsValid(gameMode)))
 					{
-						gameMode->SpawnPotato(newPotatoTransform, newPotatoVelocity);
+						APotato* newPotato = gameMode->SpawnPotato(newPotatoTransform, newPotatoVelocity);
+						UE_LOG(LogPotato, Log, TEXT("Spawned potato %s by %s at %s"), *newPotato->GetName(), *owner->GetName(), *owner->GetTransform().ToString());
 					}
 				} 
 			}
