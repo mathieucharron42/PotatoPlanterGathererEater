@@ -1,8 +1,11 @@
 #include "PotatoManagerSubsystem.h"
 
+#include "PotatoPlanterGathererEater/Utils/PotatoUtilities.h"
+
 void UPotatoManagerSubsystem::RegisterPotato(APotato* potato)
 {
 	_potatoes.Add(potato);
+	PotatoUtilities::DoSomethingElse(5*1024*1024);
 }
 
 void UPotatoManagerSubsystem::UnregisterPotato(APotato* potato)

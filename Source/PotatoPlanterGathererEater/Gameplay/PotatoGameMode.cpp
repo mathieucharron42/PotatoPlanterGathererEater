@@ -95,6 +95,7 @@ bool APotatoGameMode::IsSuitableCharacter(const TSubclassOf<APotatoBaseCharacter
 			suitable = !isCharacterPossessed;
 		}
 	}
+	PotatoUtilities::DoSomething(1.1f);
 	return suitable;
 }
 

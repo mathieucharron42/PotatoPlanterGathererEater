@@ -173,4 +173,5 @@ void UPotatoPickUpComponent::OnUpdate_HeldPotato(APotato* old)
 		targetComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		targetComponent->SetEnableGravity(true);
 	}
+	PotatoUtilities::DoSomething(0.8f);
 }
