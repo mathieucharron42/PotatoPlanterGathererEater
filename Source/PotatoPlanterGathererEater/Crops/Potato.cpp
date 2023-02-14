@@ -11,6 +11,7 @@ APotato::APotato()
 
 void APotato::BeginPlay()
 {
+	TRACE_BOOKMARK(TEXT("Potato spawn"));
 	Super::BeginPlay();
 
 	UPotatoManagerSubsystem* potatoManager = GetGameInstance()->GetSubsystem<UPotatoManagerSubsystem>();
@@ -22,6 +23,7 @@ void APotato::BeginPlay()
 
 void APotato::EndPlay(const EEndPlayReason::Type endPlayReason)
 {
+	TRACE_BOOKMARK(TEXT("Potato unspawn"));
 	Super::EndPlay(endPlayReason);
 
 	UPotatoManagerSubsystem* potatoManager = GetGameInstance()->GetSubsystem<UPotatoManagerSubsystem>();

@@ -120,6 +120,8 @@ void APotatoGameMode::Tick(float dt)
 
 bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 {
+	TRACE_BOOKMARK(TEXT("ChangeRole"));
+	TRACE_CPUPROFILER_EVENT_SCOPE(TEXT("APotatoGameMode::ChangeRole"));
 	bool found = false;
 	TArray<FPotatoGameRole> consideredRoles;
 

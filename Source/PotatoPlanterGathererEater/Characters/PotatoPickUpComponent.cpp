@@ -84,6 +84,9 @@ void UPotatoPickUpComponent::OnSetupPlayerInput(UInputComponent* inputComponent)
 
 void UPotatoPickUpComponent::Authority_PickupPotato(APotato* potato)
 {
+	TRACE_BOOKMARK(TEXT("Potato pickup"));
+	TRACE_CPUPROFILER_EVENT_SCOPE("UPotatoPickUpComponent::Authority_PickupPotato")
+
 	AActor* owner = GetOwner();
 	if (ensure(IsValid(owner)))
 	{
