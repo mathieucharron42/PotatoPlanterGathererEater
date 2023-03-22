@@ -13,14 +13,14 @@
 void UPotatoCheatManager::Potato_SpawnPotatoes(int32 amount)
 {
 	UWorld* world = GetWorld();
-	const APotatoPlayerController* controller = Cast<APotatoPlayerController>(GetOuterAPlayerController());
+	APotatoPlayerController* controller = Cast<APotatoPlayerController>(GetOuterAPlayerController());
 	if (ensure(IsValid(controller)))
 	{
 		const APotatoBaseCharacter* character = controller->GetPawn<APotatoBaseCharacter>();
 		if (ensure(IsValid(character)))
 		{
 			APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
-			if (IsValid(gameMode))
+			if (ensure(IsValid(gameMode)))
 			{
 				for (int32 i = 0; i < amount; ++i)
 				{

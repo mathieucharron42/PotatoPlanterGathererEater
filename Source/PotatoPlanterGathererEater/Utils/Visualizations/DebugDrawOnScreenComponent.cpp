@@ -26,7 +26,7 @@ void UDebugDrawOnScreenComponent::OnPostRender(AHUD* HUD, UCanvas* canvas)
 {
 	if (CVarEnableDebugDrawOnScreen.GetValueOnGameThread())
 	{
-		if (IsValid(canvas))
+		if (IsValid(canvas)) 
 		{
 			if (_lineEnabled)
 			{

@@ -6,10 +6,40 @@
 
 #include "Kismet/KismetMathLibrary.h"
 
+static TAutoConsoleVariable<float> CVarPotatoAutoPlantRate (
+	TEXT("Potato.AutoPlantPotatoRate"),
+	-1.f,
+	TEXT("Rate of potato per second (-1 means unset)"),
+	ECVF_Cheat
+);
+
 UPotatoPlantingComponent::UPotatoPlantingComponent()
 {
 	bWantsInitializeComponent = true;
+	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);
+}
+
+void UPotatoPlantingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	ACharacter* owner = Cast<ACharacter>(GetOwner());
+	if (ensure(IsValid(owner)))
+	{
+		if (owner->HasAuthority())
+		{
+			if (CVarPotatoAutoPlantRate.GetValueOnGameThread() != -1)
+			{
+				_timeUntilNextPlant -= DeltaTime;
+				if (_timeUntilNextPlant <= 0)
+				{
+					Authority_PlantPotato();
+					_timeUntilNextPlant = CVarPotatoAutoPlantRate.GetValueOnGameThread();
+				}
+			}
+		}
+	}
 }
 
 void UPotatoPlantingComponent::Authority_PlantPotato()

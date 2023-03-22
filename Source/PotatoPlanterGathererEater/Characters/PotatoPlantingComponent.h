@@ -14,6 +14,12 @@ class POTATOPLANTERGATHEREREATER_API UPotatoPlantingComponent : public USceneCom
 public:	
 	UPotatoPlantingComponent();
 
+	virtual void TickComponent(
+		float DeltaTime,
+		enum ELevelTick TickType,
+		FActorComponentTickFunction* ThisTickFunction
+	) override;
+
 	void Authority_PlantPotato();
 
 	UFUNCTION(Server, Reliable)
@@ -31,4 +37,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float _spawnVelocity;
+
+	float _timeUntilNextPlant = 0;
 };

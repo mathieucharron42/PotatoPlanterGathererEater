@@ -67,12 +67,14 @@ void APotatoGameMode::CheckGameEnded()
 
 APotatoBaseCharacter* APotatoGameMode::FindSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(TEXT("APotatoGameMode::FindSuitableCharacter"))
 	APotatoBaseCharacter* suitableCharacter = nullptr;
 	UWorld* world = GetWorld();
 	if(ensure(IsValid(world)))
 	{
 		for (TActorIterator<APotatoBaseCharacter> it(world); it && !IsValid(suitableCharacter); ++it)
 		{
+			TRACE_CPUPROFILER_EVENT_SCOPE(TEXT("APotatoGameMode::FindSuitableCharacter Loop"))
 			APotatoBaseCharacter* character = Cast<APotatoBaseCharacter>(*it);
 			if (IsSuitableCharacter(type, character))
 			{
@@ -85,6 +87,7 @@ APotatoBaseCharacter* APotatoGameMode::FindSuitableCharacter(const TSubclassOf<A
 
 bool APotatoGameMode::IsSuitableCharacter(const TSubclassOf<APotatoBaseCharacter>& type, const APotatoBaseCharacter* character)
 {
+	TRACE_CPUPROFILER_EVENT_SCOPE(TEXT("APotatoGameMode::IsSuitableCharacter"))
 	bool suitable = false;
 	if (ensure(IsValid(character)))
 	{
@@ -130,6 +133,8 @@ bool APotatoGameMode::ChangeRole(APotatoPlayerController* playerController)
 
 	for (FPotatoGameRole role = GetNextRole(initialRole); initialRole != role; role = GetNextRole(role))
 	{
+		TRACE_CPUPROFILER_EVENT_SCOPE(TEXT("APotatoGameMode::ChangeRole Loop"))
+
 		APotatoBaseCharacter* character = FindSuitableCharacter(role.GetCharacterType());
 		if (IsValid(character))
 		{
