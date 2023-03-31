@@ -10,6 +10,12 @@ APotatoPlayerController::APotatoPlayerController()
 	CheatClass = UPotatoCheatManager::StaticClass();
 }
 
+void APotatoPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+	EnableCheats();
+}
+
 void APotatoPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();

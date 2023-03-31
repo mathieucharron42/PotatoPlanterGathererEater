@@ -16,23 +16,30 @@ void UPotatoCheatManager::Potato_SpawnPotatoes(int32 amount)
 	APotatoPlayerController* controller = Cast<APotatoPlayerController>(GetOuterAPlayerController());
 	if (ensure(IsValid(controller)))
 	{
-		const APotatoBaseCharacter* character = controller->GetPawn<APotatoBaseCharacter>();
-		if (ensure(IsValid(character)))
+		if (controller->HasAuthority())
 		{
-			APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
-			if (ensure(IsValid(gameMode)))
+			const APotatoBaseCharacter* character = controller->GetPawn<APotatoBaseCharacter>();
+			if (ensure(IsValid(character)))
 			{
-				for (int32 i = 0; i < amount; ++i)
+				APotatoGameMode* gameMode = world->GetAuthGameMode<APotatoGameMode>();
+				if (ensure(IsValid(gameMode)))
 				{
-					FTransform potatoTransform = character->GetTransform();
-					float angle = ((2 * PI) / amount) * i;
-					FVector offset = FVector(FMath::Cos(angle), FMath::Sin(angle), 0);
-					const float radius = 150;
-					potatoTransform.AddToTranslation(offset * radius);
-					FVector velocity = FVector::ZeroVector;
-					gameMode->SpawnPotato(potatoTransform, velocity);
+					for (int32 i = 0; i < amount; ++i)
+					{
+						FTransform potatoTransform = character->GetTransform();
+						float angle = ((2 * PI) / amount) * i;
+						FVector offset = FVector(FMath::Cos(angle), FMath::Sin(angle), 0);
+						const float radius = 150;
+						potatoTransform.AddToTranslation(offset * radius);
+						FVector velocity = FVector::ZeroVector;
+						gameMode->SpawnPotato(potatoTransform, velocity);
+					}
 				}
 			}
+		}
+		else
+		{
+			controller->ServerExec(FString::Printf(TEXT("Potato_SpawnPotatoes %d"), amount));
 		}
 	}
 }
@@ -42,13 +49,24 @@ void UPotatoCheatManager::Potato_ClearPotatoes()
 	UWorld* world = GetWorld();
 	if (ensure(IsValid(world)))
 	{
-		UGameInstance* gameInstance = world->GetGameInstance();
-		if (ensure(IsValid(gameInstance)))
+		APotatoPlayerController* controller = Cast<APotatoPlayerController>(GetOuterAPlayerController());
+		if (ensure(IsValid(controller)))
 		{
-			UPotatoManagerSubsystem* potatoSubsystem = gameInstance->GetSubsystem<UPotatoManagerSubsystem>();
-			for (APotato* potato : potatoSubsystem->GetPotatoes())
+			if (controller->HasAuthority())
 			{
-				potato->Destroy();
+				UGameInstance* gameInstance = world->GetGameInstance();
+				if (ensure(IsValid(gameInstance)))
+				{
+					UPotatoManagerSubsystem* potatoSubsystem = gameInstance->GetSubsystem<UPotatoManagerSubsystem>();
+					for (APotato* potato : potatoSubsystem->GetPotatoes())
+					{
+						potato->Destroy();
+					}
+				}
+			}
+			else
+			{
+				controller->ServerExec(TEXT("Potato_ClearPotatoes"));
 			}
 		}
 	}
@@ -82,42 +100,48 @@ void UPotatoCheatManager::Potato_UseTheForce()
 		UGameInstance* gameInstance = world->GetGameInstance();
 		if (ensure(IsValid(gameInstance)))
 		{
-			UPotatoManagerSubsystem* potatoSubsystem = gameInstance->GetSubsystem<UPotatoManagerSubsystem>();
-			const TArray<APotato*>& potatoes = potatoSubsystem->GetPotatoes();
-			if (potatoes.Num() > 0)
+			APotatoPlayerController* controller = Cast<APotatoPlayerController>(GetOuterAPlayerController());
+			if (ensure(IsValid(controller)))
 			{
-				APotato* potato = potatoes[0];
-				if (IsValid(potato))
+				if(controller->HasAuthority())
 				{
-					APotatoPlayerController* controller = Cast<APotatoPlayerController>(GetOuterAPlayerController());
-					if (ensure(IsValid(controller)))
+					UPotatoManagerSubsystem* potatoSubsystem = gameInstance->GetSubsystem<UPotatoManagerSubsystem>();
+					const TArray<APotato*>& potatoes = potatoSubsystem->GetPotatoes();
+					if (potatoes.Num() > 0)
 					{
-						APotatoBaseCharacter* currentCharacter = controller->GetPawn<APotatoBaseCharacter>();
-
-						if (ensure(IsValid(currentCharacter)))
+						APotato* potato = potatoes[0];
+						if (IsValid(potato))
 						{
-							// Drop potato if held by any other character
-							for (TActorIterator<APotatoBaseCharacter> actorItr(world); actorItr; ++actorItr)
-							{	
-								APotatoBaseCharacter* character = *actorItr;
-								if (character != currentCharacter)
-								{
-									UPotatoPickUpComponent* pickupComponent = character->FindComponentByClass<UPotatoPickUpComponent>();
-									if (pickupComponent->IsHoldingPotato(potato))
+							APotatoBaseCharacter* currentCharacter = controller->GetPawn<APotatoBaseCharacter>();
+							if (ensure(IsValid(currentCharacter)))
+							{
+								// Drop potato if held by any other character
+								for (TActorIterator<APotatoBaseCharacter> actorItr(world); actorItr; ++actorItr)
+								{	
+									APotatoBaseCharacter* character = *actorItr;
+									if (character != currentCharacter)
 									{
-										pickupComponent->Authority_DropPotato();
+										UPotatoPickUpComponent* pickupComponent = character->FindComponentByClass<UPotatoPickUpComponent>();
+										if (pickupComponent->IsHoldingPotato(potato))
+										{
+											pickupComponent->Authority_DropPotato();
+										}
 									}
 								}
-							}
 							
-							// Grab potato by current character
-							UPotatoPickUpComponent* pickupComponent = currentCharacter->FindComponentByClass<UPotatoPickUpComponent>();
-							if (ensure(IsValid(pickupComponent)))
-							{
-								pickupComponent->Authority_PickupPotato(potato);
+								// Grab potato by current character
+								UPotatoPickUpComponent* pickupComponent = currentCharacter->FindComponentByClass<UPotatoPickUpComponent>();
+								if (ensure(IsValid(pickupComponent)))
+								{
+									pickupComponent->Authority_PickupPotato(potato);
+								}
 							}
 						}
 					}
+				}
+				else
+				{
+					controller->ServerExec(TEXT("Potato_UseTheForce"));
 				}
 			}
 		}
@@ -127,18 +151,25 @@ void UPotatoCheatManager::Potato_UseTheForce()
 void UPotatoCheatManager::Potato_IgnoreForceField()
 {
 	UWorld* world = GetWorld();
-	const APotatoPlayerController* controller = Cast<APotatoPlayerController>(GetOuterAPlayerController());
+	APotatoPlayerController* controller = Cast<APotatoPlayerController>(GetOuterAPlayerController());
 	if (ensure(IsValid(controller)))
 	{
-		const APotatoBaseCharacter* character = controller->GetPawn<APotatoBaseCharacter>();
-		if (ensure(IsValid(character)))
+		if (controller->HasAuthority())
 		{
-			UPrimitiveComponent* primativeComponent = Cast<UPrimitiveComponent>(character->GetRootComponent());
-			if (ensure(IsValid(primativeComponent)))
+			const APotatoBaseCharacter* character = controller->GetPawn<APotatoBaseCharacter>();
+			if (ensure(IsValid(character)))
 			{
-				const ECollisionChannel forceFieldChannel = ECC_GameTraceChannel1;
-				primativeComponent->SetCollisionResponseToChannel(forceFieldChannel, ECR_Ignore);
+				UPrimitiveComponent* primativeComponent = Cast<UPrimitiveComponent>(character->GetRootComponent());
+				if (ensure(IsValid(primativeComponent)))
+				{
+					const ECollisionChannel forceFieldChannel = ECC_GameTraceChannel1;
+					primativeComponent->SetCollisionResponseToChannel(forceFieldChannel, ECR_Ignore);
+				}
 			}
+		}
+		else
+		{
+			controller->ServerExec(TEXT("Potato_IgnoreForceField"));
 		}
 	}
 }

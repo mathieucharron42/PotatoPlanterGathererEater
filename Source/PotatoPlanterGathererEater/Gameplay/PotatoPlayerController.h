@@ -16,6 +16,9 @@ class POTATOPLANTERGATHEREREATER_API APotatoPlayerController : public APlayerCon
 	APotatoPlayerController();
 
 public:
+
+	virtual void BeginPlay() override;
+
 	UFUNCTION(Server, Reliable)
 	void Server_ChangeRole();
 
